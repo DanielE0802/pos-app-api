@@ -1,7 +1,12 @@
 {
   "version": 2,
   "env": {
-    "MONGO_URI": "@shop_api_mongo_uri"
+    "DB_CLIENT": "mysql",
+    "DB_HOST": "db4free.net",
+    "DB_USER": "juanvc",
+    "DB_PASSWORD": "12345Az!",
+    "DB_NAME": "db_pos",
+    "DB_PORT": "3306"
   },
   "builds": [
     {
