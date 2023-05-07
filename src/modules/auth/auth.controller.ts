@@ -45,6 +45,17 @@ export class AuthController {
     }
   }
 
+  @Get('/my-account')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  myAccount(@GetUser() user: any): Promise<any> {
+    try {
+      return this.authService.myAccount(user);
+    } catch (e) {
+      throw new ConflictException((e as Error).message);
+    }
+  }
+
   @Get('/verifed')
   @Redirect(`www.google.com.co`, 200)
   putActivateAccount(

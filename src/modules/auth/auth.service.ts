@@ -64,6 +64,10 @@ export class AuthService {
     return this.jwtService.sign({ ...user });
   }
 
+  async myAccount(user: User): Promise<any> {
+    return user;
+  }
+
   async verifyUser(data: ActivateUserDto): Promise<any> {
     try {
       const { uuid, code } = data;
