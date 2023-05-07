@@ -10,4 +10,5 @@ export const dbConfig: Record<string, any> = {
   dbUser: process.env.DB_USER,
   dbName: process.env.DB_NAME,
   dbPort: Number(process.env.DB_PORT || '3306'),
+  sslMode: process.env.SSLMODE,
 };
