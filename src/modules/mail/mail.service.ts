@@ -17,7 +17,7 @@ export class MailService {
   }
 
   async sendResetPasswordEmail(user: any) {
-    const url = `${SEND_GRID.SG_FRONTEND_URL}/view/reset-password?tk=${user.resetPasswordToken}`;
+    const url = `/view/reset-password?tk=${user.resetPasswordToken}`;
 
     return await this.mailerService.sendMail(
       this.getMailConfig(user, url, MAIL.req_reset_password),
