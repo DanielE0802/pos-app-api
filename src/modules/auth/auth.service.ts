@@ -51,8 +51,8 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<any> {
-    const { username, password } = loginDto;
-    const user = await this.usersService.getUserByUsername(username);
+    const { email, password } = loginDto;
+    const user = await this.usersService.getUserByEmail(email);
 
     if (!user) throw new NotFoundException(NFE.NOT_USER);
 

@@ -1,6 +1,5 @@
 import { UserRepository } from './users.repository';
-import { FindOptionsRelations, InsertResult, Repository } from 'typeorm';
-
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
@@ -30,7 +29,16 @@ export class UserImplRepository implements UserRepository {
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOneOrFail({ where: { email } });
+    return await this.userRepository.findOneOrFail({
+      select: {
+        id: true,
+        username: true,
+        password: true,
+        verified: true,
+        verifyToken: true,
+      },
+      where: { email },
+    });
   }
 
   async getUserByUsername(username: string): Promise<User> {
