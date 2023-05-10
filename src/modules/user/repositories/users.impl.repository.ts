@@ -62,13 +62,6 @@ export class UserImplRepository implements UserRepository {
     return await this.userRepository.findOne({ where: { resetPasswordToken } });
   }
 
-  async verifyUser(user: User): Promise<any> {
-    user.verified = true;
-    user.verifyToken = null;
-
-    return await this.update(user.id, user);
-  }
-
   async update(id: string, data: any): Promise<void> {
     await this.userRepository.update(id, data);
   }

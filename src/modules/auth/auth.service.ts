@@ -35,19 +35,16 @@ export class AuthService {
 
   async register(data: CreateUserDto): Promise<any> {
     const { password } = data;
-    try {
-      data.verifyToken = this.genstrService.generate(25);
-      data.password = await this.encoderService.encodePassword(password);
 
-      const user = await this.usersService.create(data);
+    data.verifyToken = this.genstrService.generate(25);
+    data.password = await this.encoderService.encodePassword(password);
 
-      // Send ActivationEmail
-      // await this.mailService.sendActivationEmail(user);
+    const user = await this.usersService.create(data);
 
-      return { msg: SUCC.SUCC_USER_REGISTERED };
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
+    // Send ActivationEmail
+    await this.mailService.sendActivationEmail(user);
+
+    return { msg: SUCC.SUCC_USER_REGISTERED };
   }
 
   async login(loginDto: LoginDto): Promise<any> {
@@ -69,70 +66,60 @@ export class AuthService {
   }
 
   async verifyUser(data: ActivateUserDto): Promise<any> {
-    try {
-      const { uuid, code } = data;
-      const user = await this.usersService.getInectiveUsersByCode(uuid, code);
+    const { uuid, code } = data;
+    const user = await this.usersService.getInectiveUsersByCode(uuid, code);
 
-      if (!user) throw new NotFoundException(UEE.USER_UNACTIVE);
+    if (!user) throw new NotFoundException(UEE.USER_UNACTIVE);
 
-      return (
-        (await this.usersService.activateUser(user)) && {
-          msg: SUCC.SUCC_USER_VERIFIED,
-        }
-      );
-    } catch (error) {
-      throw new UnprocessableEntityException(UEE.ENTITY_PROCESS);
-    }
+    user.verified = true;
+    user.verifyToken = null;
+
+    return (
+      (await this.usersService.update(user.id, user)) && {
+        msg: SUCC.SUCC_USER_VERIFIED,
+      }
+    );
   }
 
   async reqResetPassword(data: ReqResetPasswordDto): Promise<any> {
-    try {
-      const user = await this.usersService.getUserByEmail(data.email);
-      user.resetPasswordToken = this.genstrService.generate(50);
+    const user = await this.usersService.getUserByEmail(data.email);
+    user.resetPasswordToken = this.genstrService.generate(50);
 
-      const record = await this.usersService.update(user.id, user);
+    const record = await this.usersService.update(user.id, user);
 
-      return (
-        (await this.mailService.sendResetPasswordEmail(record)) && {
-          msg: SUCC.SUCC_RESET_CODE_SENT,
-        }
-      );
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
+    return (
+      (await this.mailService.sendResetPasswordEmail(record)) && {
+        msg: SUCC.SUCC_RESET_CODE_SENT,
+      }
+    );
   }
 
   async resetPassword(data: ResetPasswordDto): Promise<any> {
-    try {
-      const { resetPasswordToken, password } = data;
+    const { resetPasswordToken, password } = data;
 
-      const user = await this.usersService.getUserByResetPasswordToken(
-        resetPasswordToken,
-      );
+    const user = await this.usersService.getUserByResetPasswordToken(
+      resetPasswordToken,
+    );
 
-      if (!user) throw new NotFoundException(NFE.NOT_RESET_TOKEN);
+    if (!user) throw new NotFoundException(NFE.NOT_RESET_TOKEN);
 
-      user.password = await this.encoderService.encodePassword(password);
-      user.resetPasswordToken = null;
+    user.password = await this.encoderService.encodePassword(password);
+    user.resetPasswordToken = null;
 
-      return (
-        (await this.usersService.update(user.id, user)) && {
-          msg: SUCC.SUCC_PASS_UPDATED,
-        }
-      );
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
+    return (
+      (await this.usersService.update(user.id, user)) && {
+        msg: SUCC.SUCC_PASS_UPDATED,
+      }
+    );
   }
 
   async changePassword(data: ChangePasswordDto, user: User): Promise<void> {
-    const { oldPassword, newPassword } = data;
+    const { oldPassword: op, newPassword: np } = data;
 
-    if (await this.encoderService.checkPassword(oldPassword, user.password)) {
-      user.password = await this.encoderService.encodePassword(newPassword);
-      await this.usersService.update(user.id, user);
-    } else {
-      throw new BadRequestException(BRE.NOT_CURRENT_PASSWORD);
-    }
+    if (!(await this.encoderService.checkPassword(op, user.password)))
+      throw new UnauthorizedException(UAE.UNAUTHORIZED);
+
+    user.password = await this.encoderService.encodePassword(np);
+    await this.usersService.update(user.id, user);
   }
 }

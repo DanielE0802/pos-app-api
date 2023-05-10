@@ -44,10 +44,6 @@ export interface UserRepository {
    */
   getUserByResetPasswordToken: (resetPasswordToken: string) => Promise<User>;
   /**
-   * @param user that will be activated
-   */
-  verifyUser: (user: User) => Promise<User>;
-  /**
    * Method which is responsible only for updating a user.
    * @param user This method receives as parameter the user to be updated
    */

@@ -57,10 +57,6 @@ export class UsersService {
     return await this.usersRepository.getInectiveUsersByCode(uid, code);
   }
 
-  async activateUser(user: User): Promise<User> {
-    return await this.usersRepository.verifyUser(user);
-  }
-
   async getUserByEmail(email: string): Promise<User> {
     return await this.usersRepository.getUserByEmail(email);
   }
