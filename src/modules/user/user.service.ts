@@ -42,12 +42,6 @@ export class UsersService {
     }
   }
 
-  async getUserByUsername(un: string): Promise<User> {
-    const user = await this.usersRepository.getUserByUsername(un);
-    if (!user) throw new NotFoundException(`${NFE.NOT_USER_BY}: ${un}`);
-    return user;
-  }
-
   async update(id: string, data: any): Promise<boolean> {
     try {
       await this.usersRepository.update(id, data);

@@ -4,16 +4,27 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { Profile } from '../entities/profile.entity';
 
 @Injectable()
 export class UserImplRepository implements UserRepository {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Profile)
+    private profileRepository: Repository<Profile>,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    return await this._save(this.userRepository.create(createUserDto));
+    const { profile } = createUserDto;
+
+    const _profile = await this.profileRepository.save(
+      this.profileRepository.create(profile),
+    );
+
+    return await this._save(
+      this.userRepository.create({ ...createUserDto, profile: _profile }),
+    );
   }
 
   async getUsers(): Promise<User[]> {
@@ -32,25 +43,12 @@ export class UserImplRepository implements UserRepository {
     return await this.userRepository.findOneOrFail({
       select: {
         id: true,
-        username: true,
+        email: true,
         password: true,
         verified: true,
         verifyToken: true,
       },
       where: { email },
-    });
-  }
-
-  async getUserByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOneOrFail({
-      select: {
-        id: true,
-        username: true,
-        password: true,
-        verified: true,
-        verifyToken: true,
-      },
-      where: { username },
     });
   }
 

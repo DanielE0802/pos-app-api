@@ -8,7 +8,18 @@ async function bootstrap() {
 
   app.setGlobalPrefix('/api/v1');
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      validationError: {
+        target: false,
+      },
+    }),
+  );
+
   app.enableCors();
 
   const config = new DocumentBuilder()
@@ -16,7 +27,6 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  // .setDescription('')
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {

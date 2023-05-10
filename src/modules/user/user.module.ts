@@ -7,11 +7,12 @@ import { JwtConfig } from 'src/common/config/jwt.config';
 import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 import { UserProviders } from './providers/user.providers';
 import { User } from './entities/user.entity';
+import { Profile } from './entities/profile.entity';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Profile]),
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy, ...UserProviders],

@@ -25,13 +25,6 @@ export interface UserRepository {
    */
   getUserById: (uuid: string) => Promise<User>;
   /**
-   * A private method that is used to find a user by username.
-   * It finds a user by username and throws an error if it can't find one
-   * @param {string} username - string - The username of the user we want to find.
-   * @returns A user object
-   */
-  getUserByUsername: (username: string) => Promise<User>;
-  /**
    * Find a user by their id and activation token, and make sure they're not active
    * @param {string} uid - The user's id
    * @param {string} code - The code that was sent to the user's email.
@@ -51,7 +44,6 @@ export interface UserRepository {
    */
   getUserByResetPasswordToken: (resetPasswordToken: string) => Promise<User>;
   /**
-   * TODO: Future - Changed to correct register auth vars
    * @param user that will be activated
    */
   verifyUser: (user: User) => Promise<User>;

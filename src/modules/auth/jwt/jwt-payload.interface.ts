@@ -1,4 +1,6 @@
 export interface IJwtPayload {
   id: string;
-  username: string;
+  email: string;
+  verified: boolean;
+  verifyToken: string;
 }

@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Profile } from './profile.entity';
 
 @Entity('users')
 export class User {
@@ -45,9 +48,9 @@ export class User {
   })
   isFirstLogin: boolean;
 
-  // @OneToOne(() => Profile, (profile) => profile.user)
-  // @JoinColumn({ name: 'profile_id' })
-  // profile: Profile;
+  @OneToOne(() => Profile, (profile) => profile.user)
+  @JoinColumn({ name: 'profile_id' })
+  profile: Profile;
 
   // @ManyToOne(() => Roles, (role) => role.id)
   // @JoinColumn({ name: 'role_id' })
