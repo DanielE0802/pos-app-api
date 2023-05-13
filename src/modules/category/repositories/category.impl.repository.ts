@@ -1,9 +1,9 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from '../entities/Category.entity';
-import { CreateCategoryDto } from '../dto/create-Category.dto';
 import { CategoryRepository } from './category.repository';
+import { Category } from '../entities/category.entity';
+import { CreateCategoryDto } from '../dto/create-category.dto';
 
 @Injectable()
 export class CategoryImplRepository implements CategoryRepository {

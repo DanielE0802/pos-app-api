@@ -8,7 +8,7 @@ import { CategoryProviders } from './providers/category.providers';
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],
   controllers: [CategoryController],
-  providers: [CategoryService],
-  exports: [CategoryService, ...CategoryProviders],
+  providers: [CategoryService, ...CategoryProviders],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

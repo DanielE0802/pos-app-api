@@ -1,5 +1,5 @@
 import { CreateCategoryDto } from '../dto/create-category.dto';
-import { Category } from '../entities/Category.entity';
+import { Category } from '../entities/category.entity';
 
 export interface CategoryRepository {
   /**

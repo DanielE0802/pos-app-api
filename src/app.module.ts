@@ -15,7 +15,7 @@ import { Category } from './modules/category/entities/category.entity';
       username: dbConfig.dbUser,
       password: dbConfig.dbPassword,
       database: dbConfig.dbName,
-      entities: [Category],
+      entities: [],
       autoLoadEntities: true,
       synchronize: true,
     }),
