@@ -3,18 +3,19 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { join } from 'path';
-import { SEND_GRID } from 'src/common/config/mail.config';
 
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: SEND_GRID.SG_HOST,
+        host: '',
         secure: false,
         auth: {
-          user: SEND_GRID.SG_USER,
-          pass: SEND_GRID.SG_PASS,
+          privateKey: '5149cc6d34cdd0e8e191f8404f054722-6b161b0a-198d1691',
         },
+      },
+      defaults: {
+        from: '"No Reply" <noreply@example.com>',
       },
       template: {
         dir: join(__dirname, 'templates'),

@@ -34,12 +34,11 @@ export class UsersService {
     }
   }
 
-  async getUniqueUser(id: string): Promise<User> {
-    try {
-      return await this.usersRepository.getUserById(id);
-    } catch (e) {
-      throw new NotFoundException(`${NFE.NOT_USER}`);
-    }
+  async getUser(id: string): Promise<User> {
+    const user = await this.usersRepository.getUser(id);
+    if (!user) throw new NotFoundException(`${NFE.NOT_USER}`);
+
+    return user;
   }
 
   async update(id: string, data: any): Promise<boolean> {

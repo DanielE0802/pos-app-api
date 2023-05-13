@@ -35,12 +35,17 @@ export class UserImplRepository implements UserRepository {
     return await this.userRepository.find({ where: { verified: true } });
   }
 
-  async getUserById(id: string): Promise<User> {
-    return await this.userRepository.findOneOrFail({ where: { id } });
+  async getUser(id: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: {
+        profile: true,
+      },
+    });
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOneOrFail({
+    return await this.userRepository.findOne({
       select: {
         id: true,
         email: true,

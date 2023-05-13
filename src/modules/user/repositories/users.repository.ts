@@ -14,16 +14,16 @@ export interface UserRepository {
    */
   getUsers: () => Promise<User[]>;
   /**
-   * Find all users where the active property is true.
-   * @returns An array of users that are active.
-   */
-  getUsersOn: () => Promise<User[]>;
-  /**
    * It finds a user by their uuid and throws an error if it can't find one
    * @param {string} uuid - string - the uuid of the user we want to find
    * @returns A user object
    */
-  getUserById: (uuid: string) => Promise<User>;
+  getUser: (uuid: string) => Promise<User>;
+  /**
+   * Find all users where the active property is true.
+   * @returns An array of users that are active.
+   */
+  getUsersOn: () => Promise<User[]>;
   /**
    * Find a user by their id and activation token, and make sure they're not active
    * @param {string} uid - The user's id

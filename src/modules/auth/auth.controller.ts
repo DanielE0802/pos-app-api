@@ -35,22 +35,9 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(
-    @Body() loginDto: LoginDto,
-  ): Promise<Record<'userId' | 'accessToken', string>> {
+  login(@Body() loginDto: LoginDto): Promise<string> {
     try {
       return this.authService.login(loginDto);
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
-  }
-
-  @Get('/my-account')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth()
-  myAccount(@GetUser() user: any): Promise<any> {
-    try {
-      return this.authService.myAccount(user);
     } catch (e) {
       throw new ConflictException((e as Error).message);
     }

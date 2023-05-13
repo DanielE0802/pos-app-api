@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, Min, Max, Length } from 'class-validator';
+import { IsString, IsNotEmpty, Length, IsPhoneNumber } from 'class-validator';
 
 export class ProfileDto {
   @ApiProperty()
@@ -17,4 +17,9 @@ export class ProfileDto {
   @IsNotEmpty()
   @Length(6, 13)
   dni: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  phone: string;
 }

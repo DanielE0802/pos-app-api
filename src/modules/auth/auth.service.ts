@@ -20,8 +20,6 @@ import { GenstrService } from 'src/utils/genstr.service';
 import { UsersService } from '../user/user.service';
 import { User } from '../user/entities/user.entity';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { JwtConfig } from 'src/common/config/jwt.config';
-import { IJwtPayload } from './jwt/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -41,17 +39,18 @@ export class AuthService {
 
     const user = await this.usersService.create(data);
 
-    // Send ActivationEmail
-    await this.mailService.sendActivationEmail(user);
+    // Send VerifyEmail
+    await this.mailService.sendVerifyEmail(user);
 
     return { msg: SUCC.SUCC_USER_REGISTERED };
   }
 
-  async login(loginDto: LoginDto): Promise<any> {
+  async login(loginDto: LoginDto): Promise<string> {
     const { email, password } = loginDto;
     const user = await this.usersService.getUserByEmail(email);
 
-    if (!user) throw new NotFoundException(NFE.NOT_USER);
+    if (!user /* && !user.verified */)
+      throw new UnauthorizedException(UEE.USER_UNVERIFY);
 
     if (!(await this.encoderService.checkPassword(password, user.password)))
       throw new UnauthorizedException(UAE.UNAUTHORIZED);
@@ -61,15 +60,11 @@ export class AuthService {
     return this.jwtService.sign({ ...user });
   }
 
-  async myAccount(user: User): Promise<any> {
-    return user;
-  }
-
   async verifyUser(data: ActivateUserDto): Promise<any> {
     const { uuid, code } = data;
     const user = await this.usersService.getInectiveUsersByCode(uuid, code);
 
-    if (!user) throw new NotFoundException(UEE.USER_UNACTIVE);
+    if (!user) throw new NotFoundException(UEE.USER_UNVERIFY);
 
     user.verified = true;
     user.verifyToken = null;

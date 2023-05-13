@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Put,
   Query,
@@ -31,8 +32,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id') userId: string): Promise<User> {
-    return this.usersService.getUniqueUser(userId);
+  getUser(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
+    return this.usersService.getUser(id);
   }
 
   @Put()
