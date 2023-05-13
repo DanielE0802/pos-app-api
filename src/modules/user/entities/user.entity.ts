@@ -19,7 +19,10 @@ export class User {
   @Column({ length: 255, select: false })
   password: string;
 
-  @Column({ type: 'boolean', default: false })
+  /**
+   * TODO: set default false when EmailService has implemented
+   */
+  @Column({ type: 'boolean', default: true })
   verified: boolean;
 
   @Column({

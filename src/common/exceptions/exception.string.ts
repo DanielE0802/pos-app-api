@@ -22,7 +22,7 @@ export const NFE = {
  ** Constants messages for UnprocessableEntityException
  */
 export const UEE = {
-  USER_UNVERIFY: 'This user is not active',
+  USER_UNVERIFY: 'User is not verify',
   ENTITY_PROCESS: 'Error in information provided',
   NOT_UPDATE_USER: 'An error occurred updating the user',
 };
