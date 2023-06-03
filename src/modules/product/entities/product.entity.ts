@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Category } from 'src/modules/category/entities/category.entity';
+import { Brand } from 'src/modules/brand/entities/brand.entity';
 
 @Entity('products')
 export class Product {
@@ -27,12 +28,7 @@ export class Product {
   @Column()
   priceSale: number;
 
-  @Column()
-  brand: string;
-
-  /**
-   * TODO: Identify if that product is ConfigProduct or SimpleProduct
-   */
+  // TODO: Identify if that product is ConfigProduct or SimpleProduct
   @ManyToOne(() => Product, (Product) => Product.subProducts, {
     nullable: true,
   })
@@ -48,4 +44,7 @@ export class Product {
 
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
+
+  @ManyToOne(() => Brand, (brand) => brand.products)
+  brand: Brand;
 }
