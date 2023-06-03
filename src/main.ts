@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { APP_CONFIG } from './common/config/app.config';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -36,7 +37,7 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(3000);
+  await app.listen(APP_CONFIG.appPort);
 
   logger.log(`Server is running!, View services: ${await app.getUrl()}/docs/`);
 }
