@@ -4,8 +4,10 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Category } from 'src/modules/category/entities/category.entity';
+import { Brand } from 'src/modules/brand/entities/brand.entity';
 
 @Entity('products')
 export class Product {
@@ -27,15 +29,11 @@ export class Product {
   @Column()
   priceSale: number;
 
-  @Column()
-  brand: string;
-
-  /**
-   * TODO: Identify if that product is ConfigProduct or SimpleProduct
-   */
+  // TODO: Identify if that product is ConfigProduct or SimpleProduct
   @ManyToOne(() => Product, (Product) => Product.subProducts, {
     nullable: true,
   })
+  @JoinColumn({ name: 'productMainProduct_id' })
   productMainProduct: Product;
 
   @OneToMany(() => Product, (Product) => Product.productMainProduct, {
@@ -47,5 +45,10 @@ export class Product {
   quantityStock: number;
 
   @ManyToOne(() => Category, (category) => category.products)
+  @JoinColumn({ name: 'category_id' })
   category: Category;
+
+  @ManyToOne(() => Brand, (brand) => brand.products)
+  @JoinColumn({ name: 'brand_id' })
+  brand: Brand;
 }

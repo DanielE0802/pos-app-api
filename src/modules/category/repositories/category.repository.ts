@@ -1,4 +1,5 @@
 import { CreateCategoryDto } from '../dto/create-category.dto';
+import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { Category } from '../entities/category.entity';
 
 export interface CategoryRepository {
@@ -12,7 +13,13 @@ export interface CategoryRepository {
    * It finds all the Categorys in the database and returns them
    * @returns An array of Category objects.
    */
-  getCategories: () => Promise<Category[]>;
+  find: (rel: boolean) => Promise<Category[]>;
+
+  findOne: (id: string, rel: boolean) => Promise<Category>;
+
+  update: (id: string, data: UpdateCategoryDto) => Promise<Category>;
+
+  delete: (id: string) => Promise<Category>;
 }
 
 export const I_CATEGORY_REPOSITORY = 'CategoriesIRepository';

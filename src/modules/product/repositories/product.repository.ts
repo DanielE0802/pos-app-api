@@ -1,3 +1,4 @@
+import { CreateProductDto } from '../dto/create-product.dto';
 import { Product } from '../entities/product.entity';
 
 export interface ProductRepository {
@@ -6,7 +7,7 @@ export interface ProductRepository {
    * @param {CreateProductDto} createProductDto - CreateProductDto
    * @returns The Product that was updated
    */
-  create: (data: any) => Promise<Product>;
+  create: (data: CreateProductDto) => Promise<Product>;
   /**
    * It finds all the Products in the database and returns them
    * @returns An array of Product objects.

@@ -14,9 +14,8 @@ export class ProductService {
     private readonly productRepository: ProductRepository,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
-  }
+  create = async (data: CreateProductDto) =>
+    await this.productRepository.create(data);
 
   async findAll(): Promise<Product[]> {
     return await this.productRepository.getProducts();

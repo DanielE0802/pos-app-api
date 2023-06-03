@@ -11,28 +11,25 @@ export class ProductImplRepository implements ProductRepository {
     private readonly productRepository: Repository<Product>,
   ) {}
 
-  async create(data: any): Promise<Product> {
-    return await this._save(this.productRepository.create({ ...data }));
-  }
+  create = async (data: any): Promise<Product> =>
+    await this._save(this.productRepository.create({ ...data }));
 
-  async getProducts(): Promise<Product[]> {
-    return await this.productRepository.find({
+  getProducts = async (): Promise<Product[]> =>
+    await this.productRepository.find({
       relations: {
         productMainProduct: true,
         subProducts: true,
       },
     });
-  }
 
-  async getProduct(id: string): Promise<Product> {
-    return await this.productRepository.findOne({
+  getProduct = async (id: string): Promise<Product> =>
+    await this.productRepository.findOne({
       where: { id },
       relations: {
         productMainProduct: true,
         subProducts: true,
       },
     });
-  }
 
   // +--------------------------------+
   // |  Private Encapsulated Methods  |

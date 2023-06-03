@@ -5,12 +5,13 @@ import {
   Column,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('categories')
 export class Category {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
@@ -22,6 +23,7 @@ export class Category {
   products: Product[];
 
   @ManyToOne(() => Category, (category) => category.subcategories)
+  @JoinColumn({ name: 'categoryMainCategory_id' })
   categoryMainCategory: Category;
 
   @OneToMany(() => Category, (category) => category.categoryMainCategory)
