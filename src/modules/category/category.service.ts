@@ -11,26 +11,20 @@ import { Category } from './entities/category.entity';
 export class CategoryService {
   constructor(
     @Inject(I_CATEGORY_REPOSITORY)
-    private readonly categoryRepository: CategoryRepository,
+    private readonly categoryRepo: CategoryRepository,
   ) {}
 
-  create(data: CreateCategoryDto) {
-    return 'This action adds a new category';
-  }
+  create = async (data: CreateCategoryDto) =>
+    await this.categoryRepo.create(data);
 
-  async findAll(): Promise<Category[]> {
-    return await this.categoryRepository.getCategories();
-  }
+  findAll = async (rel: boolean): Promise<Category[]> =>
+    await this.categoryRepo.find(rel);
 
-  findOne(id: string) {
-    return `This action returns a #${id} category`;
-  }
+  findOne = async (id: string, rel: boolean) =>
+    await this.categoryRepo.findOne(id, rel);
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
+  update = async (id: string, data: UpdateCategoryDto) =>
+    await this.categoryRepo.update(id, data);
 
-  remove(id: string) {
-    return `This action removes a #${id} category`;
-  }
+  remove = async (id: string) => await this.categoryRepo.delete(id);
 }

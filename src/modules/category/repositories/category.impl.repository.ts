@@ -4,31 +4,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryRepository } from './category.repository';
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto } from '../dto/create-category.dto';
+import { UpdateCategoryDto } from '../dto/update-category.dto';
 
 @Injectable()
 export class CategoryImplRepository implements CategoryRepository {
   constructor(
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
+    private readonly categoryRepo: Repository<Category>,
   ) {}
 
-  async create(data: CreateCategoryDto): Promise<Category> {
-    return await this._save(
-      this.categoryRepository.create({
-        ...data,
-      }),
-    );
-  }
+  create = async (data: CreateCategoryDto): Promise<Category> =>
+    await this.categoryRepo.save(this.categoryRepo.create(data));
 
-  async getCategories(): Promise<Category[]> {
-    return await this.categoryRepository.find();
-  }
+  find = async (rel: boolean): Promise<Category[]> =>
+    await this.categoryRepo.find({
+      relations: { products: rel, subcategories: rel },
+      cache: true,
+    });
 
-  // +--------------------------------+
-  // |  Private Encapsulated Methods  |
-  // +--------------------------------+
+  findOne = async (id: string, rel: boolean): Promise<Category> =>
+    await this.categoryRepo.findOne({
+      where: { id },
+      relations: { products: rel, subcategories: rel },
+      cache: true,
+    });
 
-  private async _save(Category: Category): Promise<Category> {
-    return await this.categoryRepository.save(Category);
-  }
+  update = async (id: string, data: UpdateCategoryDto): Promise<any> =>
+    await this.categoryRepo.update(id, data);
+
+  delete = async (id: string): Promise<Category> =>
+    await this.categoryRepo.remove(await this.findOne(id, false));
 }
