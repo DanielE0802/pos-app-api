@@ -60,6 +60,7 @@ export class AuthService {
     return this.jwtService.sign({ ...user });
   }
 
+  // TODO: Change logic to Email Verify
   async verifyUser(data: ActivateUserDto): Promise<any> {
     const { uuid, code } = data;
     const user = await this.usersService.getInectiveUsersByCode(uuid, code);
