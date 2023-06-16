@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Company } from 'src/modules/company/entities/company.entity';
 
 @Entity('users')
 export class User {
@@ -51,6 +53,9 @@ export class User {
   @OneToOne(() => Profile, (profile) => profile.user)
   @JoinColumn({ name: 'profile_id' })
   profile: Profile;
+
+  @OneToMany(() => Company, (company) => company.user)
+  companies: Company[];
 
   // @ManyToOne(() => Roles, (role) => role.id)
   // @JoinColumn({ name: 'role_id' })

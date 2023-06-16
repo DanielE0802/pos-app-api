@@ -13,7 +13,9 @@ import {
 import { PdvService } from './pdv.service';
 import { CreatePdvDto } from './dto/create-pdv.dto';
 import { UpdatePdvDto } from './dto/update-pdv.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Punto de Venta')
 @Controller('pdv')
 export class PdvController {
   constructor(private readonly pdvService: PdvService) {}
