@@ -16,8 +16,14 @@ INSERT INTO `brand` (`id`, `name`) VALUES
 INSERT INTO `categories` (`id`, `name`, `description`, `categoryMainCategory_id`) VALUES
 ('1e0dc899-0237-11ee-bec1-7085c296afc1', 'Res', 'Categoría para productos cárnicos', 'fe390fda-0236-11ee-bec1-7085c296afc1'),
 ('1e0dcdc5-0237-11ee-bec1-7085c296afc1', 'Cerdo', 'Productos cárnicos de cerdo', 'fe390fda-0236-11ee-bec1-7085c296afc1'),
+('8c7f9907-0c23-11ee-9dc3-7085c296afc1', 'Bebidas', 'Categoria para seccionar bebidas', 'ed7c31ee-0236-11ee-bec1-7085c296afc1'),
+('9f4760c8-0c23-11ee-9dc3-7085c296afc1', 'Gaseosas', 'Seccion de Bebidas Gaseosas', '8c7f9907-0c23-11ee-9dc3-7085c296afc1'),
 ('ed7c31ee-0236-11ee-bec1-7085c296afc1', 'Alimentos', 'Categoría para productos alimentarios', NULL),
 ('fe390fda-0236-11ee-bec1-7085c296afc1', 'Carnes', 'Categoría para productos cárnicos', 'ed7c31ee-0236-11ee-bec1-7085c296afc1');
+
+INSERT INTO `companies` (`id`, `name`, `nit`, `address`, `phoneNumber`, `email`, `website`, `economic_activity`, `source`, `quantity_employees`) VALUES
+('1355415b-ed45-49fa-8aef-e1184f52b1da', 'Empresa Dos SAS', '12131516171', 'Cra 54 # 56-95', '+573211231456', 'miempresados@yopmail.com', 'www.miempresados.com', 'Seguridad', 'Seguridad', '1-10'),
+('d21a362c-0c0e-11ee-9dc3-7085c296afc1', 'Empresa Uno SAS', '15161718192', 'Calle 47D # 80-30', '+573002001000', 'miempresauno@yopmail.com', 'www.miempresauno.com', 'Ventas', 'Ventas', '10-100');
 
 INSERT INTO `departments` (`id`, `name`) VALUES
 ('0b36f994-7ea2-42b1-8baf-68e0d10fcfcf', 'Guaviare'),
@@ -54,13 +60,22 @@ INSERT INTO `departments` (`id`, `name`) VALUES
 ('f932e5c6-10e1-4052-a335-4ad87a95c441', 'Arauca'),
 ('fe6b9e0c-bf25-4458-9433-ba6c7b588f01', 'Guainía');
 
-INSERT INTO `products` (`id`, `name`, `description`, `barCode`, `sku`, `priceSale`, `quantityStock`, `productMainProduct_id`, `category_id`, `brand_id`) VALUES
-('0ad37be2-f1cc-11ed-8d67-7085c296afc1', 'Coca-Cola Zero', 'Gaseosa para perras', '10112131415', '151413121110', 2650, 6, 'deb96792-f1cb-11ed-8d67-7085c296afc1', 'ed7c31ee-0236-11ee-bec1-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1'),
-('51f27f3c-6904-46ec-9242-d0ff2cf1220d', 'Coca-Cola Zero 350ml', 'Gaseosa para perras', '10112131415', '151413121110', 2650, 6, 'deb96792-f1cb-11ed-8d67-7085c296afc1', 'ed7c31ee-0236-11ee-bec1-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1'),
-('deb96792-f1cb-11ed-8d67-7085c296afc1', 'Coca-Cola', 'Gaseosa para dioses', '7720225652', '110022334455', 2500, 5, NULL, 'ed7c31ee-0236-11ee-bec1-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1');
+INSERT INTO `pdvs` (`id`, `name`, `description`, `address`, `phone`, `main`, `location_id`, `company_id`) VALUES
+('3e5de367-0c1c-11ee-9dc3-7085c296afc1', 'PDV Main', 'PDV Main', 'Calle 100 # 98-96', '+573225315406', 1, '25ea0975-0248-11ee-bec1-7085c296afc1', 'd21a362c-0c0e-11ee-9dc3-7085c296afc1'),
+('3e5de822-0c1c-11ee-9dc3-7085c296afc1', 'PDV NoMain', 'PDV NoMain', 'Calle 100 # 98-91', '+573226065548', 0, '25ea0975-0248-11ee-bec1-7085c296afc1', 'd21a362c-0c0e-11ee-9dc3-7085c296afc1');
 
-INSERT INTO `profiles` (`id`, `name`, `lastname`, `dni`, `phone`) VALUES
-('c4b87c04-fae2-4825-978a-4f34b12c7bd3', 'Super', 'User', '1112131415', '+573002001000');
+INSERT INTO `products` (`id`, `name`, `description`, `barCode`, `sku`, `priceSale`, `quantityStock`, `productMainProduct_id`, `category_id`, `brand_id`, `images`, `typeProduct`, `state`, `sellInNegative`, `priceBase`, `taxesOption`) VALUES
+('2339afda-7f2c-4ee2-a27f-c13f188736d2', 'Quatro', 'Esta es la descripcion de la Quatro', '224511963', 'A156548C', 19500, 60, '540a9326-da3d-467a-b4db-aff047e31b31', '9f4760c8-0c23-11ee-9dc3-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1', 'https://th.bing.com/th/id/OIP.BIAIQ1b7jooENmUDLQlgWQAAAA?pid=ImgDet&rs=1', 2, 1, 1, 12300, 19),
+('540a9326-da3d-467a-b4db-aff047e31b31', 'Coca-Cola Zero', 'Esta es la descripcion de la Coca-Cola Zero', '121311115', 'A156548C', 25000, 100, NULL, '9f4760c8-0c23-11ee-9dc3-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1', 'https://th.bing.com/th/id/OIP.bl1vfXXX42tZjAzSbw1-8gHaHa?pid=ImgDet&rs=1,https://th.bing.com/th/id/OIP._k9qWFO-FKd2V1lAoy_iDwHaHa?pid=ImgDet&rs=1', 2, 1, 1, 16000, 19);
+
+INSERT INTO `product_pdv` (`id`, `productsId`, `pdvsId`, `quantity`, `minQuantity`) VALUES
+('17a25bb8-4bdc-4969-a9a0-d228a230528e', '540a9326-da3d-467a-b4db-aff047e31b31', '3e5de367-0c1c-11ee-9dc3-7085c296afc1', 60, 10),
+('7d3357c6-f412-4366-aa51-8d26743de4fc', '2339afda-7f2c-4ee2-a27f-c13f188736d2', '3e5de367-0c1c-11ee-9dc3-7085c296afc1', 30, 10),
+('8842b1cf-81b8-45ee-a8d3-b0ccbf9c4b85', '540a9326-da3d-467a-b4db-aff047e31b31', '3e5de822-0c1c-11ee-9dc3-7085c296afc1', 40, 10),
+('8bfa9afe-d072-459b-92c7-e3b7427c3107', '2339afda-7f2c-4ee2-a27f-c13f188736d2', '3e5de822-0c1c-11ee-9dc3-7085c296afc1', 30, 10);
+
+INSERT INTO `profiles` (`id`, `email`, `name`, `lastname`, `dni`, `phone`, `company_id`, `photo`) VALUES
+('c4b87c04-fae2-4825-978a-4f34b12c7bd3', 'user001@yopmail.com', 'Super', 'User', '1112131415', '+573002001000', '1355415b-ed45-49fa-8aef-e1184f52b1da', 'https://th.bing.com/th/id/OIP.x52_SjxdK-sG4Ed5ZjL3QQHaJQ?pid=ImgDet&rs=1');
 
 INSERT INTO `towns` (`id`, `name`, `department_id`) VALUES
 ('25ea0975-0248-11ee-bec1-7085c296afc1', 'El Dovio', 'ad42efc0-855e-423b-943e-95609c956c29'),
@@ -1065,8 +1080,8 @@ INSERT INTO `towns` (`id`, `name`, `department_id`) VALUES
 ('cf57039d-0247-11ee-bec1-7085c296afc1', 'San Carlos', 'b062e57e-42e0-446d-8923-0454c70a9d85'),
 ('cf57584a-0247-11ee-bec1-7085c296afc1', 'Tuta', '2081c689-8959-4812-89f0-d0896dc2e542');
 
-INSERT INTO `users` (`id`, `email`, `password`, `verified`, `verify_token`, `reset_password_token`, `first_login`, `created_on`, `profile_id`) VALUES
-('7b5dfe67-3f3c-4617-97d2-26995798bdf5', 'user001@yopmail.com', '$2a$10$dWyslPSBXRQHGTIZrlUmqOkB1.rtKB.WAzOOPGMPLQOdPE61gmxM6', 1, '_Ly-8oiOZdVe2ohdNpE3w4D9B', NULL, 1, '2023-06-03 15:00:25.410238', 'c4b87c04-fae2-4825-978a-4f34b12c7bd3');
+INSERT INTO `users` (`id`, `password`, `verified`, `verify_token`, `reset_password_token`, `first_login`, `created_on`, `profile_id`) VALUES
+('7b5dfe67-3f3c-4617-97d2-26995798bdf5', '$2a$10$dWyslPSBXRQHGTIZrlUmqOkB1.rtKB.WAzOOPGMPLQOdPE61gmxM6', 1, '_Ly-8oiOZdVe2ohdNpE3w4D9B', NULL, 1, '2023-06-03 15:00:25.410238', 'c4b87c04-fae2-4825-978a-4f34b12c7bd3');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
