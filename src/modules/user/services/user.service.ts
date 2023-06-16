@@ -38,4 +38,10 @@ export class UsersService {
 
   update = async (id: string, data: UpdateUserDto): Promise<UpdateResult> =>
     await this.usersRepository.update(id, data);
+
+  updateFirstLogin = async (id: string, data: UpdateUserDto): Promise<any> => {
+    const user = await this.usersRepository.findOne(id);
+    user.isFirstLogin = data.isFirstLogin;
+    return await this.usersRepository.update(user.id, user);
+  };
 }

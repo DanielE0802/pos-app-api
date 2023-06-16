@@ -43,7 +43,14 @@ export class UsersController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() data: UpdateUserDto,
   ): Promise<UpdateResult> {
-    console.log(data);
     return this.usersService.update(id, data);
+  }
+
+  @Patch('fl/:id')
+  updateFirstLogin(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() data: UpdateUserDto,
+  ): Promise<UpdateResult> {
+    return this.usersService.updateFirstLogin(id, data);
   }
 }
