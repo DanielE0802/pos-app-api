@@ -3,18 +3,17 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Company } from 'src/modules/company/entities/company.entity';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ length: 100, unique: true })
-  email: string;
 
   @Column({ length: 255, select: false })
   password: string;
@@ -48,13 +47,9 @@ export class User {
   })
   isFirstLogin: boolean;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user, { nullable: false })
   @JoinColumn({ name: 'profile_id' })
   profile: Profile;
-
-  // @ManyToOne(() => Roles, (role) => role.id)
-  // @JoinColumn({ name: 'role_id' })
-  // role: Role;
 
   @CreateDateColumn({ select: false, name: 'created_on' })
   createdOn: Date;

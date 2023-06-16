@@ -1,0 +1,38 @@
+{
+  "name": "Quatro",
+  "description": "Esta es la descripcion de la Quatro",
+  "barCode": "224511963",
+  "images": [
+    "https://th.bing.com/th/id/OIP.BIAIQ1b7jooENmUDLQlgWQAAAA?pid=ImgDet&rs=1"
+  ],
+  "typeProduct": "configurable",
+  "state": true,
+  "sellInNegative": true,
+  "taxesOption": 19,
+  "sku": "A156548C",
+  "priceSale": 19500,
+  "priceBase": 12300,
+  "quantityStock": 60,
+  "brand": {
+    "id": "60ba1478-0234-11ee-bec1-7085c296afc1"
+  },
+  "productMainProduct": {
+    "id": "540a9326-da3d-467a-b4db-aff047e31b31"
+  },
+  "subProductsIds": [],
+  "category": {
+    "id": "9f4760c8-0c23-11ee-9dc3-7085c296afc1"
+  },
+  "productPdv": [
+    {
+      "pdvs": "3e5de367-0c1c-11ee-9dc3-7085c296afc1",
+      "quantity": 60,
+      "minQuantity": 10
+    },
+    {
+      "pdvs": "3e5de822-0c1c-11ee-9dc3-7085c296afc1",
+      "quantity": 40,
+      "minQuantity": 10
+    }
+  ]
+}

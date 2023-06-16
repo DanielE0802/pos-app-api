@@ -8,9 +8,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
-import { UsersService } from './user.service';
-import { User } from './entities/user.entity';
+import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
+import { UsersService } from '../services/user.service';
+import { User } from '../entities/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -36,7 +36,6 @@ export class UsersController {
 
   @Put()
   async update(@Query('id') id: string, data: any): Promise<void> {
-    console.log(data);
     await this.usersService.update(id, data);
   }
 }

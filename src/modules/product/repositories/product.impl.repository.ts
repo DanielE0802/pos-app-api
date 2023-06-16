@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { ProductRepository } from './product.repository';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { ProductPdv } from '../entities/product-pdv.entity';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {
@@ -11,10 +13,10 @@ export class ProductImplRepository implements ProductRepository {
     private readonly productRepository: Repository<Product>,
   ) {}
 
-  create = async (data: any): Promise<Product> =>
-    await this._save(this.productRepository.create({ ...data }));
+  create = async (data: CreateProductDto): Promise<Product> =>
+    await this._save(this.productRepository.create(data));
 
-  getProducts = async (): Promise<Product[]> =>
+  findAll = async (): Promise<Product[]> =>
     await this.productRepository.find({
       relations: {
         productMainProduct: true,
@@ -22,12 +24,13 @@ export class ProductImplRepository implements ProductRepository {
       },
     });
 
-  getProduct = async (id: string): Promise<Product> =>
+  findOne = async (id: string): Promise<Product> =>
     await this.productRepository.findOne({
       where: { id },
       relations: {
         productMainProduct: true,
         subProducts: true,
+        productPdv: { pdvs: true },
       },
     });
 

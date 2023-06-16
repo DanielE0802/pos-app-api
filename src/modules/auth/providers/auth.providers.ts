@@ -1,5 +1,4 @@
-import { UserImplRepository } from 'src/modules/user/repositories/users.impl.repository';
-import { I_USER_REPOSITORY } from 'src/modules/user/repositories/users.repository';
+import { UserImplRepository } from 'src/modules/user/repositories/user/users.impl.repository';
 
 export const AuthProviders = [
   // {

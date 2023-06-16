@@ -17,9 +17,9 @@ import { MailService } from '../mail/mail.service';
 import { BRE, NFE, UAE, UEE } from 'src/common/exceptions/exception.string';
 import { EncoderService } from 'src/utils/encoder.service';
 import { GenstrService } from 'src/utils/genstr.service';
-import { UsersService } from '../user/user.service';
+import { UsersService } from '../user/services/user.service';
 import { User } from '../user/entities/user.entity';
-import { CreateUserDto } from '../user/dto/create-user.dto';
+import { CreateUserDto } from '../user/dto/user/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -60,6 +60,7 @@ export class AuthService {
     return this.jwtService.sign({ ...user });
   }
 
+  // TODO: Change logic to Email Verify
   async verifyUser(data: ActivateUserDto): Promise<any> {
     const { uuid, code } = data;
     const user = await this.usersService.getInectiveUsersByCode(uuid, code);

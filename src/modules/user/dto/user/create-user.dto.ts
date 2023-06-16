@@ -1,21 +1,15 @@
 import {
   IsString,
-  IsEmail,
   IsNotEmpty,
   ValidateNested,
   IsOptional,
   Length,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProfileDto } from './create-profile.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateProfileDto } from '../profile/create-profile.dto';
 
 export class CreateUserDto {
-  @ApiProperty()
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
@@ -27,6 +21,6 @@ export class CreateUserDto {
 
   @ApiProperty()
   @ValidateNested()
-  @Type(() => ProfileDto)
-  profile: ProfileDto;
+  @Type(() => CreateProfileDto)
+  profile: CreateProfileDto;
 }

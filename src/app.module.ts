@@ -4,6 +4,8 @@ import { dbConfig } from './common/config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { LocationModule } from './modules/location/location.module';
+import { PdvModule } from './modules/pdv/pdv.module';
+import { CompanyModule } from './modules/company/company.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { LocationModule } from './modules/location/location.module';
     AuthModule,
     ProductModule,
     LocationModule,
+    PdvModule, // Impl in CompanyModule
+    CompanyModule
   ],
 })
 export class AppModule {}
