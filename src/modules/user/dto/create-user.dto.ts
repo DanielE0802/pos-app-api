@@ -1,6 +1,5 @@
 import {
   IsString,
-  IsEmail,
   IsNotEmpty,
   ValidateNested,
   IsOptional,
@@ -11,11 +10,6 @@ import { ProfileDto } from './create-profile.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiProperty()
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

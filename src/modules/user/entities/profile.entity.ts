@@ -1,10 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('profiles')
 export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({ length: 100, unique: true })
+  email: string;
 
   @Column({ length: 55 })
   name: string;

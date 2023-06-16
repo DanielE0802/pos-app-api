@@ -15,9 +15,6 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 100, unique: true })
-  email: string;
-
   @Column({ length: 255, select: false })
   password: string;
 
@@ -50,7 +47,7 @@ export class User {
   })
   isFirstLogin: boolean;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user, { nullable: false })
   @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 

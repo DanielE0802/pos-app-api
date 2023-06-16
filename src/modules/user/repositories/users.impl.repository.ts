@@ -48,12 +48,13 @@ export class UserImplRepository implements UserRepository {
     return await this.userRepository.findOne({
       select: {
         id: true,
-        email: true,
         password: true,
         verified: true,
         verifyToken: true,
+        profile: { email: true },
       },
-      where: { email },
+      where: { profile: { email } },
+      relations: { profile: true },
     });
   }
 
