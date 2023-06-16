@@ -10,21 +10,21 @@ import { CompanyRepository } from './company.repository';
 export class CompanyImplRepository implements CompanyRepository {
   constructor(
     @InjectRepository(Company)
-    private readonly categoryRepo: Repository<Company>,
+    private readonly companyRepo: Repository<Company>,
   ) {}
 
   create = async (data: CreateCompanyDto): Promise<Company> =>
-    await this.categoryRepo.save(this.categoryRepo.create(data));
+    await this.companyRepo.save(this.companyRepo.create(data));
 
   find = async (rel: boolean): Promise<Company[]> =>
-    await this.categoryRepo.find({
-      // relations: rel && RelationsCompany.findAllRelations,
+    await this.companyRepo.find({
+      relations: { pdvs: true },
       cache: true,
       loadEagerRelations: true,
     });
 
   findOne = async (id: string, rel: boolean): Promise<Company> =>
-    await this.categoryRepo.findOne({
+    await this.companyRepo.findOne({
       where: { id },
       // relations: rel && RelationsCompany.findAllRelations,
       // cache: true,
@@ -32,8 +32,8 @@ export class CompanyImplRepository implements CompanyRepository {
     });
 
   update = async (id: string, data: UpdateCompanyDto): Promise<any> =>
-    await this.categoryRepo.update(id, data);
+    await this.companyRepo.update(id, data);
 
   delete = async (id: string): Promise<Company> =>
-    await this.categoryRepo.remove(await this.findOne(id, false));
+    await this.companyRepo.remove(await this.findOne(id, false));
 }

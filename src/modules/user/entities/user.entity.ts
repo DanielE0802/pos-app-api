@@ -51,13 +51,6 @@ export class User {
   @JoinColumn({ name: 'profile_id' })
   profile: Profile;
 
-  @OneToMany(() => Company, (company) => company.user)
-  companies: Company[];
-
-  // @ManyToOne(() => Roles, (role) => role.id)
-  // @JoinColumn({ name: 'role_id' })
-  // role: Role;
-
   @CreateDateColumn({ select: false, name: 'created_on' })
   createdOn: Date;
 }

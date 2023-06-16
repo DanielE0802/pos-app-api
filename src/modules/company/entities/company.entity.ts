@@ -1,4 +1,5 @@
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
+import { Profile } from 'src/modules/user/entities/profile.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import {
   Entity,
@@ -18,9 +19,6 @@ export class Company {
   @Column({ length: 100 })
   name: string;
 
-  @Column({ length: 100, nullable: true })
-  business_name: string;
-
   @Column()
   nit: string;
 
@@ -36,8 +34,8 @@ export class Company {
   @Column()
   website: string;
 
-  @Column({ type: 'int' })
-  quantity_employees: number;
+  @Column()
+  quantity_employees: string;
 
   @Column()
   economic_activity: string;
@@ -45,9 +43,8 @@ export class Company {
   @Column()
   source: string;
 
-  @ManyToOne(() => User, (user) => user.companies)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
+  @OneToMany(() => Profile, (profile) => profile.company)
+  profiles: Profile[];
 
   @OneToMany(() => Pdv, (pdv) => pdv.company)
   pdvs: Pdv[];

@@ -1,10 +1,14 @@
 import { Company } from 'src/modules/company/entities/company.entity';
 import { Town } from 'src/modules/location/entities/town.entity';
+import { ProductPdv } from 'src/modules/product/entities/product-pdv.entity';
+import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -20,7 +24,7 @@ export class Pdv {
   @Column({ length: 255 })
   description: string;
 
-  @OneToOne(() => Town, (town) => town.pdv)
+  @ManyToOne(() => Town, (town) => town.pdv)
   @JoinColumn({ name: 'location_id' })
   location: Town;
 
@@ -36,4 +40,7 @@ export class Pdv {
   @ManyToOne(() => Company, (company) => company.pdvs)
   @JoinColumn({ name: 'company_id' })
   company: Company;
+
+  @OneToMany(() => ProductPdv, (productPdv) => productPdv.pdvs)
+  public productPdv: ProductPdv[];
 }

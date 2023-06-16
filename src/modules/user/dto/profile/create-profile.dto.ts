@@ -1,7 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, Length, IsPhoneNumber, IsEmail } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  IsPhoneNumber,
+  IsEmail,
+  ValidateNested,
+} from 'class-validator';
+import { IdToRelation } from 'src/common/decorators/relation.decorator';
 
-export class ProfileDto {
+export class CreateProfileDto {
   @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
@@ -27,4 +36,10 @@ export class ProfileDto {
   @IsNotEmpty()
   @IsPhoneNumber()
   phone: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @Type(() => IdToRelation)
+  @ValidateNested()
+  company: IdToRelation;
 }

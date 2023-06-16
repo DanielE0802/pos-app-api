@@ -22,8 +22,6 @@ export class PdvController {
 
   @Post()
   create(@Body() data: CreatePdvDto) {
-    console.log(data);
-
     return this.pdvService.create(data);
   }
 

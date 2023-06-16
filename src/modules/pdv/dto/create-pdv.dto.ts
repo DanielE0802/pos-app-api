@@ -8,7 +8,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { IdToRelation } from 'src/common/decorators/relation.decorator';
-import { ITown } from 'src/modules/location/dto/town.dto';
 
 export class CreatePdvDto {
   @ApiProperty()
@@ -41,4 +40,10 @@ export class CreatePdvDto {
   @IsNotEmpty()
   @IsBoolean()
   main: boolean;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @Type(() => IdToRelation)
+  @ValidateNested()
+  company: IdToRelation;
 }

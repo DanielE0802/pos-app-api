@@ -4,8 +4,11 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Company } from 'src/modules/company/entities/company.entity';
 
 @Entity('profiles')
 export class Profile {
@@ -26,6 +29,13 @@ export class Profile {
 
   @Column({ length: 55, unique: true })
   phone: string;
+
+  @Column({ length: 55, nullable: true })
+  photo: string;
+
+  @ManyToOne(() => Company, (company) => company.profiles)
+  @JoinColumn({ name: 'company_id' })
+  company: Company;
 
   @OneToOne(() => User, (user) => user.profile)
   user: User;

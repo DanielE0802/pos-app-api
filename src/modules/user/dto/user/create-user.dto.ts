@@ -6,8 +6,8 @@ import {
   Length,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProfileDto } from './create-profile.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateProfileDto } from '../profile/create-profile.dto';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -21,6 +21,6 @@ export class CreateUserDto {
 
   @ApiProperty()
   @ValidateNested()
-  @Type(() => ProfileDto)
-  profile: ProfileDto;
+  @Type(() => CreateProfileDto)
+  profile: CreateProfileDto;
 }

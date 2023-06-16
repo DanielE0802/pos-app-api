@@ -12,9 +12,9 @@ export interface ProductRepository {
    * It finds all the Products in the database and returns them
    * @returns An array of Product objects.
    */
-  getProducts: () => Promise<Product[]>;
+  findAll: () => Promise<Product[]>;
 
-  getProduct: (id: string) => Promise<Product>;
+  findOne: (id: string) => Promise<Product>;
 }
 
 export const I_PRODUCT_REPOSITORY = 'ProductsIRepository';

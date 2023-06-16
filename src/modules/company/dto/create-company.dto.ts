@@ -2,15 +2,12 @@ import {
   IsNotEmpty,
   Length,
   IsPhoneNumber,
-  ValidateNested,
   IsUrl,
   IsString,
   IsEmail,
   IsInt,
   IsOptional,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCompanyDto {
@@ -23,12 +20,6 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   @Length(1, 50)
   address: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  @Length(1, 100)
-  business_name?: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -53,8 +44,8 @@ export class CreateCompanyDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsInt()
-  quantity_employees: number;
+  @IsString()
+  quantity_employees: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -65,10 +56,4 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   @IsString()
   source: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => IdToRelation)
-  @ValidateNested()
-  user: IdToRelation;
 }
