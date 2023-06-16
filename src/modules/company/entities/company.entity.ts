@@ -1,3 +1,4 @@
+import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import {
   Entity,
@@ -5,6 +6,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('companies')
@@ -46,4 +48,7 @@ export class Company {
   @ManyToOne(() => User, (user) => user.companies)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Pdv, (pdv) => pdv.company)
+  pdvs: Pdv[];
 }

@@ -1,8 +1,10 @@
+import { Company } from 'src/modules/company/entities/company.entity';
 import { Town } from 'src/modules/location/entities/town.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -30,4 +32,8 @@ export class Pdv {
 
   @Column({ type: 'boolean' })
   main: boolean;
+
+  @ManyToOne(() => Company, (company) => company.pdvs)
+  @JoinColumn({ name: 'company_id' })
+  company: Company;
 }
