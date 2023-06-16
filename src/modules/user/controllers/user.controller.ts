@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Put,
   Query,
   UseGuards,
@@ -11,6 +13,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
 import { UsersService } from '../services/user.service';
 import { User } from '../entities/user.entity';
+import { UpdateUserDto } from '../dto/user/update-user.dto';
+import { UpdateResult } from 'typeorm';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -20,22 +24,26 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  getUsers(): Promise<User[]> {
-    return this.usersService.getAllUsers();
-  }
-
-  @Get('on')
-  getUsersOn(): Promise<User[]> {
-    return this.usersService.getAllActiveUsers();
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll();
   }
 
   @Get(':id')
-  getUser(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    return this.usersService.getUser(id);
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
+    return this.usersService.findOne(id);
   }
 
-  @Put()
-  async update(@Query('id') id: string, data: any): Promise<void> {
-    await this.usersService.update(id, data);
+  @Get('verified')
+  findAllVerify(): Promise<User[]> {
+    return this.usersService.findAllVerify();
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() data: UpdateUserDto,
+  ): Promise<UpdateResult> {
+    console.log(data);
+    return this.usersService.update(id, data);
   }
 }

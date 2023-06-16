@@ -6,63 +6,36 @@ import {
   I_USER_REPOSITORY,
   UserRepository,
 } from '../repositories/user/users.repository';
+import { UpdateResult } from 'typeorm';
+import { UpdateUserDto } from '../dto/user/update-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(I_USER_REPOSITORY)
-    private readonly usersRepository: UserRepository,
+    @Inject(I_USER_REPOSITORY) private readonly usersRepository: UserRepository,
   ) {}
 
-  async create(data: CreateUserDto): Promise<User> {
-    return await this.usersRepository.create(data);
-  }
+  // TODO: Impl Profile custom Repository
+  create = async (data: CreateUserDto): Promise<User> =>
+    await this.usersRepository.create(data);
 
-  async getAllUsers(): Promise<User[]> {
-    try {
-      return await this.usersRepository.getUsers();
-    } catch (e) {
-      throw new NotFoundException(`${NFE.NOT_USER}`);
-    }
-  }
+  findAll = async (): Promise<User[]> => await this.usersRepository.findAll();
 
-  async getAllActiveUsers(): Promise<User[]> {
-    try {
-      return await this.usersRepository.getUsersOn();
-    } catch (e) {
-      throw new NotFoundException(`${NFE.NOT_USER}s`);
-    }
-  }
+  findOne = async (id: string): Promise<User> =>
+    await this.usersRepository.findOne(id);
 
-  async getUser(id: string): Promise<User> {
-    const user = await this.usersRepository.getUser(id);
-    if (!user) throw new NotFoundException(`${NFE.NOT_USER}`);
+  findAllVerify = async (): Promise<User[]> =>
+    await this.usersRepository.findAllVerify();
 
-    return user;
-  }
+  findInectiveUsersByCode = async (uid: string, code: string): Promise<User> =>
+    await this.usersRepository.findInectiveUsersByCode(uid, code);
 
-  async update(id: string, data: any): Promise<boolean> {
-    try {
-      await this.usersRepository.update(id, data);
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
+  findByEmail = async (email: string): Promise<User> =>
+    await this.usersRepository.findByEmail(email);
 
-    return true;
-  }
+  findByResetPasswordToken = async (resetPasswordToken: string) =>
+    await this.usersRepository.findByResetPasswordToken(resetPasswordToken);
 
-  async getInectiveUsersByCode(uid: string, code: string): Promise<User> {
-    return await this.usersRepository.getInectiveUsersByCode(uid, code);
-  }
-
-  async getUserByEmail(email: string): Promise<User> {
-    return await this.usersRepository.getUserByEmail(email);
-  }
-
-  async getUserByResetPasswordToken(resetPasswordToken: string) {
-    return await this.usersRepository.getUserByResetPasswordToken(
-      resetPasswordToken,
-    );
-  }
+  update = async (id: string, data: UpdateUserDto): Promise<UpdateResult> =>
+    await this.usersRepository.update(id, data);
 }

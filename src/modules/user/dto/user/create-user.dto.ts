@@ -6,7 +6,7 @@ import {
   Length,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateProfileDto } from '../profile/create-profile.dto';
 
 export class CreateUserDto {
@@ -18,6 +18,9 @@ export class CreateUserDto {
 
   @IsOptional()
   verifyToken: string;
+
+  @IsOptional()
+  isFirstLogin: boolean;
 
   @ApiProperty()
   @ValidateNested()
