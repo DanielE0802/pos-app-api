@@ -34,11 +34,6 @@ export class CreateCompanyDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   @IsUrl()
   website: string;
 
@@ -51,9 +46,4 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   @IsString()
   economic_activity: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  source: string;
 }

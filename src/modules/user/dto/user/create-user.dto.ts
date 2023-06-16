@@ -19,6 +19,9 @@ export class CreateUserDto {
   @IsOptional()
   verifyToken: string;
 
+  @IsOptional()
+  isFirstLogin: boolean;
+
   @ApiProperty()
   @ValidateNested()
   @Type(() => CreateProfileDto)

@@ -47,7 +47,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<string> {
     const { email, password } = loginDto;
-    const user = await this.usersService.getUserByEmail(email);
+    const user = await this.usersService.findByEmail(email);
 
     if (user && !user.verified)
       throw new UnauthorizedException(UEE.USER_UNVERIFY);
@@ -63,7 +63,7 @@ export class AuthService {
   // TODO: Change logic to Email Verify
   async verifyUser(data: ActivateUserDto): Promise<any> {
     const { uuid, code } = data;
-    const user = await this.usersService.getInectiveUsersByCode(uuid, code);
+    const user = await this.usersService.findInectiveUsersByCode(uuid, code);
 
     if (!user) throw new NotFoundException(UEE.USER_UNVERIFY);
 
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   async reqResetPassword(data: ReqResetPasswordDto): Promise<any> {
-    const user = await this.usersService.getUserByEmail(data.email);
+    const user = await this.usersService.findByEmail(data.email);
     user.resetPasswordToken = this.genstrService.generate(50);
 
     const record = await this.usersService.update(user.id, user);
@@ -93,7 +93,7 @@ export class AuthService {
   async resetPassword(data: ResetPasswordDto): Promise<any> {
     const { resetPasswordToken, password } = data;
 
-    const user = await this.usersService.getUserByResetPasswordToken(
+    const user = await this.usersService.findByResetPasswordToken(
       resetPasswordToken,
     );
 

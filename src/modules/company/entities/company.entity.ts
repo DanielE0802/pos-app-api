@@ -12,7 +12,6 @@ import {
 
 @Entity('companies')
 export class Company {
-  // Nombre completo o razón social y NIT
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -28,9 +27,6 @@ export class Company {
   @Column({ length: 20 })
   phoneNumber: string;
 
-  @Column({ length: 55 })
-  email: string;
-
   @Column()
   website: string;
 
@@ -39,9 +35,6 @@ export class Company {
 
   @Column()
   economic_activity: string;
-
-  @Column()
-  source: string;
 
   @OneToMany(() => Profile, (profile) => profile.company)
   profiles: Profile[];
