@@ -30,7 +30,7 @@ export class Profile {
   @Column({ length: 55, unique: true })
   phone: string;
 
-  @Column({ length: 55, nullable: true })
+  @Column({ length: 155, nullable: true })
   photo: string;
 
   @ManyToOne(() => Company, (company) => company.profiles)
