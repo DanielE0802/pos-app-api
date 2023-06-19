@@ -36,9 +36,7 @@ export class UserImplRepository implements UserRepository {
   findOne = async (id: string): Promise<User> => {
     return await this.userRepository.findOne({
       where: { id },
-      relations: {
-        profile: true,
-      },
+      relations: ['profile', 'profile.company'],
     });
   };
 
