@@ -49,11 +49,10 @@ export class AuthService {
     const { email, password } = loginDto;
     const user = await this.usersService.findByEmail(email);
 
-    if (user && !user.verified)
-      throw new UnauthorizedException(UEE.USER_UNVERIFY);
-
-    if (!(await this.encoderService.checkPassword(password, user.password)))
+    if (!user || !(await this.encoderService.checkPassword(password, user.password)))
       throw new UnauthorizedException(UAE.UNAUTHORIZED);
+
+    if (!user.verified) throw new UnauthorizedException(UEE.USER_UNVERIFY);
 
     delete user.password;
 
