@@ -29,16 +29,14 @@ export class UserImplRepository implements UserRepository {
 
   findAll = async (): Promise<User[]> => await this.userRepository.find();
 
-  findAllVerify = async (): Promise<User[]> => {
-    return await this.userRepository.find({ where: { verified: true } });
-  };
+  findAllVerify = async (): Promise<User[]> =>
+    await this.userRepository.find({ where: { verified: true } });
 
-  findOne = async (id: string): Promise<User> => {
-    return await this.userRepository.findOne({
+  findOne = async (id: string): Promise<User> =>
+    await this.userRepository.findOne({
       where: { id },
-      relations: ['profile', 'profile.company'],
+      relations: { profile: { company: true } },
     });
-  };
 
   findByEmail = async (email: string): Promise<User> => {
     return await this.userRepository.findOne({
@@ -57,17 +55,15 @@ export class UserImplRepository implements UserRepository {
   findInectiveUsersByCode = async (
     id: string,
     verifyToken: string,
-  ): Promise<User> => {
-    return await this.userRepository.findOne({
+  ): Promise<User> =>
+    await this.userRepository.findOne({
       where: { id, verifyToken, verified: false },
     });
-  };
 
   findByResetPasswordToken = async (
     resetPasswordToken: string,
-  ): Promise<User> => {
-    return await this.userRepository.findOne({ where: { resetPasswordToken } });
-  };
+  ): Promise<User> =>
+    await this.userRepository.findOne({ where: { resetPasswordToken } });
 
   update = async (id: string, data: any): Promise<UpdateResult> =>
     await this.userRepository.update(id, data);
