@@ -18,7 +18,7 @@ export class CompanyImplRepository implements CompanyRepository {
 
   find = async (rel: boolean): Promise<Company[]> =>
     await this.companyRepo.find({
-      relations: { pdvs: true },
+      relations: { pdvs: rel },
       cache: true,
       loadEagerRelations: true,
     });
@@ -26,9 +26,9 @@ export class CompanyImplRepository implements CompanyRepository {
   findOne = async (id: string, rel: boolean): Promise<Company> =>
     await this.companyRepo.findOne({
       where: { id },
-      // relations: rel && RelationsCompany.findAllRelations,
-      // cache: true,
-      // loadEagerRelations: true,
+      relations: { pdvs: rel },
+      cache: true,
+      loadEagerRelations: true,
     });
 
   update = async (id: string, data: UpdateCompanyDto): Promise<any> =>
