@@ -38,6 +38,11 @@ export class CreateProfileDto {
   phone: string;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  photo: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   @Type(() => IdToRelation)
   @ValidateNested()

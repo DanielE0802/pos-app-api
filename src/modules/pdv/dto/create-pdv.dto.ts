@@ -33,7 +33,7 @@ export class CreatePdvDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsPhoneNumber('CO')
+  @IsPhoneNumber()
   phone: string;
 
   @ApiProperty()

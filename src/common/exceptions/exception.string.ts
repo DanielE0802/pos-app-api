@@ -3,54 +3,44 @@
  */
 export const NFE = {
   /* Auth */
-  NOT_RESET_TOKEN: 'This user has no password change process',
+  NOT_RESET_TOKEN: 'Este usuario no tiene un proceso de cambio de contraseña.',
   /* User */
-  NOT_USER: 'Cannot find user',
-  NOT_USER_BY: 'Cannot find user by this =>',
-  /* Avatar */
-  NOT_AVATAR_BY: 'Cannot find avatar by this =>',
-  NOT_AVATARS: 'Cannot find avatars',
-  /* Inventory */
-  NOT_INVENTORY_BY: 'Cannot find inventory by this =>',
-  NOT_INVENTORIES: 'Cannot find inventories',
-  /* Finance */
-  NOT_FINANCE_BY: 'Cannot find finace registered by this =>',
-  NOT_FINANCES: 'Cannot find finances',
+  NOT_USER: 'No se puede encontrar al usuario.',
+  NOT_USER_BY: 'No se puede encontrar al usuario con el siguiente =>',
 };
 
 /**
  ** Constants messages for UnprocessableEntityException
  */
 export const UEE = {
-  USER_UNVERIFY: 'User is not verify',
-  ENTITY_PROCESS: 'Error in information provided',
-  NOT_UPDATE_USER: 'An error occurred updating the user',
+  USER_UNVERIFY: 'Por favor, verifique su email.',
+  ENTITY_PROCESS: 'Encontramos un error en la informacio proporcionada.',
+  NOT_UPDATE_USER: 'Ocurrió un error mientras se actualizaba el usuario.',
 };
 
 /**
  ** Constants messages for UnauthorizedException
  */
 export const UAE = {
-  UNAUTHORIZED: 'Check your credentials',
+  UNAUTHORIZED: 'Verifica tus credenciales.',
 };
-
 /**
  ** Constants messages for BadRequestException
  */
 export const BRE = {
-  NOT_CURRENT_PASSWORD: 'Current password does not match',
+  NOT_CURRENT_PASSWORD: 'La contraseña actual no coincide.',
 };
 
 /**
  ** Constants messages for ConflictException
  */
 export const CFE = {
-  NOT_SAVE_TOKEN: 'Can not save users token',
+  NOT_SAVE_TOKEN: 'No se puede guardar el token de usuario.',
 };
 
 /**
  ** Constants messages for InternalServerErrorException
  */
 export const ISE = {
-  USER_NOT_CREATED: 'User cannot be created',
+  USER_NOT_CREATED: 'No se puede crear el usuario.',
 };
