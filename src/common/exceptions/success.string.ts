@@ -1,8 +1,9 @@
 export const SUCC = {
   SUCC_COMMON: '',
-  SUCC_USER_VERIFIED: 'User successfully verfied',
-  SUCC_USER_REGISTERED: 'User successfully registered',
-  SUCC_GROUP_CREATED: 'Group successfully created',
-  SUCC_RESET_CODE_SENT: 'Password reset code sent successfully',
-  SUCC_PASS_UPDATED: 'Password was successfully updated',
+  SUCC_USER_VERIFIED: 'Usuario verificado exitosamente',
+  SUCC_USER_REGISTERED: 'Usuario registrado exitosamente',
+  SUCC_GROUP_CREATED: 'Grupo creado exitosamente',
+  SUCC_RESET_CODE_SENT:
+    'Código de restablecimiento de contraseña enviado exitosamente',
+  SUCC_PASS_UPDATED: 'Contraseña actualizada exitosamente',
 };
