@@ -8,66 +8,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-
-INSERT INTO `brand` (`id`, `name`) VALUES
-('60ba1478-0234-11ee-bec1-7085c296afc1', 'Coca-Cola'),
-('60ba1d23-0234-11ee-bec1-7085c296afc1', 'El Huerto');
-
-INSERT INTO `categories` (`id`, `name`, `description`, `categoryMainCategory_id`) VALUES
-('1e0dc899-0237-11ee-bec1-7085c296afc1', 'Res', 'Categoría para productos cárnicos', 'fe390fda-0236-11ee-bec1-7085c296afc1'),
-('1e0dcdc5-0237-11ee-bec1-7085c296afc1', 'Cerdo', 'Productos cárnicos de cerdo', 'fe390fda-0236-11ee-bec1-7085c296afc1'),
-('8c7f9907-0c23-11ee-9dc3-7085c296afc1', 'Bebidas', 'Categoria para seccionar bebidas', 'ed7c31ee-0236-11ee-bec1-7085c296afc1'),
-('9f4760c8-0c23-11ee-9dc3-7085c296afc1', 'Gaseosas', 'Seccion de Bebidas Gaseosas', '8c7f9907-0c23-11ee-9dc3-7085c296afc1'),
-('ed7c31ee-0236-11ee-bec1-7085c296afc1', 'Alimentos', 'Categoría para productos alimentarios', NULL),
-('fe390fda-0236-11ee-bec1-7085c296afc1', 'Carnes', 'Categoría para productos cárnicos', 'ed7c31ee-0236-11ee-bec1-7085c296afc1');
-
-INSERT INTO `companies` (`id`, `name`, `nit`, `address`, `phoneNumber`, `email`, `website`, `economic_activity`, `source`, `quantity_employees`) VALUES
-('1355415b-ed45-49fa-8aef-e1184f52b1da', 'Empresa Dos SAS', '12131516171', 'Cra 54 # 56-95', '+573211231456', 'miempresados@yopmail.com', 'www.miempresados.com', 'Seguridad', 'Seguridad', '1-10'),
-('d21a362c-0c0e-11ee-9dc3-7085c296afc1', 'Empresa Uno SAS', '15161718192', 'Calle 47D # 80-30', '+573002001000', 'miempresauno@yopmail.com', 'www.miempresauno.com', 'Ventas', 'Ventas', '10-100');
-
-INSERT INTO `departments` (`id`, `name`) VALUES
-('0b36f994-7ea2-42b1-8baf-68e0d10fcfcf', 'Guaviare'),
-('1bfcda7c-3de2-4dbb-b2f4-8daef946202b', 'Risaralda'),
-('2081c689-8959-4812-89f0-d0896dc2e542', 'Boyacá'),
-('20f7bfe4-70db-4647-8a35-580d9a9be2f4', 'Córdoba'),
-('2d9aebe5-8a0a-4f86-9975-52d3f58b7f6f', 'Meta'),
-('32f00317-0fd0-468e-9fcf-d7ad6a811b0a', 'Cesar'),
-('361d3cc0-22d2-49e2-9a4c-9793db5c7290', 'Atlántico'),
-('3f5c803a-b13e-4bc1-ae53-21c07fb9a786', 'Magdalena'),
-('42eae913-8dfb-42b1-8f02-2b87d74d53e0', 'Vaupés'),
-('46c065e1-f0b6-40c1-95f1-6d84a6178577', 'Chocó'),
-('4a5de8d5-7174-4e72-8d1d-9406bcabb3dd', 'Amazonas'),
-('5f760c3e-1e27-4eae-916e-3b8eac22bc21', 'Cundinamarca'),
-('63b54f70-c570-4b72-bb2f-dad4ff738e0b', 'Bogotá D.C.'),
-('6845e944-3c97-49b9-bf0d-6336e3e4da92', 'Putumayo'),
-('6b6b252e-870f-47db-83ed-dc040d7e70f8', 'Tolima'),
-('7db06e60-b1d3-4741-bd44-26d15e4e3b7b', 'Caldas'),
-('888a2e46-8087-44e0-9f7a-161617d89c25', 'Archipiélago de San Andrés, Providencia y Santa Catalina'),
-('912d15ed-3b42-4889-97a3-9420b512e992', 'Caquetá'),
-('98a0d6d5-1cc9-4dd2-93c2-2fd29ee7b8ae', 'Bolívar'),
-('ad42efc0-855e-423b-943e-95609c956c29', 'Valle del Cauca'),
-('aebd9fbc-c6af-49e9-8352-7737330368eb', 'Vichada'),
-('b062e57e-42e0-446d-8923-0454c70a9d85', 'Antioquia'),
-('b0b3f71e-f3ad-416d-9d66-1f66ef4ab8a4', 'Nariño'),
-('b4a010fe-35af-41c7-8f11-d3d5253a7be0', 'Cauca'),
-('b8f5469b-0db2-47e5-8ea0-d1838ed3137a', 'Sucre'),
-('c7b3d3e2-239e-42c4-91ce-7eb2e2e733a3', 'Quindío'),
-('d40647bc-15b1-4e43-b5fd-3d7ef35c588e', 'Huila'),
-('d6f6046c-1ef9-4577-96fd-9264561d8f8a', 'Norte de Santander'),
-('e620c7c7-5477-4a5b-8165-53b4e6d542fe', 'La Guajira'),
-('ee2b6b3c-2aa1-458d-bd8d-449f9ef5d1de', 'Santander'),
-('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'Casanare'),
-('f932e5c6-10e1-4052-a335-4ad87a95c441', 'Arauca'),
-('fe6b9e0c-bf25-4458-9433-ba6c7b588f01', 'Guainía');
-
-INSERT INTO `pdvs` (`id`, `name`, `description`, `address`, `phone`, `main`, `location_id`, `company_id`) VALUES
-('3e5de367-0c1c-11ee-9dc3-7085c296afc1', 'PDV Main', 'PDV Main', 'Calle 100 # 98-96', '+573225315406', 1, '25ea0975-0248-11ee-bec1-7085c296afc1', 'd21a362c-0c0e-11ee-9dc3-7085c296afc1'),
-('3e5de822-0c1c-11ee-9dc3-7085c296afc1', 'PDV NoMain', 'PDV NoMain', 'Calle 100 # 98-91', '+573226065548', 0, '25ea0975-0248-11ee-bec1-7085c296afc1', 'd21a362c-0c0e-11ee-9dc3-7085c296afc1');
-
-INSERT INTO `products` (`id`, `name`, `description`, `barCode`, `sku`, `priceSale`, `quantityStock`, `productMainProduct_id`, `category_id`, `brand_id`, `images`, `typeProduct`, `state`, `sellInNegative`, `priceBase`, `taxesOption`) VALUES
-('2339afda-7f2c-4ee2-a27f-c13f188736d2', 'Quatro', 'Esta es la descripcion de la Quatro', '224511963', 'A156548C', 19500, 60, '540a9326-da3d-467a-b4db-aff047e31b31', '9f4760c8-0c23-11ee-9dc3-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1', 'https://th.bing.com/th/id/OIP.BIAIQ1b7jooENmUDLQlgWQAAAA?pid=ImgDet&rs=1', 2, 1, 1, 12300, 19),
-('540a9326-da3d-467a-b4db-aff047e31b31', 'Coca-Cola Zero', 'Esta es la descripcion de la Coca-Cola Zero', '121311115', 'A156548C', 25000, 100, NULL, '9f4760c8-0c23-11ee-9dc3-7085c296afc1', '60ba1478-0234-11ee-bec1-7085c296afc1', 'https://th.bing.com/th/id/OIP.bl1vfXXX42tZjAzSbw1-8gHaHa?pid=ImgDet&rs=1,https://th.bing.com/th/id/OIP._k9qWFO-FKd2V1lAoy_iDwHaHa?pid=ImgDet&rs=1', 2, 1, 1, 16000, 19);
-
 INSERT INTO `product_pdv` (`id`, `productsId`, `pdvsId`, `quantity`, `minQuantity`) VALUES
 ('17a25bb8-4bdc-4969-a9a0-d228a230528e', '540a9326-da3d-467a-b4db-aff047e31b31', '3e5de367-0c1c-11ee-9dc3-7085c296afc1', 60, 10),
 ('7d3357c6-f412-4366-aa51-8d26743de4fc', '2339afda-7f2c-4ee2-a27f-c13f188736d2', '3e5de367-0c1c-11ee-9dc3-7085c296afc1', 30, 10),

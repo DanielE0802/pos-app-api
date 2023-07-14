@@ -24,7 +24,7 @@ import { CompanyModule } from './modules/company/company.module';
     ProductModule,
     LocationModule,
     PdvModule, // Impl in CompanyModule
-    CompanyModule
+    CompanyModule,
   ],
 })
 export class AppModule {}
