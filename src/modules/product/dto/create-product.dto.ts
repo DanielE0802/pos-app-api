@@ -12,7 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { TypeProduct } from 'src/common/constants/constant.app';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
+import { RelationType } from 'src/common/decorators/relation.decorator';
 import { CreateProductPdvDto } from './create-product-pdv.dto';
 
 export class CreateProductDto {
@@ -89,15 +89,15 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
-  brand: IdToRelation;
+  brand: RelationType;
 
   @IsOptional()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
   @ApiPropertyOptional()
-  productMainProduct: IdToRelation; // ID of the main product (optional)
+  productMainProduct: RelationType; // ID of the main product (optional)
 
   @IsOptional()
   @IsNumber({}, { each: true })
@@ -108,9 +108,9 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
-  category: IdToRelation;
+  category: RelationType;
 
   @ApiProperty()
   @IsNotEmpty()

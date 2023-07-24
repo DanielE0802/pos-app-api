@@ -1,5 +1,11 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { RelationType } from 'src/common/decorators/relation.decorator';
 
 export class CreateCategoryDto {
   @IsNotEmpty()
@@ -10,6 +16,7 @@ export class CreateCategoryDto {
   @IsString()
   description: string;
 
-  @Transform(({ value }) => (value ? value : undefined))
-  categoryMainCategoryId?: string;
+  @IsOptional()
+  @Type(() => RelationType)
+  categoryMainCategory?: RelationType;
 }

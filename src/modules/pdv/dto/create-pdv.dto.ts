@@ -7,7 +7,7 @@ import {
   IsBoolean,
   ValidateNested,
 } from 'class-validator';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
+import { RelationType } from 'src/common/decorators/relation.decorator';
 
 export class CreatePdvDto {
   @ApiProperty()
@@ -22,9 +22,9 @@ export class CreatePdvDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
-  location: IdToRelation;
+  location: RelationType;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -43,7 +43,7 @@ export class CreatePdvDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
-  company: IdToRelation;
+  company: RelationType;
 }

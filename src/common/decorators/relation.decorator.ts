@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsUUID, ValidateIf } from 'class-validator';
 
-export class IdToRelation {
-  @ApiProperty()
-  @ValidateIf((value) => value.id !== null)
+export class RelationType {
   @IsNotEmpty()
   @IsUUID()
+  @ApiProperty()
+  @ValidateIf((value) => value.id !== null)
   id: string | null;
 }
 

@@ -8,7 +8,7 @@ import {
   IsEmail,
   ValidateNested,
 } from 'class-validator';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
+import { RelationType } from 'src/common/decorators/relation.decorator';
 
 export class CreateProfileDto {
   @ApiProperty()
@@ -44,7 +44,7 @@ export class CreateProfileDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
+  @Type(() => RelationType)
   @ValidateNested()
-  company: IdToRelation;
+  company: RelationType;
 }
