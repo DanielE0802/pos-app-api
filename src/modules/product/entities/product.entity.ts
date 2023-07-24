@@ -30,13 +30,17 @@ export class Product {
   @Column('simple-array', { nullable: true })
   images: string[];
 
-  @Column({ type: 'int' })
+  @Column({
+    name: 'type_product',
+    type: 'int',
+    comment: '1: Simple | 2: Config',
+  })
   typeProduct: number;
 
   @Column({ type: 'boolean' })
   state: boolean;
 
-  @Column({ type: 'boolean' })
+  @Column({ name: 'sell_in_negative', type: 'boolean' })
   sellInNegative: boolean;
 
   @Column({ name: 'taxes_option', type: 'int' })
@@ -58,7 +62,7 @@ export class Product {
   @ManyToOne(() => Product, (Product) => Product.subProducts, {
     nullable: true,
   })
-  @JoinColumn({ name: 'productMainProduct_id' })
+  @JoinColumn({ name: 'product_main_product_id' })
   productMainProduct: Product;
 
   @OneToMany(() => Product, (Product) => Product.productMainProduct, {
