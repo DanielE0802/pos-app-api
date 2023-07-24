@@ -31,8 +31,8 @@ export class Pdv {
   @Column({ length: 100, unique: true })
   address: string;
 
-  @Column({ length: 100 })
-  phone: string;
+  @Column({ name: 'phone_number', length: 100 })
+  phoneNumber: string;
 
   @Column({ type: 'boolean' })
   main: boolean;

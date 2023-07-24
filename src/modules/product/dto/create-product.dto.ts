@@ -60,31 +60,31 @@ export class CreateProductDto {
   @Transform(({ value }) => parseInt(value))
   taxesOption: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => value.toString())
-  @ApiProperty()
   sku: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   priceSale: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   priceBase: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   quantityStock: number;
 
   @ApiProperty()
@@ -93,17 +93,17 @@ export class CreateProductDto {
   @ValidateNested()
   brand: RelationType;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @Type(() => RelationType)
   @ValidateNested()
-  @ApiPropertyOptional()
   productMainProduct: RelationType; // ID of the main product (optional)
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsNumber({}, { each: true })
   @ValidateNested({ each: true })
   @Type(() => Number)
-  @ApiPropertyOptional()
   subProductsIds: number[]; // Array of IDs of sub-products (optional)
 
   @ApiProperty()
@@ -114,7 +114,6 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  // @ValidateNested({ each: true })
   @Type(() => CreateProductPdvDto)
   productPdv: CreateProductPdvDto[];
 }

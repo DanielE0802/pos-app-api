@@ -23,7 +23,6 @@ export class CreatePdvDto {
   @ApiProperty()
   @IsNotEmpty()
   @Type(() => RelationType)
-  @ValidateNested()
   location: RelationType;
 
   @ApiProperty()
@@ -34,7 +33,7 @@ export class CreatePdvDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsPhoneNumber()
-  phone: string;
+  phoneNumber: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -44,6 +43,5 @@ export class CreatePdvDto {
   @ApiProperty()
   @IsNotEmpty()
   @Type(() => RelationType)
-  @ValidateNested()
   company: RelationType;
 }

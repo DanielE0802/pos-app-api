@@ -24,7 +24,7 @@ export class Product {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ name: 'bar_code' })
   barCode: string;
 
   @Column('simple-array', { nullable: true })
@@ -39,19 +39,19 @@ export class Product {
   @Column({ type: 'boolean' })
   sellInNegative: boolean;
 
-  @Column({ type: 'int' })
+  @Column({ name: 'taxes_option', type: 'int' })
   taxesOption: number;
 
   @Column()
   sku: string;
 
-  @Column()
+  @Column({ name: 'price_sale' })
   priceSale: number;
 
-  @Column()
+  @Column({ name: 'price_base' })
   priceBase: number;
 
-  @Column()
+  @Column({ name: 'quantity_stock' })
   quantityStock: number; // Global stock couting all PDVs
 
   // TODO: Identify if that product is ConfigProduct or SimpleProduct
