@@ -5,13 +5,10 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
 } from 'typeorm';
 import { Category } from 'src/modules/category/entities/category.entity';
 import { Brand } from 'src/modules/brand/entities/brand.entity';
-import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { ProductPdv } from './product-pdv.entity';
+import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
 
 @Entity('products')
 export class Product {
@@ -78,6 +75,6 @@ export class Product {
   @JoinColumn({ name: 'brand_id' })
   brand: Brand;
 
-  @OneToMany(() => ProductPdv, (productPdv) => productPdv.products)
+  @OneToMany(() => ProductPdv, (productPdv) => productPdv.product)
   public productPdv: ProductPdv[];
 }

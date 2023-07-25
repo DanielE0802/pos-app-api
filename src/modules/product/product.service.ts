@@ -1,44 +1,37 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import {
   I_PRODUCT_REPOSITORY,
   ProductRepository,
 } from './repositories/product.repository';
 import { Product } from './entities/product.entity';
-import { ProductPdv } from './entities/product-pdv.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ProductsPdvsService } from '../products-pdvs/products-pdvs.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @Inject(I_PRODUCT_REPOSITORY)
-    private readonly productRepository: ProductRepository,
-
-    // TODO: Separate in Provider
-    @InjectRepository(ProductPdv)
-    private readonly productPdvRepository: Repository<ProductPdv>,
+    private readonly productRepo: ProductRepository,
+    private readonly productsPdvsService: ProductsPdvsService,
   ) {}
 
   create = async (data: CreateProductDto) => {
-    const { productPdv } = data;
-    const product = await this.productRepository.create(data);
+    const { productsPdvs: productPdv } = data;
+    const product = await this.productRepo.create(data);
 
-    productPdv.forEach((ppdv) => (ppdv.products = { id: product.id }));
-    await this.productPdvRepository.save(productPdv, { chunk: 10 });
+    productPdv.forEach((ppdv) => (ppdv.product = { id: product.id }));
+    await this.productsPdvsService.create(productPdv);
 
     return this.findOne(product.id);
   };
 
-  findAll = async (): Promise<Product[]> =>
-    await this.productRepository.findAll();
+  findAll = async (): Promise<Product[]> => await this.productRepo.findAll();
 
   findOne = async (id: string): Promise<Product> =>
-    await this.productRepository.findOne(id);
+    await this.productRepo.findOne(id);
 
-  update = async (id: string, data: UpdateProductDto) =>
-    `This action updates a #${id} product`;
+  // update = async (id: string, data: UpdateProductDto) =>
+  //   `This action updates a #${id} product`;
 
-  remove = (id: string) => `This action removes a #${id} product`;
+  // remove = (id: string) => `This action removes a #${id} product`;
 }

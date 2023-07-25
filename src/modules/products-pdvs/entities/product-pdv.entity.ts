@@ -1,4 +1,3 @@
-import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import {
   Entity,
   Column,
@@ -6,9 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Product } from './product.entity';
+import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
+import { Product } from '../../product/entities/product.entity';
 
-@Entity('product_pdv')
+@Entity('products_pdvs')
 export class ProductPdv {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
@@ -21,9 +21,9 @@ export class ProductPdv {
 
   @ManyToOne(() => Product, (product) => product.productPdv)
   @JoinColumn({ name: 'products_id' })
-  public products: Product;
+  public product: Product;
 
   @ManyToOne(() => Pdv, (pdv) => pdv.productPdv)
   @JoinColumn({ name: 'pdvs_id' })
-  public pdvs: Pdv;
+  public pdv: Pdv;
 }

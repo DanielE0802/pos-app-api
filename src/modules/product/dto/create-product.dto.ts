@@ -13,7 +13,7 @@ import {
 } from 'class-validator';
 import { TypeProduct } from 'src/common/constants/constant.app';
 import { RelationType } from 'src/common/decorators/relation.decorator';
-import { CreateProductPdvDto } from './create-product-pdv.dto';
+import { CreateProductsPdvDto } from '../../products-pdvs/dto/create-products-pdv.dto';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -42,7 +42,7 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Transform(({ value }) => TypeProduct.find((i) => i.type == value).id)
+  // @Transform(({ value }) => TypeProduct.find((i) => i.type == value).id)
   typeProduct: number;
 
   @ApiProperty()
@@ -90,30 +90,31 @@ export class CreateProductDto {
   @ApiProperty()
   @IsNotEmpty()
   @Type(() => RelationType)
-  @ValidateNested()
+  // @ValidateNested()
   brand: RelationType;
 
   @ApiPropertyOptional()
   @IsOptional()
   @Type(() => RelationType)
-  @ValidateNested()
+  // @ValidateNested()
   productMainProduct: RelationType; // ID of the main product (optional)
 
+  // TODO: Revisar Insercion con SubPruductos
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber({}, { each: true })
   @ValidateNested({ each: true })
-  @Type(() => Number)
-  subProductsIds: number[]; // Array of IDs of sub-products (optional)
+  @Type(() => String)
+  subProductsIds: string[]; // Array of IDs of sub-products (optional)
 
   @ApiProperty()
   @IsNotEmpty()
   @Type(() => RelationType)
-  @ValidateNested()
+  // @ValidateNested()
   category: RelationType;
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => CreateProductPdvDto)
-  productPdv: CreateProductPdvDto[];
+  @Type(() => CreateProductsPdvDto)
+  productsPdvs: CreateProductsPdvDto[];
 }

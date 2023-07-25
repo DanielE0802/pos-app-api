@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import {
@@ -20,8 +20,11 @@ export class CompanyService {
   findAll = async (rel: boolean): Promise<Company[]> =>
     await this.companyRepo.find(rel);
 
-  findOne = async (id: string, rel: boolean) =>
-    await this.companyRepo.findOne(id, rel);
+  findOne = async (id: string, rel: boolean) => {
+    const company = await this.companyRepo.findOne(id, rel);
+    if (!company) throw new NotFoundException('Cant find Company');
+    return company;
+  };
 
   update = async (id: string, data: UpdateCompanyDto) =>
     await this.companyRepo.update(id, data);

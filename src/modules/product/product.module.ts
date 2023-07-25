@@ -6,13 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { CategoryModule } from '../category/category.module';
 import { BrandModule } from '../brand/brand.module';
-import { ProductPdv } from './entities/product-pdv.entity';
+import { ProductPdv } from '../products-pdvs/entities/product-pdv.entity';
+import { ProductsPdvsModule } from '../products-pdvs/products-pdvs.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product, ProductPdv]),
+    TypeOrmModule.forFeature([Product]),
     CategoryModule,
     BrandModule,
+    ProductsPdvsModule,
   ],
   controllers: [ProductController],
   providers: [ProductService, ...ProductProviders],
