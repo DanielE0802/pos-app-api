@@ -16,11 +16,13 @@ export class ProductImplRepository implements ProductRepository {
   create = async (data: CreateProductDto): Promise<Product> =>
     await this._save(this.productRepository.create(data));
 
-  findAll = async (): Promise<Product[]> =>
+  findAll = async (companyId: string): Promise<Product[]> =>
     await this.productRepository.find({
+      where: { productPdv: { pdv: { company: { id: companyId } } } },
       relations: {
         productMainProduct: true,
         subProducts: true,
+        productPdv: { pdv: true },
       },
     });
 

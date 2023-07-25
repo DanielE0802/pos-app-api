@@ -23,9 +23,9 @@ export class ProductController {
     return this.productService.create(data);
   }
 
-  @Get()
-  findAll() {
-    return this.productService.findAll();
+  @Get('/c/:company_id')
+  findAll(@Param('company_id', ParseUUIDPipe) companyId: string) {
+    return this.productService.findAll(companyId);
   }
 
   @Get(':id')

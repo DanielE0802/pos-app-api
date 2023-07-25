@@ -25,7 +25,8 @@ export class ProductService {
     return this.findOne(product.id);
   };
 
-  findAll = async (): Promise<Product[]> => await this.productRepo.findAll();
+  findAll = async (companyId: string): Promise<Product[]> =>
+    await this.productRepo.findAll(companyId);
 
   findOne = async (id: string): Promise<Product> =>
     await this.productRepo.findOne(id);
