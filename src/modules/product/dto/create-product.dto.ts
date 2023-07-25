@@ -12,8 +12,8 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { TypeProduct } from 'src/common/constants/constant.app';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
-import { CreateProductPdvDto } from './create-product-pdv.dto';
+import { RelationType } from 'src/common/decorators/relation.decorator';
+import { CreateProductsPdvDto } from '../../products-pdvs/dto/create-products-pdv.dto';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -42,7 +42,7 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Transform(({ value }) => TypeProduct.find((i) => i.type == value).id)
+  // @Transform(({ value }) => TypeProduct.find((i) => i.type == value).id)
   typeProduct: number;
 
   @ApiProperty()
@@ -60,61 +60,61 @@ export class CreateProductDto {
   @Transform(({ value }) => parseInt(value))
   taxesOption: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => value.toString())
-  @ApiProperty()
   sku: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   priceSale: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   priceBase: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @Transform(({ value }) => parseInt(value))
-  @ApiProperty()
   quantityStock: number;
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
-  @ValidateNested()
-  brand: IdToRelation;
+  @Type(() => RelationType)
+  // @ValidateNested()
+  brand: RelationType;
 
-  @IsOptional()
-  @Type(() => IdToRelation)
-  @ValidateNested()
   @ApiPropertyOptional()
-  productMainProduct: IdToRelation; // ID of the main product (optional)
+  @IsOptional()
+  @Type(() => RelationType)
+  // @ValidateNested()
+  productMainProduct: RelationType; // ID of the main product (optional)
 
+  // TODO: Revisar Insercion con SubPruductos
+  @ApiPropertyOptional()
   @IsOptional()
   @IsNumber({}, { each: true })
   @ValidateNested({ each: true })
-  @Type(() => Number)
-  @ApiPropertyOptional()
-  subProductsIds: number[]; // Array of IDs of sub-products (optional)
+  @Type(() => String)
+  subProductsIds: string[]; // Array of IDs of sub-products (optional)
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IdToRelation)
-  @ValidateNested()
-  category: IdToRelation;
+  @Type(() => RelationType)
+  // @ValidateNested()
+  category: RelationType;
 
   @ApiProperty()
   @IsNotEmpty()
-  // @ValidateNested({ each: true })
-  @Type(() => CreateProductPdvDto)
-  productPdv: CreateProductPdvDto[];
+  @Type(() => CreateProductsPdvDto)
+  productsPdvs: CreateProductsPdvDto[];
 }

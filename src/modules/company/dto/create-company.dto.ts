@@ -40,10 +40,10 @@ export class CreateCompanyDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  quantity_employees: string;
+  quantityEmployees: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  economic_activity: string;
+  economicActivity: string;
 }

@@ -20,7 +20,7 @@ export class CreateUserDto {
   verifyToken: string;
 
   @IsOptional()
-  isFirstLogin: boolean;
+  firstLogin: boolean;
 
   @ApiProperty()
   @ValidateNested()

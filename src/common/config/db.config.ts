@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-/* Exporting the database configuration. */
 export const dbConfig: Record<string, any> = {
   dbClient: process.env.DB_CLIENT || 'mysql',
   dbHost: process.env.DB_HOST,

@@ -27,8 +27,8 @@ export class Profile {
   @Column({ length: 55, unique: true })
   dni: string;
 
-  @Column({ length: 55, unique: true })
-  phone: string;
+  @Column({ name: 'personal_phone_number', length: 55, unique: true })
+  personalPhoneNumber: string;
 
   @Column({ length: 155, nullable: true })
   photo: string;

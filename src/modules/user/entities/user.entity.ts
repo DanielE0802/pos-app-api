@@ -44,7 +44,7 @@ export class User {
     default: true,
     name: 'first_login',
   })
-  isFirstLogin: boolean;
+  firstLogin: boolean;
 
   @OneToOne(() => Profile, (profile) => profile.user, { nullable: false })
   @JoinColumn({ name: 'profile_id' })

@@ -23,7 +23,7 @@ export class Category {
   products: Product[];
 
   @ManyToOne(() => Category, (category) => category.subcategories)
-  @JoinColumn({ name: 'categoryMainCategory_id' })
+  @JoinColumn({ name: 'category_main_category_id' })
   categoryMainCategory: Category;
 
   @OneToMany(() => Category, (category) => category.categoryMainCategory)

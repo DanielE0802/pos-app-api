@@ -1,14 +1,6 @@
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { Profile } from 'src/modules/user/entities/profile.entity';
-import { User } from 'src/modules/user/entities/user.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('companies')
 export class Company {
@@ -24,17 +16,17 @@ export class Company {
   @Column({ length: 50 })
   address: string;
 
-  @Column({ length: 20 })
+  @Column({ name: 'phone_number', length: 20 })
   phoneNumber: string;
 
   @Column()
   website: string;
 
-  @Column()
-  quantity_employees: string;
+  @Column({ name: 'quantity_employees' })
+  quantityEmployees: string;
 
-  @Column()
-  economic_activity: string;
+  @Column({ name: 'economic_activity:' })
+  economicActivity: string;
 
   @OneToMany(() => Profile, (profile) => profile.company)
   profiles: Profile[];

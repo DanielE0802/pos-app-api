@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
-import { ProductPdv } from '../entities/product-pdv.entity';
+import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {
@@ -30,7 +30,7 @@ export class ProductImplRepository implements ProductRepository {
       relations: {
         productMainProduct: true,
         subProducts: true,
-        productPdv: { pdvs: true },
+        productPdv: { pdv: true },
       },
     });
 

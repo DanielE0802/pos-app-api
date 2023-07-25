@@ -5,13 +5,10 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
 } from 'typeorm';
 import { Category } from 'src/modules/category/entities/category.entity';
 import { Brand } from 'src/modules/brand/entities/brand.entity';
-import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { ProductPdv } from './product-pdv.entity';
+import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
 
 @Entity('products')
 export class Product {
@@ -24,41 +21,45 @@ export class Product {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ name: 'bar_code' })
   barCode: string;
 
   @Column('simple-array', { nullable: true })
   images: string[];
 
-  @Column({ type: 'int' })
+  @Column({
+    name: 'type_product',
+    type: 'int',
+    comment: '1: Simple | 2: Config',
+  })
   typeProduct: number;
 
   @Column({ type: 'boolean' })
   state: boolean;
 
-  @Column({ type: 'boolean' })
+  @Column({ name: 'sell_in_negative', type: 'boolean' })
   sellInNegative: boolean;
 
-  @Column({ type: 'int' })
+  @Column({ name: 'taxes_option', type: 'int' })
   taxesOption: number;
 
   @Column()
   sku: string;
 
-  @Column()
+  @Column({ name: 'price_sale' })
   priceSale: number;
 
-  @Column()
+  @Column({ name: 'price_base' })
   priceBase: number;
 
-  @Column()
+  @Column({ name: 'quantity_stock' })
   quantityStock: number; // Global stock couting all PDVs
 
   // TODO: Identify if that product is ConfigProduct or SimpleProduct
   @ManyToOne(() => Product, (Product) => Product.subProducts, {
     nullable: true,
   })
-  @JoinColumn({ name: 'productMainProduct_id' })
+  @JoinColumn({ name: 'product_main_product_id' })
   productMainProduct: Product;
 
   @OneToMany(() => Product, (Product) => Product.productMainProduct, {
@@ -74,6 +75,6 @@ export class Product {
   @JoinColumn({ name: 'brand_id' })
   brand: Brand;
 
-  @OneToMany(() => ProductPdv, (productPdv) => productPdv.products)
+  @OneToMany(() => ProductPdv, (productPdv) => productPdv.product)
   public productPdv: ProductPdv[];
 }

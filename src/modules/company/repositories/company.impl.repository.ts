@@ -13,17 +13,17 @@ export class CompanyImplRepository implements CompanyRepository {
     private readonly companyRepo: Repository<Company>,
   ) {}
 
-  create = async (data: CreateCompanyDto): Promise<Company> =>
+  public create = async (data: CreateCompanyDto): Promise<Company> =>
     await this.companyRepo.save(this.companyRepo.create(data));
 
-  find = async (rel: boolean): Promise<Company[]> =>
+  public find = async (rel: boolean): Promise<Company[]> =>
     await this.companyRepo.find({
       relations: { pdvs: rel },
       cache: true,
       loadEagerRelations: true,
     });
 
-  findOne = async (id: string, rel: boolean): Promise<Company> =>
+  public findOne = async (id: string, rel: boolean = false): Promise<Company> =>
     await this.companyRepo.findOne({
       where: { id },
       relations: { pdvs: rel },
@@ -31,9 +31,9 @@ export class CompanyImplRepository implements CompanyRepository {
       loadEagerRelations: true,
     });
 
-  update = async (id: string, data: UpdateCompanyDto): Promise<any> =>
+  public update = async (id: string, data: UpdateCompanyDto): Promise<any> =>
     await this.companyRepo.update(id, data);
 
-  delete = async (id: string): Promise<Company> =>
-    await this.companyRepo.remove(await this.findOne(id, false));
+  public delete = async (id: string): Promise<Company> =>
+    await this.companyRepo.remove(await this.findOne(id));
 }

@@ -7,8 +7,9 @@ import {
   IsPhoneNumber,
   IsEmail,
   ValidateNested,
+  IsOptional,
 } from 'class-validator';
-import { IdToRelation } from 'src/common/decorators/relation.decorator';
+import { RelationType } from 'src/common/decorators/relation.decorator';
 
 export class CreateProfileDto {
   @ApiProperty()
@@ -35,7 +36,7 @@ export class CreateProfileDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsPhoneNumber()
-  phone: string;
+  personalPhoneNumber: string;
 
   @ApiProperty()
   @IsString()
@@ -43,8 +44,7 @@ export class CreateProfileDto {
   photo: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => IdToRelation)
-  @ValidateNested()
-  company: IdToRelation;
+  @IsOptional()
+  @Type(() => RelationType)
+  company?: RelationType;
 }
