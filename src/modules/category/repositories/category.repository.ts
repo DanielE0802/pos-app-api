@@ -13,7 +13,7 @@ export interface CategoryRepository {
    * It finds all the Categorys in the database and returns them
    * @returns An array of Category objects.
    */
-  find: (rel: boolean) => Promise<Category[]>;
+  find: (companyId: string, rel: boolean) => Promise<Category[]>;
 
   findOne: (id: string, rel: boolean) => Promise<Category>;
 

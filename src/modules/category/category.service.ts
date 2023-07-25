@@ -17,8 +17,8 @@ export class CategoryService {
   create = async (data: CreateCategoryDto) =>
     await this.categoryRepo.create(data);
 
-  findAll = async (rel: boolean): Promise<Category[]> =>
-    await this.categoryRepo.find(rel);
+  findAll = async (companyId: string, rel: boolean): Promise<Category[]> =>
+    await this.categoryRepo.find(companyId, rel);
 
   findOne = async (id: string, rel: boolean) =>
     await this.categoryRepo.findOne(id, rel);

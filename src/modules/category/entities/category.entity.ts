@@ -1,3 +1,4 @@
+import { Company } from 'src/modules/company/entities/company.entity';
 import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Entity,
@@ -28,4 +29,8 @@ export class Category {
 
   @OneToMany(() => Category, (category) => category.categoryMainCategory)
   subcategories: Category[];
+
+  @ManyToOne(() => Company, (company) => company.categories)
+  @JoinColumn({ name: 'company_id' })
+  company: Company;
 }
