@@ -1,6 +1,7 @@
+import { Category } from 'src/modules/category/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { Profile } from 'src/modules/user/entities/profile.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
 
 @Entity('companies')
 export class Company {
@@ -33,4 +34,7 @@ export class Company {
 
   @OneToMany(() => Pdv, (pdv) => pdv.company)
   pdvs: Pdv[];
+
+  @OneToMany(() => Category, category => category.company)
+  categories: Category[];
 }

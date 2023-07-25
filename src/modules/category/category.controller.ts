@@ -24,9 +24,12 @@ export class CategoryController {
     return this.categoryService.create(data);
   }
 
-  @Get()
-  findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
-    return this.categoryService.findAll(rel);
+  @Get('/c/:company_id')
+  findAll(
+    @Query('r', ParseBoolPipe) rel: boolean = false,
+    @Param('company_id') companyId: string,
+  ) {
+    return this.categoryService.findAll(companyId, rel);
   }
 
   @Get(':id')

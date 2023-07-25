@@ -10,13 +10,12 @@ import {
 export class RelationType {
   @IsNotEmpty()
   @IsUUID()
-  @ApiProperty()
   @ValidateIf((value) => value.id !== null)
   id: string | null;
 }
 
-export function TransformIdToRelation() {
-  return Transform(({ value }) => {
+export function TransformIdToRelation(value: any) {
+  return Transform(() => {
     return { id: value };
   });
 }

@@ -17,8 +17,9 @@ export class CategoryImplRepository implements CategoryRepository {
   create = async (data: CreateCategoryDto): Promise<Category> =>
     await this.categoryRepo.save(this.categoryRepo.create(data));
 
-  find = async (rel: boolean): Promise<Category[]> =>
+  find = async (companyId: string, rel: boolean): Promise<Category[]> =>
     await this.categoryRepo.find({
+      where: { company: { id: companyId } },
       relations: rel && RelationsCategory.findAllRelations,
       cache: true,
       loadEagerRelations: true,
