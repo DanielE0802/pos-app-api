@@ -6,13 +6,13 @@ export interface BrandRepository {
   
   create: (data: CreateBrandDto) => Promise<Brand>;
   
-  find: (rel: boolean) => Promise<Brand[]>;
+  find: (companyId: string, rel: boolean) => Promise<Brand[]>;
   
-  findOne: (id: string, rel: boolean) => Promise<Brand>;
+  findOne: (id: string, companyId: string, rel: boolean) => Promise<Brand>;
   
-  update: (id: string, data: UpdateBrandDto) => Promise<Brand>;
+  update: (id: string, data: UpdateBrandDto, companyId: string) => Promise<Brand>;
   
-  delete: (id: string) => Promise<Brand>;
+  delete: (entity: Brand) => Promise<Brand>;
 }
 
 export const I_BRAND_REPOSITORY = 'BrandIRepository';
