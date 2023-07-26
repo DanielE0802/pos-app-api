@@ -17,14 +17,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 import { GetUserCompany } from '../auth/decorators/get-user.decarator';
 import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
-import { Category } from './entities/category.entity';
 
 @ApiTags('Category')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
   create(
@@ -40,7 +39,6 @@ export class CategoryController {
     @GetUserCompany() company: IRelationType,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
-    console.log(company.id);
     return this.categoryService.findAll(company.id, rel);
   }
 
@@ -50,7 +48,6 @@ export class CategoryController {
     @Param('id') id: string,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
-    console.log(company.id);
     return this.categoryService.findOne(id, company.id, rel);
   }
 
@@ -60,7 +57,6 @@ export class CategoryController {
     @Param('id') id: string,
     @Body() data: UpdateCategoryDto,
   ) {
-    console.log(company.id);
     return this.categoryService.update(id, data, company.id);
   }
 
@@ -69,7 +65,6 @@ export class CategoryController {
     @GetUserCompany() company: IRelationType,
     @Param('id') id: string,
   ) {
-    console.log(company.id);
     return this.categoryService.remove(await this.findOne(company, id));
   }
 }

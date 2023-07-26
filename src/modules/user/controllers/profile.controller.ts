@@ -23,19 +23,16 @@ import { JwtAuthGuard } from 'src/modules/auth/jwt/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly brandService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) {}
 
   @Post()
   create(@Body() data: CreateProfileDto) {
-    return this.brandService.create(data);
+    return this.profileService.create(data);
   }
 
   @Get()
-  findAll(
-    @GetUserCompany() company: IRelationType,
-    @Query('r', ParseBoolPipe) rel: boolean = false,
-  ) {
-    return this.brandService.findAll(rel);
+  findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
+    return this.profileService.findAll(rel);
   }
 
   @Get(':id')
@@ -43,16 +40,16 @@ export class ProfileController {
     @Param('id') id: string,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
-    return this.brandService.findOne(id, rel);
+    return this.profileService.findOne(id, rel);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() data: UpdateProfileDto) {
-    return this.brandService.update(id, data);
+    return this.profileService.update(id, data);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.brandService.remove(id);
+    return this.profileService.remove(id);
   }
 }
