@@ -1,14 +1,6 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { Transform, Type } from 'class-transformer';
-import {
-  RelationType,
-  TransformIdToRelation,
-} from 'src/common/decorators/relation.decorator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IRelationType } from 'src/common/decorators/relation.decorator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateCategoryDto {
@@ -24,11 +16,10 @@ export class CreateCategoryDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @Type(() => RelationType)
-  categoryMainCategory?: RelationType;
+  @Type(() => IRelationType)
+  categoryMainCategory?: IRelationType;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => RelationType)
-  company: RelationType;
+  @IsOptional()
+  @Type(() => IRelationType)
+  company: IRelationType;
 }

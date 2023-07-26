@@ -5,7 +5,7 @@ import { CategoryRepository } from './category.repository';
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
-import { RelationsCategory } from '../relations-objects.category';
+import { RelationsCategory } from '../relations/category-all.relation';
 
 @Injectable()
 export class CategoryImplRepository implements CategoryRepository {
@@ -20,22 +20,29 @@ export class CategoryImplRepository implements CategoryRepository {
   find = async (companyId: string, rel: boolean): Promise<Category[]> =>
     await this.categoryRepo.find({
       where: { company: { id: companyId } },
-      relations: rel && RelationsCategory.findAllRelations,
+      relations: rel && RelationsCategory.general,
       cache: true,
       loadEagerRelations: true,
     });
 
-  findOne = async (id: string, rel: boolean): Promise<Category> =>
+  findOne = async (
+    id: string,
+    companyId: string,
+    rel: boolean,
+  ): Promise<Category> =>
     await this.categoryRepo.findOne({
-      where: { id },
-      relations: rel && RelationsCategory.findAllRelations,
+      where: { id, company: { id: companyId } },
+      relations: rel && RelationsCategory.internals,
       cache: true,
-      loadEagerRelations: true,
     });
 
-  update = async (id: string, data: UpdateCategoryDto): Promise<any> =>
-    await this.categoryRepo.update(id, data);
+  update = async (
+    id: string,
+    data: UpdateCategoryDto,
+    companyId: string,
+  ): Promise<any> =>
+    await this.categoryRepo.update({ id, company: { id: companyId } }, data);
 
-  delete = async (id: string): Promise<Category> =>
-    await this.categoryRepo.remove(await this.findOne(id, false));
+  delete = async (entity: Category): Promise<any> =>
+    await this.categoryRepo.remove(entity);
 }

@@ -1,5 +1,6 @@
+import { Company } from 'src/modules/company/entities/company.entity';
 import { Product } from 'src/modules/product/entities/product.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('brands')
 export class Brand {
@@ -13,4 +14,8 @@ export class Brand {
 
   @OneToMany(() => Product, (product) => product.brand)
   products: Product[];
+
+  @ManyToOne(() => Company, (company) => company.categories)
+  @JoinColumn({ name: 'company_id' })
+  company: Company;
 }

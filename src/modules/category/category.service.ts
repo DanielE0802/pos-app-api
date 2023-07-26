@@ -20,11 +20,11 @@ export class CategoryService {
   findAll = async (companyId: string, rel: boolean): Promise<Category[]> =>
     await this.categoryRepo.find(companyId, rel);
 
-  findOne = async (id: string, rel: boolean) =>
-    await this.categoryRepo.findOne(id, rel);
+  findOne = async (id: string, companyId: string, rel: boolean) =>
+    await this.categoryRepo.findOne(id, companyId, rel);
 
-  update = async (id: string, data: UpdateCategoryDto) =>
-    await this.categoryRepo.update(id, data);
+  update = async (id: string, data: UpdateCategoryDto, companyId: string) =>
+    await this.categoryRepo.update(id, data, companyId);
 
-  remove = async (id: string) => await this.categoryRepo.delete(id);
+  remove = async (entity: Category) => await this.categoryRepo.delete(entity);
 }

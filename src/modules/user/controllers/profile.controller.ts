@@ -8,13 +8,19 @@ import {
   Delete,
   Query,
   ParseBoolPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProfileService } from '../services/profile.service';
 import { UpdateProfileDto } from '../dto/profile/update-profile.dto';
 import { CreateProfileDto } from '../dto/profile/create-profile.dto';
+import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { GetUserCompany } from 'src/modules/auth/decorators/get-user.decarator';
+import { JwtAuthGuard } from 'src/modules/auth/jwt/guards/jwt-auth.guard';
 
 @ApiTags('Profile')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('profile')
 export class ProfileController {
   constructor(private readonly brandService: ProfileService) {}
@@ -25,7 +31,10 @@ export class ProfileController {
   }
 
   @Get()
-  findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
+  findAll(
+    @GetUserCompany() company: IRelationType,
+    @Query('r', ParseBoolPipe) rel: boolean = false,
+  ) {
     return this.brandService.findAll(rel);
   }
 

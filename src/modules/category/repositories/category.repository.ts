@@ -15,11 +15,11 @@ export interface CategoryRepository {
    */
   find: (companyId: string, rel: boolean) => Promise<Category[]>;
 
-  findOne: (id: string, rel: boolean) => Promise<Category>;
+  findOne: (id: string, companyId: string, rel: boolean) => Promise<Category>;
 
-  update: (id: string, data: UpdateCategoryDto) => Promise<Category>;
+  update: (id: string, data: UpdateCategoryDto, companyId: string) => Promise<Category>;
 
-  delete: (id: string) => Promise<Category>;
+  delete: (entity: Category) => Promise<void>;
 }
 
 export const I_CATEGORY_REPOSITORY = 'CategoriesIRepository';

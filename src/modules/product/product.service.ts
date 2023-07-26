@@ -6,6 +6,7 @@ import {
 } from './repositories/product.repository';
 import { Product } from './entities/product.entity';
 import { ProductsPdvsService } from '../products-pdvs/products-pdvs.service';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -15,23 +16,27 @@ export class ProductService {
     private readonly productsPdvsService: ProductsPdvsService,
   ) {}
 
-  create = async (data: CreateProductDto) => {
+  create = async (data: CreateProductDto, companyId: string) => {
     const { productsPdvs: productPdv } = data;
     const product = await this.productRepo.create(data);
 
     productPdv.forEach((ppdv) => (ppdv.product = { id: product.id }));
     await this.productsPdvsService.create(productPdv);
 
-    return this.findOne(product.id);
+    return this.findOne(product.id, companyId);
   };
 
-  findAll = async (): Promise<Product[]> => await this.productRepo.findAll();
+  findAll = async (companyId: string): Promise<Product[]> =>
+    await this.productRepo.findAll(companyId);
 
-  findOne = async (id: string): Promise<Product> =>
-    await this.productRepo.findOne(id);
+  findOne = async (
+    id: string,
+    companyId: string,
+    rel?: boolean,
+  ): Promise<Product> => await this.productRepo.findOne(id, companyId);
 
-  // update = async (id: string, data: UpdateProductDto) =>
-  //   `This action updates a #${id} product`;
+  update = async (id: string, data: UpdateProductDto) =>
+    await this.productRepo.update(id, data);
 
-  // remove = (id: string) => `This action removes a #${id} product`;
+  remove = async (entity: Product) => await this.productRepo.delete(entity);
 }

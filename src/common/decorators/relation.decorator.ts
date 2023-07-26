@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-export class RelationType {
+export class IRelationType {
   @IsNotEmpty()
   @IsUUID()
   @ValidateIf((value) => value.id !== null)

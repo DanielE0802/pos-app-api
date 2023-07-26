@@ -16,12 +16,14 @@ export class BrandService {
 
   create = async (data: CreateBrandDto) => await this.brandRepo.create(data);
 
-  findAll = async (rel: boolean): Promise<Brand[]> => await this.brandRepo.find(rel);
+  findAll = async (companyId: string, rel: boolean) =>
+    await this.brandRepo.find(companyId, rel);
 
-  findOne = async (id: string, rel: boolean) => await this.brandRepo.findOne(id, rel);
+  findOne = async (id: string, companyId: string, rel: boolean) =>
+    await this.brandRepo.findOne(id, companyId, rel);
 
-  update = async (id: string, data: UpdateBrandDto) =>
-    await this.brandRepo.update(id, data);
+  update = async (id: string, data: UpdateBrandDto, companyId: string) =>
+    await this.brandRepo.update(id, data, companyId);
 
-  remove = async (id: string) => await this.brandRepo.delete(id);
+  remove = async (entity: Brand) => await this.brandRepo.delete(entity);
 }

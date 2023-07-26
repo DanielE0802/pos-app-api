@@ -4,8 +4,9 @@ import { dbConfig } from './common/config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { LocationModule } from './modules/location/location.module';
-import { PdvModule } from './modules/pdv/pdv.module';
 import { CompanyModule } from './modules/company/company.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtConfig } from './common/config/jwt.config';
 
 @Module({
   imports: [
@@ -23,7 +24,6 @@ import { CompanyModule } from './modules/company/company.module';
     AuthModule,
     ProductModule,
     LocationModule,
-    PdvModule, // Impl in CompanyModule
     CompanyModule,
   ],
 })
