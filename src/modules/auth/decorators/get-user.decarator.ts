@@ -22,7 +22,7 @@ export const GetUserCompany = createParamDecorator(
   (_data, ctx: ExecutionContext) => {
     const { user } = ctx.switchToHttp().getRequest();
 
-    console.log(user.profile.company)
+    console.log(user)
 
     if (!user.profile.company) {
       console.log(user.profile.company)
