@@ -6,7 +6,6 @@ import {
   Length,
   IsPhoneNumber,
   IsEmail,
-  ValidateNested,
   IsOptional,
 } from 'class-validator';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
@@ -43,7 +42,6 @@ export class CreateProfileDto {
   @IsNotEmpty()
   photo: string;
 
-  @ApiProperty()
   @IsOptional()
   @Type(() => IRelationType)
   company?: IRelationType;
