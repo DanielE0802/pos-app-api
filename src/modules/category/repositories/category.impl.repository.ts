@@ -25,16 +25,24 @@ export class CategoryImplRepository implements CategoryRepository {
       loadEagerRelations: true,
     });
 
-  findOne = async (id: string, rel: boolean): Promise<Category> =>
+  findOne = async (
+    id: string,
+    companyId: string,
+    rel: boolean,
+  ): Promise<Category> =>
     await this.categoryRepo.findOne({
-      where: { id },
+      where: { id, company: { id: companyId } },
       relations: rel && RelationsCategory.internals,
       cache: true,
     });
 
-  update = async (id: string, data: UpdateCategoryDto): Promise<any> =>
-    await this.categoryRepo.update(id, data);
+  update = async (
+    id: string,
+    data: UpdateCategoryDto,
+    companyId: string,
+  ): Promise<any> =>
+    await this.categoryRepo.update({ id, company: { id: companyId } }, data);
 
-  delete = async (id: string): Promise<Category> =>
-    await this.categoryRepo.remove(await this.findOne(id, false));
+  delete = async (entity: Category): Promise<any> =>
+    await this.categoryRepo.remove(entity);
 }

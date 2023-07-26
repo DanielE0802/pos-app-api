@@ -27,8 +27,7 @@ export class CreateCategoryDto {
   @Type(() => IRelationType)
   categoryMainCategory?: IRelationType;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => IRelationType)
   company: IRelationType;
 }
