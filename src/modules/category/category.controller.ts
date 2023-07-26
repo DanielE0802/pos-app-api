@@ -8,13 +8,19 @@ import {
   Delete,
   ParseBoolPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { GetUserCompany } from '../auth/decorators/get-user.decarator';
+import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
 
 @ApiTags('Category')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -24,12 +30,12 @@ export class CategoryController {
     return this.categoryService.create(data);
   }
 
-  @Get('/c/:company_id')
+  @Get()
   findAll(
     @Query('r', ParseBoolPipe) rel: boolean = false,
-    @Param('company_id') companyId: string,
+    @GetUserCompany() company: IRelationType,
   ) {
-    return this.categoryService.findAll(companyId, rel);
+    return this.categoryService.findAll(company.id, rel);
   }
 
   @Get(':id')

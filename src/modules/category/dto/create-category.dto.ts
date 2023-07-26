@@ -6,7 +6,7 @@ import {
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import {
-  RelationType,
+  IRelationType,
   TransformIdToRelation,
 } from 'src/common/decorators/relation.decorator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -24,11 +24,11 @@ export class CreateCategoryDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @Type(() => RelationType)
-  categoryMainCategory?: RelationType;
+  @Type(() => IRelationType)
+  categoryMainCategory?: IRelationType;
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => RelationType)
-  company: RelationType;
+  @Type(() => IRelationType)
+  company: IRelationType;
 }

@@ -5,7 +5,7 @@ import { CategoryRepository } from './category.repository';
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
-import { RelationsCategory } from '../relations-objects.category';
+import { RelationsCategory } from '../relations/category-all.relation';
 
 @Injectable()
 export class CategoryImplRepository implements CategoryRepository {
@@ -20,7 +20,7 @@ export class CategoryImplRepository implements CategoryRepository {
   find = async (companyId: string, rel: boolean): Promise<Category[]> =>
     await this.categoryRepo.find({
       where: { company: { id: companyId } },
-      relations: rel && RelationsCategory.findAllRelations,
+      relations: rel && RelationsCategory.general,
       cache: true,
       loadEagerRelations: true,
     });
@@ -28,9 +28,8 @@ export class CategoryImplRepository implements CategoryRepository {
   findOne = async (id: string, rel: boolean): Promise<Category> =>
     await this.categoryRepo.findOne({
       where: { id },
-      relations: rel && RelationsCategory.findAllRelations,
+      relations: rel && RelationsCategory.internals,
       cache: true,
-      loadEagerRelations: true,
     });
 
   update = async (id: string, data: UpdateCategoryDto): Promise<any> =>

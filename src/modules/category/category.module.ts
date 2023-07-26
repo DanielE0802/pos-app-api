@@ -4,9 +4,14 @@ import { CategoryController } from './category.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { CategoryProviders } from './providers/category.providers';
+import { PassportModule } from '@nestjs/passport';
+import { JwtConfig } from 'src/common/config/jwt.config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [
+    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    TypeOrmModule.forFeature([Category]),
+  ],
   controllers: [CategoryController],
   providers: [CategoryService, ...CategoryProviders],
   exports: [CategoryService],

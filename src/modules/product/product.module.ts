@@ -8,9 +8,12 @@ import { CategoryModule } from '../category/category.module';
 import { BrandModule } from '../brand/brand.module';
 import { ProductPdv } from '../products-pdvs/entities/product-pdv.entity';
 import { ProductsPdvsModule } from '../products-pdvs/products-pdvs.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtConfig } from 'src/common/config/jwt.config';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
     TypeOrmModule.forFeature([Product]),
     CategoryModule,
     BrandModule,

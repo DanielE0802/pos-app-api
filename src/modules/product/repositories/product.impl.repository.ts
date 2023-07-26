@@ -5,6 +5,7 @@ import { Product } from '../entities/product.entity';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
+import { ProductRelations } from '../relations/product-all.relation';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {
@@ -19,21 +20,13 @@ export class ProductImplRepository implements ProductRepository {
   findAll = async (companyId: string): Promise<Product[]> =>
     await this.productRepository.find({
       where: { productPdv: { pdv: { company: { id: companyId } } } },
-      relations: {
-        productMainProduct: true,
-        subProducts: true,
-        productPdv: { pdv: true },
-      },
+      relations: ProductRelations.internals,
     });
 
   findOne = async (id: string): Promise<Product> =>
     await this.productRepository.findOne({
       where: { id },
-      relations: {
-        productMainProduct: true,
-        subProducts: true,
-        productPdv: { pdv: true },
-      },
+      relations: ProductRelations.internals,
     });
 
   // +--------------------------------+

@@ -17,12 +17,8 @@ export class ProductsPdvsService {
   create = async (data: CreateProductsPdvDto | CreateProductsPdvDto[]) =>
     await this.productPdvRepo.create(data);
 
-  findInPdvs = async (id: string) => {
-    const company = await this.companyService.findOne(id, true);
-
-    const products = await this.productPdvRepo.findInPdvs(
-      company.pdvs.map((pdv) => pdv.id),
-    );
+  findInPdvs = async (companyId: string, pdvsId: string[]) => {
+    const products = await this.productPdvRepo.findInPdvs(companyId, pdvsId);
 
     if (!products)
       throw new NotFoundException('Cant find Products in this Company');

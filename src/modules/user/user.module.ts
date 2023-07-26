@@ -18,6 +18,6 @@ import { ProfileService } from './services/profile.service';
   ],
   controllers: [UsersController, ProfileController],
   providers: [UsersService, ProfileService, JwtStrategy, ...UserProviders],
-  exports: [UsersService, ProfileService, JwtStrategy, PassportModule],
+  exports: [UsersService, ProfileService],
 })
 export class UserModule {}

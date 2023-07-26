@@ -16,7 +16,7 @@ export interface ProductPdvRepository {
 
   findOne: (id: string) => Promise<ProductPdv>;
 
-  findInPdvs: (id: string[]) => Promise<ProductPdv[]>;
+  findInPdvs: (companyId: string, pdvsId: string[]) => Promise<ProductPdv[]>;
 }
 
 export const I_PRODUCTS_PDVS_REPOSITORY = 'ProductsPdvsIRepository';

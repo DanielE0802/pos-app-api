@@ -19,9 +19,12 @@ export class ProductPdvImplRepository implements ProductPdvRepository {
 
   findOne: (id: string) => Promise<ProductPdv>;
 
-  findInPdvs = async (id: string[]): Promise<ProductPdv[]> =>
+  findInPdvs = async (
+    companyId: string,
+    pdvsId: string[],
+  ): Promise<ProductPdv[]> =>
     await this.productPdvRepo.find({
-      where: { pdv: { id: In(id) } },
+      where: { pdv: { id: In(pdvsId), company: { id: companyId } } },
       relations: { product: true },
       cache: true,
     });

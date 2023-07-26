@@ -9,7 +9,7 @@ import {
   ValidateNested,
   IsOptional,
 } from 'class-validator';
-import { RelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/decorators/relation.decorator';
 
 export class CreateProfileDto {
   @ApiProperty()
@@ -45,6 +45,6 @@ export class CreateProfileDto {
 
   @ApiProperty()
   @IsOptional()
-  @Type(() => RelationType)
-  company?: RelationType;
+  @Type(() => IRelationType)
+  company?: IRelationType;
 }
