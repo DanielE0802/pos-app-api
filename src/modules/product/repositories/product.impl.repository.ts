@@ -4,36 +4,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
-import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
 import { ProductRelations } from '../relations/product-all.relation';
+import { UpdateProductDto } from '../dto/update-product.dto';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {
   constructor(
     @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    private readonly productRepo: Repository<Product>,
   ) {}
 
   create = async (data: CreateProductDto): Promise<Product> =>
-    await this._save(this.productRepository.create(data));
+    await this.productRepo.save(this.productRepo.create(data));
 
   findAll = async (companyId: string): Promise<Product[]> =>
-    await this.productRepository.find({
+    await this.productRepo.find({
       where: { productPdv: { pdv: { company: { id: companyId } } } },
       relations: ProductRelations.internals,
     });
 
-  findOne = async (id: string): Promise<Product> =>
-    await this.productRepository.findOne({
-      where: { id },
+  findOne = async (id: string, companyId: string): Promise<Product> =>
+    await this.productRepo.findOne({
+      where: { id, productPdv: { pdv: { company: { id: companyId } } } },
       relations: ProductRelations.internals,
     });
 
-  // +--------------------------------+
-  // |  Private Encapsulated Methods  |
-  // +--------------------------------+
+  update = async (id: string, data: UpdateProductDto): Promise<any> =>
+    await this.productRepo.update(id, data);
 
-  private async _save(data: any): Promise<Product> {
-    return await this.productRepository.save(data);
-  }
+  delete = async (entity: Product): Promise<any> =>
+    await this.productRepo.remove(entity);
 }

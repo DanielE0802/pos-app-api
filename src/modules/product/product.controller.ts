@@ -25,30 +25,36 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() data: CreateProductDto) {
-    return this.productService.create(data);
+  create(
+    @GetUserCompany() company: IRelationType,
+    @Body() data: CreateProductDto,
+  ) {
+    return this.productService.create(data, company.id);
   }
 
-  @Get('/c/:company_id')
-  findAll(
-    @GetUserCompany() company: IRelationType,
-    @Param('company_id', ParseUUIDPipe) companyId: string,
-  ) {
-    return this.productService.findAll(companyId);
+  @Get()
+  findAll(@GetUserCompany() company: IRelationType) {
+    return this.productService.findAll(company.id);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.productService.findOne(id);
+  findOne(
+    @GetUserCompany() company: IRelationType,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    return this.productService.findOne(id, company.id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-  //   return this.productService.update(id, updateProductDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() data: UpdateProductDto) {
+    return this.productService.update(id, data);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.productService.remove(id);
-  // }
+  @Delete(':id')
+  async remove(
+    @GetUserCompany() company: IRelationType,
+    @Param('id') id: string,
+  ) {
+    return this.productService.remove(await this.findOne(company, id));
+  }
 }
