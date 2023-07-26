@@ -22,11 +22,13 @@ export const GetUserCompany = createParamDecorator(
   (_data, ctx: ExecutionContext) => {
     const { user } = ctx.switchToHttp().getRequest();
 
-    if (!user.profile.company)
-      throw new UnprocessableEntityException('User has no companies assigned');
-
     console.log(user.profile.company)
 
+    if (!user.profile.company) {
+      console.log(user.profile.company)
+      throw new UnprocessableEntityException('User has no companies assigned');
+    }
+
     return user.profile.company as IRelationType;
-  },
+  }
 );
