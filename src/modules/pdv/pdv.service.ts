@@ -13,14 +13,14 @@ export class PdvService {
 
   create = async (data: CreatePdvDto) => await this.pdvRepo.create(data);
 
-  findAll = async (rel: boolean): Promise<Pdv[]> =>
-    await this.pdvRepo.find(rel);
+  findAll = async (companyId: string, rel: boolean): Promise<Pdv[]> =>
+    await this.pdvRepo.find(companyId, rel);
 
-  findOne = async (id: string, rel: boolean) =>
-    await this.pdvRepo.findOne(id, rel);
+  findOne = async (id: string, companyId: string, rel: boolean) =>
+    await this.pdvRepo.findOne(id, companyId, rel);
 
-  update = async (id: string, data: UpdatePdvDto) =>
-    await this.pdvRepo.update(id, data);
+  update = async (id: string, data: UpdatePdvDto, companyId: string) =>
+    await this.pdvRepo.update(id, data, companyId);
 
-  remove = async (id: string) => await this.pdvRepo.delete(id);
+  remove = async (entity: Pdv) => await this.pdvRepo.delete(entity);
 }

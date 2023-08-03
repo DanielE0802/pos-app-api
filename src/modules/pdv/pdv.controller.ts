@@ -29,7 +29,8 @@ export class PdvController {
   constructor(private readonly pdvService: PdvService) {}
 
   @Post()
-  create(@Body() data: CreatePdvDto) {
+  create(@GetUserCompany() company: IRelationType, @Body() data: CreatePdvDto) {
+    if (!data.company) data.company = company;
     return this.pdvService.create(data);
   }
 
@@ -38,27 +39,32 @@ export class PdvController {
     @GetUserCompany() company: IRelationType,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
-    return this.pdvService.findAll(rel);
+    return this.pdvService.findAll(company.id, rel);
   }
 
   @Get(':id')
   findOne(
+    @GetUserCompany() company: IRelationType,
     @Param('id', ParseUUIDPipe) id: string,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
-    return this.pdvService.findOne(id, rel);
+    return this.pdvService.findOne(id, company.id, rel);
   }
 
   @Patch(':id')
   update(
+    @GetUserCompany() company: IRelationType,
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() updatePdvDto: UpdatePdvDto,
+    @Body() data: UpdatePdvDto,
   ) {
-    return this.pdvService.update(id, updatePdvDto);
+    return this.pdvService.update(id, data, company.id);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.pdvService.remove(id);
+  async remove(
+    @GetUserCompany() company: IRelationType,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    return this.pdvService.remove(await this.findOne(company, id));
   }
 }

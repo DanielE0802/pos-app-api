@@ -5,13 +5,13 @@ import { Pdv } from '../entities/pdv.entity';
 export interface PdvRepository {
   create: (data: CreatePdvDto) => Promise<Pdv>;
 
-  find: (rel: boolean) => Promise<Pdv[]>;
+  find: (companyId: string, rel: boolean) => Promise<Pdv[]>;
 
-  findOne: (id: string, rel: boolean) => Promise<Pdv>;
+  findOne: (companyId: string, id: string, rel: boolean) => Promise<Pdv>;
 
-  update: (id: string, data: UpdatePdvDto) => Promise<Pdv>;
+  update: (id: string, data: UpdatePdvDto, companyId: string) => Promise<Pdv>;
 
-  delete: (id: string) => Promise<Pdv>;
+  delete: (entity: Pdv) => Promise<Pdv>;
 }
 
 export const I_PDV_REPOSITORY = 'PdvIRepository';
