@@ -14,19 +14,27 @@ export class PdvImplRepository implements PdvRepository {
   create = async (data: CreatePdvDto): Promise<Pdv> =>
     await this.pdvRepo.save(this.pdvRepo.create(data));
 
-  find = async (rel: boolean): Promise<Pdv[]> =>
-    await this.pdvRepo.find({ relations: { location: rel }, cache: true });
+  find = async (companyId: string, rel: boolean): Promise<Pdv[]> =>
+    await this.pdvRepo.find({
+      where: { company: { id: companyId } },
+      relations: { location: rel },
+      cache: true,
+    });
 
-  findOne = async (id: string, rel: boolean): Promise<Pdv> =>
+  findOne = async (id: string, companyId: string, rel: boolean): Promise<Pdv> =>
     await this.pdvRepo.findOne({
       where: { id },
       relations: { location: rel },
       cache: true,
     });
 
-  update = async (id: string, data: UpdatePdvDto): Promise<any> =>
-    await this.pdvRepo.update(id, data);
+  update = async (
+    id: string,
+    data: UpdatePdvDto,
+    companyId: string,
+  ): Promise<any> =>
+    await this.pdvRepo.update({ id, company: { id: companyId } }, data);
 
-  delete = async (id: string): Promise<Pdv> =>
-    await this.pdvRepo.remove(await this.findOne(id, false));
+  delete = async (entity: Pdv): Promise<Pdv> =>
+    await this.pdvRepo.remove(entity);
 }
