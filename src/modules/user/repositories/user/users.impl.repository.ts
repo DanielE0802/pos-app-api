@@ -10,36 +10,36 @@ import { Profile } from '../../entities/profile.entity';
 export class UserImplRepository implements UserRepository {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepo: Repository<User>,
     @InjectRepository(Profile)
-    private profileRepository: Repository<Profile>,
+    private profileRepo: Repository<Profile>,
   ) {}
 
   create = async (createUserDto: CreateUserDto): Promise<User> => {
     const { profile } = createUserDto;
 
-    const _profile = await this.profileRepository.save(
-      this.profileRepository.create(profile),
+    const _profile = await this.profileRepo.save(
+      this.profileRepo.create(profile),
     );
 
-    return await this.userRepository.save(
-      this.userRepository.create({ ...createUserDto, profile: _profile }),
+    return await this.userRepo.save(
+      this.userRepo.create({ ...createUserDto, profile: _profile }),
     );
   };
 
-  findAll = async (): Promise<User[]> => await this.userRepository.find();
+  findAll = async (): Promise<User[]> => await this.userRepo.find();
 
   findAllVerify = async (): Promise<User[]> =>
-    await this.userRepository.find({ where: { verified: true } });
+    await this.userRepo.find({ where: { verified: true } });
 
   findOne = async (id: string): Promise<User> =>
-    await this.userRepository.findOne({
+    await this.userRepo.findOne({
       where: { id },
       relations: { profile: { company: true } },
     });
 
   findByEmail = async (email: string): Promise<User> => {
-    return await this.userRepository.findOne({
+    return await this.userRepo.findOne({
       select: {
         id: true,
         password: true,
@@ -56,15 +56,15 @@ export class UserImplRepository implements UserRepository {
     id: string,
     verifyToken: string,
   ): Promise<User> =>
-    await this.userRepository.findOne({
+    await this.userRepo.findOne({
       where: { id, verifyToken, verified: false },
     });
 
   findByResetPasswordToken = async (
     resetPasswordToken: string,
   ): Promise<User> =>
-    await this.userRepository.findOne({ where: { resetPasswordToken } });
+    await this.userRepo.findOne({ where: { resetPasswordToken } });
 
   update = async (id: string, data: any): Promise<UpdateResult> =>
-    await this.userRepository.update(id, data);
+    await this.userRepo.update(id, data);
 }
