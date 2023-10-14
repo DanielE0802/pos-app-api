@@ -11,7 +11,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { TypeProduct } from 'src/common/constants/constant.app';
+import { TypeProduct } from "src/common/constants/app/products.app";
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 import { CreateProductsPdvDto } from '../../products-pdvs/dto/create-products-pdv.dto';
 

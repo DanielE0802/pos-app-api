@@ -1,6 +1,6 @@
 import { Category } from '../entities/category.entity';
 import { ProductRelations } from '../../product/relations/product-all.relation';
-import { CustomRelations } from 'src/common/constants/constant.app';
+import { CustomRelations } from 'src/common/constants/types/types.app';
 
 export const RelationsCategory: Record<string, CustomRelations<Category>> = {
   general: {

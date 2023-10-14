@@ -20,7 +20,7 @@ export class ProductImplRepository implements ProductRepository {
   findAll = async (companyId: string): Promise<Product[]> =>
     await this.productRepo.find({
       where: { productPdv: { pdv: { company: { id: companyId } } } },
-      relations: ProductRelations.internals,
+      relations: ProductRelations.general,
     });
 
   findOne = async (id: string, companyId: string): Promise<Product> =>

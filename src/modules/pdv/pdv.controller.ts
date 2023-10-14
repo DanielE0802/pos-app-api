@@ -17,7 +17,7 @@ import { UpdatePdvDto } from './dto/update-pdv.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
 import { User } from '../user/entities/user.entity';
-import { TokenUser } from 'src/common/constants/constant.app';
+import { TokenUser } from 'src/common/constants/types/types.app';
 import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decarator';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 
