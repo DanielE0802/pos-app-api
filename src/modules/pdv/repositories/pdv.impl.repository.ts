@@ -24,7 +24,7 @@ export class PdvImplRepository implements PdvRepository {
   findOne = async (id: string, companyId: string, rel: boolean): Promise<Pdv> =>
     await this.pdvRepo.findOne({
       where: { id },
-      relations: { location: rel },
+      relations: { location: rel, productPdv: { product: true } },
       cache: true,
     });
 
