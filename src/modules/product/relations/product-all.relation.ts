@@ -5,7 +5,7 @@ export const ProductRelations: Record<string, CustomRelations<Product>> = {
   general: {
     productMainProduct: true,
     // subProducts: true,
-    productPdv: true,
+    productPdv: { pdv: true },
     category: true,
     brand: true,
   },
