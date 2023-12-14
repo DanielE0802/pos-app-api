@@ -8,6 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -16,6 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 import { GetUserCompany } from '../auth/decorators/get-user.decarator';
 import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @ApiTags('Product')
 @ApiBearerAuth()
@@ -33,8 +35,11 @@ export class ProductController {
   }
 
   @Get()
-  findAll(@GetUserCompany() company: IRelationType) {
-    return this.productService.findAll(company.id);
+  findAll(
+    @GetUserCompany() company: IRelationType,
+    @Query() pags: PaginationDto,
+  ) {
+    return this.productService.findAll(company.id, pags);
   }
 
   @Get(':id')

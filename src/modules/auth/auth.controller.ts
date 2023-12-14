@@ -26,25 +26,17 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
-  register(@Body() data: CreateUserDto): Promise<any> {
-    try {
-      return this.authService.register(data);
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
+  register(@Body() data: CreateUserDto) {
+    return this.authService.register(data);
   }
 
   @Post('/login')
-  login(@Body() loginDto: LoginDto): Promise<string> {
-    try {
-      return this.authService.login(loginDto);
-    } catch (e) {
-      throw new ConflictException((e as Error).message);
-    }
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 
   @Get('/verifed')
-  @Redirect(`www.google.com.co`, 200)
+  // @Redirect(`Ridered site`, 200)
   putActivateAccount(
     @Query() data: ActivateUserDto,
   ): Promise<Record<'msg', string>> {

@@ -16,6 +16,7 @@ export const GetUser = createParamDecorator((_data, ctx: ExecutionContext) => {
   return req.user;
 });
 
+// TODO: Revisar este decorador ya que es afectado por el cambio de la la relation de Profile.Company
 export const GetUserCompany = createParamDecorator(
   (_data, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();

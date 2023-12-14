@@ -19,8 +19,8 @@ export interface HashService {
 
 @Injectable()
 export class EncoderService implements HashService {
-  encodePassword = async (password: string): Promise<string> =>
-    await bcrypt.hash(password, await bcrypt.genSalt());
+  encodePassword = async (p: string): Promise<string> =>
+    await bcrypt.hash(p, await bcrypt.genSalt());
 
   checkPassword = async (p: string, up: string): Promise<boolean> =>
     await bcrypt.compare(p, up);

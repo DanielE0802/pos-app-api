@@ -5,8 +5,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { LocationModule } from './modules/location/location.module';
 import { CompanyModule } from './modules/company/company.module';
-import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from './common/config/jwt.config';
 import { ContactsModule } from './modules/contacts/contacts.module';
 
 @Module({

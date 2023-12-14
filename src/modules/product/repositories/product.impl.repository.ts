@@ -6,6 +6,7 @@ import { ProductRepository } from './product.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductRelations } from '../relations/product-all.relation';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {
@@ -17,10 +18,15 @@ export class ProductImplRepository implements ProductRepository {
   create = async (data: CreateProductDto): Promise<Product> =>
     await this.productRepo.save(this.productRepo.create(data));
 
-  findAll = async (companyId: string): Promise<Product[]> =>
+  findAll = async (
+    companyId: string,
+    pags: PaginationDto,
+  ): Promise<Product[]> =>
     await this.productRepo.find({
       where: { productPdv: { pdv: { company: { id: companyId } } } },
       relations: ProductRelations.general,
+      skip: pags.offset,
+      take: pags.limit,
     });
 
   findOne = async (id: string, companyId: string): Promise<Product> =>

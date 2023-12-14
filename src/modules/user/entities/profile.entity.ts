@@ -8,15 +8,11 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { User } from './user.entity';
-import { Company } from 'src/modules/company/entities/company.entity';
 
 @Entity('profiles')
 export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ length: 100, unique: true })
-  email: string;
 
   @Column({ length: 55 })
   name: string;
@@ -33,10 +29,6 @@ export class Profile {
   @Column({ length: 155, nullable: true })
   photo: string;
 
-  @ManyToOne(() => Company, (company) => company.profiles)
-  @JoinColumn({ name: 'company_id' })
-  company: Company;
-
-  @OneToOne(() => User, (user) => user.profile)
+  @OneToOne(() => User, (user) => user.profile, { cascade: false })
   user: User;
 }

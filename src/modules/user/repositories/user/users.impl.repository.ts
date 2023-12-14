@@ -1,70 +1,83 @@
 import { UserRepository } from './users.repository';
 import { Repository, UpdateResult } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user.entity';
 import { CreateUserDto } from '../../dto/user/create-user.dto';
 import { Profile } from '../../entities/profile.entity';
+import { UpdateUserDto } from '../../dto/user/update-user.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { NFE } from 'src/common/exceptions/exception.string';
 
 @Injectable()
 export class UserImplRepository implements UserRepository {
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<User>,
+    private userRepository: Repository<User>,
     @InjectRepository(Profile)
-    private profileRepo: Repository<Profile>,
+    private profileRepository: Repository<Profile>,
   ) {}
 
-  create = async (createUserDto: CreateUserDto): Promise<User> => {
-    const { profile } = createUserDto;
+  async create(data: CreateUserDto): Promise<User> {
+    const { profile } = data;
 
-    const _profile = await this.profileRepo.save(
-      this.profileRepo.create(profile),
+    return await this.userRepository.save(
+      this.userRepository.create({
+        ...data,
+        profile: this.profileRepository.create(profile),
+      }),
     );
+  }
 
-    return await this.userRepo.save(
-      this.userRepo.create({ ...createUserDto, profile: _profile }),
-    );
-  };
-
-  findAll = async (): Promise<User[]> => await this.userRepo.find();
-
-  findAllVerify = async (): Promise<User[]> =>
-    await this.userRepo.find({ where: { verified: true } });
-
-  findOne = async (id: string): Promise<User> =>
-    await this.userRepo.findOne({
-      where: { id },
-      relations: { profile: { company: true } },
+  async findAll(pags: PaginationDto): Promise<User[]> {
+    return await this.userRepository.find({
+      skip: pags.offset,
+      take: pags.limit,
     });
+  }
 
-  findByEmail = async (email: string): Promise<User> => {
-    return await this.userRepo.findOne({
+  async findById(id: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: { company: true },
+    });
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({
       select: {
         id: true,
+        email: true,
         password: true,
         verified: true,
         verifyToken: true,
-        profile: { email: true, company: { id: true } },
       },
-      where: { profile: { email } },
-      relations: { profile: { company: true } },
+      where: { email },
+      relations: { company: true },
     });
-  };
+  }
 
-  findInectiveUsersByCode = async (
+  async findInectiveUsersByCode(
     id: string,
     verifyToken: string,
-  ): Promise<User> =>
-    await this.userRepo.findOne({
+  ): Promise<User> {
+    return await this.userRepository.findOne({
       where: { id, verifyToken, verified: false },
     });
+  }
 
-  findByResetPasswordToken = async (
-    resetPasswordToken: string,
-  ): Promise<User> =>
-    await this.userRepo.findOne({ where: { resetPasswordToken } });
+  async findByResetPasswordToken(resetPasswordToken: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { resetPasswordToken } });
+  }
 
-  update = async (id: string, data: any): Promise<UpdateResult> =>
-    await this.userRepo.update(id, data);
+  async update(id: string, data: UpdateUserDto): Promise<any> {
+    const { profile, ...rest } = data;
+    const user = await this.userRepository.findOneOrFail({ where: { id } });
+
+    Object.assign(user, rest);
+    if (profile) Object.assign(user.profile, profile);
+
+    await this.userRepository.save(user);
+    return user;
+  }
 }

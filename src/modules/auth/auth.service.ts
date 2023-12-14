@@ -2,6 +2,8 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
+  Logger,
   NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -23,6 +25,7 @@ import { CreateUserDto } from '../user/dto/user/create-user.dto';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger('AuthService');
   constructor(
     private readonly usersService: UsersService,
     private readonly encoderService: EncoderService,
@@ -33,35 +36,48 @@ export class AuthService {
 
   async register(data: CreateUserDto): Promise<any> {
     const { password } = data;
+    const hash = await this.encoderService.encodePassword(password);
 
-    data.verifyToken = this.genstrService.generate(25);
-    data.password = await this.encoderService.encodePassword(password);
+    const user = await this.usersService.create({
+      ...data,
+      password: hash,
+      verifyToken: this.genstrService.generate(25),
+    });
 
-    const user = await this.usersService.create(data);
+    if (!user)
+      throw new InternalServerErrorException(
+        'Error intentando crear el usuario',
+      );
 
-    // Send VerifyEmail
+    // TODO: Implementar y validar que se envio el email
     await this.mailService.sendVerifyEmail(user);
 
-    return { msg: SUCC.SUCC_USER_REGISTERED };
+    return user;
   }
 
-  async login(loginDto: LoginDto): Promise<string> {
+  async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
     const user = await this.usersService.findByEmail(email);
 
-    if (!user || !(await this.encoderService.checkPassword(password, user.password)))
+    const passwordChecked = await this.encoderService.checkPassword(
+      password,
+      user.password,
+    );
+
+    if (!user || !passwordChecked)
       throw new UnauthorizedException(UAE.UNAUTHORIZED);
 
     if (!user.verified) throw new UnauthorizedException(UEE.USER_UNVERIFY);
 
     delete user.password;
 
-    return this.jwtService.sign({ ...user });
+    return { accessToken: this.jwtService.sign({ ...user }) };
   }
 
   // TODO: Change logic to Email Verify
   async verifyUser(data: ActivateUserDto): Promise<any> {
     const { uuid, code } = data;
+
     const user = await this.usersService.findInectiveUsersByCode(uuid, code);
 
     if (!user) throw new NotFoundException(UEE.USER_UNVERIFY);

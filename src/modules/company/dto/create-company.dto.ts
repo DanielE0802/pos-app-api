@@ -9,6 +9,8 @@ import {
   IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { User } from 'src/modules/user/entities/user.entity';
 
 export class CreateCompanyDto {
   @ApiProperty()
@@ -46,4 +48,8 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   @IsString()
   economicActivity: string;
+
+  @IsOptional()
+  @Type(() => User)
+  user: User;
 }

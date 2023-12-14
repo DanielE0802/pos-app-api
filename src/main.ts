@@ -8,17 +8,17 @@ async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix('/api/v2');
 
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
+      // transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
-      forbidUnknownValues: true,
-      validationError: {
-        target: false,
-      },
+      // forbidUnknownValues: true,
+      // validationError: {
+      //   target: false,
+      // },
     }),
   );
 

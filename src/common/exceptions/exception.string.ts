@@ -6,6 +6,7 @@ export const NFE = {
   NOT_RESET_TOKEN: 'Este usuario no tiene un proceso de cambio de contraseña.',
   /* User */
   NOT_USER: 'No se puede encontrar al usuario.',
+  NOT_USER_UPDATE: 'No se encontro el usuario que intenta actualizar.',
   NOT_USER_BY: 'No se puede encontrar al usuario con el siguiente =>',
 };
 
