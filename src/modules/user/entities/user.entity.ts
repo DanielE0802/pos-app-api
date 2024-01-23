@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -27,6 +28,9 @@ export class User {
   @Column('boolean', { default: true })
   verified: boolean;
 
+  @Column('boolean', { name: 'is_active', default: true })
+  isActive: boolean;
+
   @Column('varchar', {
     length: 55,
     unique: true,
@@ -49,6 +53,9 @@ export class User {
   })
   firstLogin: boolean;
 
+  @Column('simple-array', { nullable: true })
+  roles: string[];
+
   @OneToOne(() => Profile, (profile) => profile.user, {
     nullable: false,
     cascade: true,
@@ -63,4 +70,11 @@ export class User {
 
   @CreateDateColumn({ select: false, name: 'created_on' })
   createdOn: Date;
+
+  @BeforeInsert()
+  setDefaultRoles() {
+    if (!this.roles || this.roles.length === 0) {
+      this.roles = ['owner'];
+    }
+  }
 }

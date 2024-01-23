@@ -17,11 +17,12 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { SUCC } from 'src/common/exceptions/success.string';
 import { MailService } from '../mail/mail.service';
 import { BRE, NFE, UAE, UEE } from 'src/common/exceptions/exception.string';
-import { EncoderService } from 'src/utils/encoder.service';
-import { GenstrService } from 'src/utils/genstr.service';
+import { EncoderService } from 'src/adapters/encoder.adapter';
+import { GenstrService } from 'src/adapters/genstr.adapter';
 import { UsersService } from '../user/services/user.service';
 import { User } from '../user/entities/user.entity';
 import { CreateUserDto } from '../user/dto/user/create-user.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -71,7 +72,11 @@ export class AuthService {
 
     delete user.password;
 
-    return { accessToken: this.jwtService.sign({ ...user }) };
+    return { accessToken: this.jwtService.sign({ id: user.id }) };
+  }
+
+  async checkAuthStatus(user: User) {
+    return { ...user, token: this.getJwtToken({ id: user.id }) };
   }
 
   // TODO: Change logic to Email Verify
@@ -132,5 +137,9 @@ export class AuthService {
 
     user.password = await this.encoderService.encodePassword(np);
     await this.usersService.update(user.id, user);
+  }
+
+  private getJwtToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload);
   }
 }

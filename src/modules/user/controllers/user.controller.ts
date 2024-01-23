@@ -10,11 +10,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { Auth } from 'src/modules/auth/decorators';
+import { ValidRoles } from 'src/modules/auth/interfaces/valid-roles.interface';
+// import { Auth } from 'src/modules/auth/decorators';
+// import { ValidRoles } from 'src/modules/auth/interfaces/valid-roles.interface';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -24,6 +28,7 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
+  // @Auth(ValidRoles.owner)
   findAll(@Query() pags: PaginationDto): Promise<User[]> {
     return this.usersService.findAll(pags);
   }
@@ -33,6 +38,7 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
+  @Auth(ValidRoles.admin)
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,

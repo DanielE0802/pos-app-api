@@ -13,9 +13,9 @@ import { ProductsPdvsService } from './products-pdvs.service';
 import { CreateProductsPdvDto } from './dto/create-products-pdv.dto';
 import { UpdateProductsPdvDto } from './dto/update-products-pdv.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
-import { GetUserCompany } from '../auth/decorators/get-user.decarator';
+import { GetUserCompany } from '../auth/decorators/get-user.decorator';
 
 @ApiTags('Product x Pdvs')
 @ApiBearerAuth()

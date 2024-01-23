@@ -1,25 +1,26 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { dbConfig } from './common/config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { LocationModule } from './modules/location/location.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
+import { ConfigModule } from '@nestjs/config';
+import { JoiValidationSchema } from './config/validations/joi.validation';
+import { TypeORMModule } from './config/database/typeorm.module';
+
+const configModules = [
+  TypeORMModule,
+  ConfigModule.forRoot({
+    validationSchema: JoiValidationSchema,
+  }),
+  // ServeStaticModule.forRoot({
+  //   rootPath: join(__dirname, '..', 'public'),
+  // }),
+];
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: dbConfig.dbClient,
-      host: dbConfig.dbHost,
-      port: dbConfig.dbPort,
-      username: dbConfig.dbUser,
-      password: dbConfig.dbPassword,
-      database: dbConfig.dbName,
-      entities: [],
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    ...configModules,
     AuthModule,
     ContactsModule,
     ProductModule,

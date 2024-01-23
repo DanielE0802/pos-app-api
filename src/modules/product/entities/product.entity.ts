@@ -52,6 +52,9 @@ export class Product {
   @Column({ name: 'price_base' })
   priceBase: number;
 
+  // @Column({ name: '' })
+  // precio al que lo compro: number;
+
   @Column({ name: 'quantity_stock' })
   quantityStock: number; // Global stock couting all PDVs
 

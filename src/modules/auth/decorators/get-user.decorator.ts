@@ -1,20 +1,32 @@
 import {
   createParamDecorator,
   ExecutionContext,
+  InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 
-export const GetUser = createParamDecorator((_data, ctx: ExecutionContext) => {
-  const req = ctx.switchToHttp().getRequest();
+export const GetUser = createParamDecorator(
+  (data: string, ctx: ExecutionContext) => {
+    const { user } = ctx.switchToHttp().getRequest();
 
-  if (!req.user)
-    throw new UnprocessableEntityException('Token does not contain a user');
+    if (!user)
+      throw new InternalServerErrorException('User not found (request)');
 
-  delete req.user.password;
+    return !data ? user : user[data];
+  },
+);
 
-  return req.user;
-});
+// export const GetUser = createParamDecorator((_data, ctx: ExecutionContext) => {
+//   const req = ctx.switchToHttp().getRequest();
+
+//   if (!req.user)
+//     throw new UnprocessableEntityException('Token does not contain a user');
+
+//   delete req.user.password;
+
+//   return req.user;
+// });
 
 // TODO: Revisar este decorador ya que es afectado por el cambio de la la relation de Profile.Company
 export const GetUserCompany = createParamDecorator(

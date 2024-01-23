@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { InvoicesService } from './invoices.service';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { SellInvoicesService } from './sales-invoices.service';
+import { CreateSalesInvoiceDto } from './dto/create-invoice.dto';
+import { UpdateSalesInvoiceDto } from './dto/update-invoice.dto';
 
 @Controller('invoices')
-export class InvoicesController {
-  constructor(private readonly invoicesService: InvoicesService) {}
+export class SellInvoicesController {
+  constructor(private readonly invoicesService: SellInvoicesService) {}
 
   @Post()
-  create(@Body() createInvoiceDto: CreateInvoiceDto) {
+  create(@Body() createInvoiceDto: CreateSalesInvoiceDto) {
     return this.invoicesService.create(createInvoiceDto);
   }
 
@@ -23,7 +23,7 @@ export class InvoicesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateSalesInvoiceDto) {
     return this.invoicesService.update(+id, updateInvoiceDto);
   }
 

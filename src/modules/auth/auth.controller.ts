@@ -6,7 +6,6 @@ import {
   Patch,
   Post,
   Query,
-  Redirect,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -15,10 +14,11 @@ import { ActivateUserDto } from './dto/activate-user.dto';
 import { ReqResetPasswordDto } from './dto/req-reset-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { GetUser } from './decorators/get-user.decarator';
+import { GetUser } from './decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/user/create-user.dto';
+import { User } from '../user/entities/user.entity';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -35,8 +35,14 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  @ApiBearerAuth()
+  @Get('check-status')
+  // @Auth()
+  checkAuthStatus(@GetUser() user: User) {
+    return this.authService.checkAuthStatus(user);
+  }
+
   @Get('/verifed')
-  // @Redirect(`Ridered site`, 200)
   putActivateAccount(
     @Query() data: ActivateUserDto,
   ): Promise<Record<'msg', string>> {
