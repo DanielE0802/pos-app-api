@@ -1,31 +1,28 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
-import { ProductModule } from './modules/product/product.module';
-import { LocationModule } from './modules/location/location.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
-import { ConfigModule } from '@nestjs/config';
-import { JoiValidationSchema } from './config/validations/joi.validation';
-import { TypeORMModule } from './config/database/typeorm.module';
+import { CustomConfigModule } from './common/config/modules/config.module';
+import { LocationModule } from './modules/location/location.module';
+import { ProductModule } from './modules/product/product.module';
+import { ServerStaticConfigModule } from './common/config/modules/server-static.module';
+import { TypeORMModule } from './common/config/modules/typeorm.module';
 
-const configModules = [
+const ConfigModules = [
   TypeORMModule,
-  ConfigModule.forRoot({
-    validationSchema: JoiValidationSchema,
-  }),
-  // ServeStaticModule.forRoot({
-  //   rootPath: join(__dirname, '..', 'public'),
-  // }),
+  CustomConfigModule,
+  ServerStaticConfigModule,
+];
+
+const AppModules = [
+  AuthModule,
+  ContactsModule,
+  ProductModule,
+  LocationModule,
+  CompanyModule,
 ];
 
 @Module({
-  imports: [
-    ...configModules,
-    AuthModule,
-    ContactsModule,
-    ProductModule,
-    LocationModule,
-    CompanyModule,
-  ],
+  imports: [...ConfigModules, ...AppModules],
 })
 export class AppModule {}

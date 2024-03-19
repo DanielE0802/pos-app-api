@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { APP_CONFIG } from './common/config/app.config';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import { APIVersion } from './common/constants/app/version.app';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -11,13 +11,13 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('/api/v2');
+  app.setGlobalPrefix(APIVersion.v2);
 
   app.useGlobalPipes(
     new ValidationPipe({
-      // transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
+      // transform: true,
       // forbidUnknownValues: true,
       // validationError: {
       //   target: false,
@@ -28,8 +28,9 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('POS')
-    .setVersion('1.0')
+    .setTitle('ERP Ally360')
+    .setDescription('Restful API correspondiente al componente Ally360')
+    .setVersion('1.0.0')
     .addBearerAuth()
     .build();
 
@@ -40,7 +41,7 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(APP_CONFIG.appPort);
+  await app.listen(process.env.PORT);
 
   logger.log(`Server is running!, View services: ${await app.getUrl()}/docs/`);
 }

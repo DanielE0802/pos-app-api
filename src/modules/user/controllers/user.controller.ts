@@ -5,7 +5,6 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -16,9 +15,7 @@ import { User } from '../entities/user.entity';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Auth } from 'src/modules/auth/decorators';
-import { ValidRoles } from 'src/modules/auth/interfaces/valid-roles.interface';
-// import { Auth } from 'src/modules/auth/decorators';
-// import { ValidRoles } from 'src/modules/auth/interfaces/valid-roles.interface';
+import { ValidRoles } from 'src/common/constants/app/valid-roles.app';
 
 @ApiTags('Users')
 @ApiBearerAuth()

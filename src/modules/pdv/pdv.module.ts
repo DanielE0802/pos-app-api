@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { PdvService } from './pdv.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PassportModule } from '@nestjs/passport';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { Pdv } from './entities/pdv.entity';
 import { PdvController } from './pdv.controller';
 import { PdvProviders } from './providers/pdv.provider';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Pdv } from './entities/pdv.entity';
-import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { PdvService } from './pdv.service';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([Pdv]),
   ],
   controllers: [PdvController],

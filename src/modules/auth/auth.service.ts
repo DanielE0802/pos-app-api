@@ -16,13 +16,13 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { SUCC } from 'src/common/exceptions/success.string';
 import { MailService } from '../mail/mail.service';
-import { BRE, NFE, UAE, UEE } from 'src/common/exceptions/exception.string';
-import { EncoderService } from 'src/adapters/encoder.adapter';
-import { GenstrService } from 'src/adapters/genstr.adapter';
+import { NFE, UAE, UEE } from 'src/common/exceptions/exception.string';
 import { UsersService } from '../user/services/user.service';
 import { User } from '../user/entities/user.entity';
 import { CreateUserDto } from '../user/dto/user/create-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { EncoderService } from 'src/common/helpers/encoder.adapter';
+import { GenstrService } from 'src/common/helpers/genstr.adapter';
 
 @Injectable()
 export class AuthService {
@@ -81,33 +81,34 @@ export class AuthService {
 
   // TODO: Change logic to Email Verify
   async verifyUser(data: ActivateUserDto): Promise<any> {
-    const { uuid, code } = data;
+    const { id, code } = data;
 
-    const user = await this.usersService.findInectiveUsersByCode(uuid, code);
+    try {
+      const user = await this.usersService.findInectiveUsersByCode(id, code);
 
-    if (!user) throw new NotFoundException(UEE.USER_UNVERIFY);
+      if (!user) throw new NotFoundException(UEE.USER_UNVERIFY);
 
-    user.verified = true;
-    user.verifyToken = null;
+      user.verified = true;
+      user.verifyToken = null;
 
-    return (
-      (await this.usersService.update(user.id, user)) && {
-        msg: SUCC.SUCC_USER_VERIFIED,
-      }
-    );
+      const record = await this.usersService.update(user.id, user);
+      return record && { msg: SUCC.SUCC_USER_VERIFIED };
+    } catch (error) {
+      console.log(error);
+      console.log('Check logs - verifyUser');
+    }
   }
 
   async reqResetPassword(data: ReqResetPasswordDto): Promise<any> {
     const user = await this.usersService.findByEmail(data.email);
+    if (!user) throw new NotFoundException(NFE.NOT_USER);
+
     user.resetPasswordToken = this.genstrService.generate(50);
 
     const record = await this.usersService.update(user.id, user);
+    const emailSend = await this.mailService.sendResetPasswordEmail(record);
 
-    return (
-      (await this.mailService.sendResetPasswordEmail(record)) && {
-        msg: SUCC.SUCC_RESET_CODE_SENT,
-      }
-    );
+    return emailSend && { msg: SUCC.SUCC_RESET_CODE_SENT };
   }
 
   async resetPassword(data: ResetPasswordDto): Promise<any> {

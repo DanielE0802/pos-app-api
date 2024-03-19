@@ -120,8 +120,6 @@ export class UsersService {
           'Ocurrio un error actualizando el usuario',
         );
 
-      console.log('userUpdated', userUpdated);
-
       return userUpdated;
     } catch (error) {
       this.logger.error(error);

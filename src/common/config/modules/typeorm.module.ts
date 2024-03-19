@@ -1,24 +1,26 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
+import configuration from '../validations/configuration';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
+      inject: [configuration.KEY],
+      useFactory: async (configService: ConfigType<typeof configuration>) => {
         return {
           type: 'mysql',
-          host: configService.get('DB_HOST'),
-          port: parseInt(configService.get('DB_PORT')),
-          username: configService.get('DB_USERNAME'),
-          password: configService.get('DB_PASSWORD'),
-          database: configService.get('DB_NAME'),
+          host: configService.DATABASE.HOST,
+          port: parseInt(configService.DATABASE.PORT),
+          username: configService.DATABASE.USER,
+          password: configService.DATABASE.PASSWORD,
+          database: configService.DATABASE.NAME,
           autoLoadEntities: true,
-          synchronize: configService.get('DB_SYNCHRONIZE'),
+          synchronize: configService.DATABASE.SYNC,
+          charset: 'UTF8',
+          entities: [],
         };
       },
       async dataSourceFactory(options) {

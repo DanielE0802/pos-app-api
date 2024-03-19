@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { CategoryProviders } from './providers/category.providers';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([Category]),
   ],
   controllers: [CategoryController],

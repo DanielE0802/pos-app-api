@@ -4,21 +4,16 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { User } from 'src/modules/user/entities/user.entity';
 import { UsersService } from 'src/modules/user/services/user.service';
+import { JwtConfig } from 'src/common/constants/app/jwt.app';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly usersService: UsersService) {
     super({
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: JwtConfig.secret,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
-
-  // async validate(payload: IJwtPayload): Promise<User> {
-  //   const user = await this.usersService.findByEmail(payload.profile.email);
-  //   if (!user) throw new UnauthorizedException();
-  //   return user;
-  // }
 
   async validate(payload: JwtPayload): Promise<User> {
     const { id } = payload;

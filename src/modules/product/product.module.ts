@@ -6,14 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { CategoryModule } from '../category/category.module';
 import { BrandModule } from '../brand/brand.module';
-import { ProductPdv } from '../products-pdvs/entities/product-pdv.entity';
 import { ProductsPdvsModule } from '../products-pdvs/products-pdvs.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([Product]),
     CategoryModule,
     BrandModule,

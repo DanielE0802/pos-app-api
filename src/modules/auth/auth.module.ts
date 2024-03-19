@@ -4,29 +4,25 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-
 import { AuthProviders } from './providers/auth.providers';
 import { MailModule } from '../mail/mail.module';
-import { JwtConfig } from 'src/common/config/jwt.config';
-import { EncoderService } from 'src/adapters/encoder.adapter';
-import { GenstrService } from 'src/adapters/genstr.adapter';
 import { UserModule } from '../user/user.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from '../user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtConfig, DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { EncoderService } from 'src/common/helpers/encoder.adapter';
+import { GenstrService } from 'src/common/helpers/genstr.adapter';
 
 @Module({
   imports: [
-    ConfigModule,
+    // ConfigModule,
     TypeOrmModule.forFeature([User]),
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get('JWT_SECRET'),
+      useFactory: () => ({
+        secret: JwtConfig.secret,
         signOptions: {
-          expiresIn: config.get('JWT_EXPIRED_TOKEN'),
+          expiresIn: JwtConfig.expiredToken,
         },
       }),
     }),
@@ -41,6 +37,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     GenstrService,
     ...AuthProviders,
   ],
-  exports: [TypeOrmModule, JwtModule, JwtStrategy, PassportModule],
+  exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

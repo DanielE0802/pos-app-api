@@ -1,5 +1,5 @@
 /* A MAIL constant that is exporting with the each email configuration. */
-export const MAIL = {
+export const EmailTemplates = {
   activation_account: {
     template: 'activation-account',
     config: {

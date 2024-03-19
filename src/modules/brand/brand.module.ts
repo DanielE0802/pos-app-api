@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Brand } from './entities/brand.entity';
 import { BrandProviders } from './providers/brand.providers';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([Brand]),
   ],
   controllers: [BrandController],

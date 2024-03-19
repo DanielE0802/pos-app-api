@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './services/user.service';
 import { UsersController } from './controllers/user.controller';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 import { UserProviders } from './providers/user.providers';
 import { User } from './entities/user.entity';
@@ -13,7 +13,7 @@ import { ProfileService } from './services/profile.service';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([User, Profile]),
   ],
   controllers: [UsersController, ProfileController],

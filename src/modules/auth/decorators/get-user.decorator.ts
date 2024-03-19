@@ -8,6 +8,7 @@ import { IRelationType } from 'src/common/decorators/relation.decorator';
 
 export const GetUser = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
+    console.log(ctx);
     const { user } = ctx.switchToHttp().getRequest();
 
     if (!user)
