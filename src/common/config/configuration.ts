@@ -1,9 +1,10 @@
 import { registerAs } from '@nestjs/config';
+import { truthy } from '../constants/app/bools.app';
 
 export default registerAs('config', () => {
   return {
     NODE_ENV: process.env.NODE_ENV,
-    PORT: process.env.PORT,
+    PORT: parseInt(process.env.PORT),
 
     DATABASE: {
       HOST: process.env.DB_HOST,
@@ -11,17 +12,26 @@ export default registerAs('config', () => {
       USER: process.env.DB_USER,
       PASSWORD: process.env.DB_PASSWORD,
       NAME: process.env.DB_NAME,
-      SYNC: !!process.env.DB_SYNC,
+      SYNC: truthy.includes(process.env.DB_SYNC),
     },
 
     STORAGE: {
-      IS_ENABLED: process.env.STORAGE_IS_ENABLED === 'true',
-      USE_SSL: process.env.STORAGE_USE_SSL === 'true',
+      IS_ENABLED: truthy.includes(process.env.STORAGE_IS_ENABLED),
+      USE_SSL: truthy.includes(process.env.STORAGE_USE_SSL),
       API_ENDPOINT: process.env.STORAGE_API_ENDPOINT,
       BUCKET_NAME: process.env.STORAGE_BUCKET_NAME,
       PORT: parseInt(process.env.STORAGE_PORT),
       ACCESS_KEY: process.env.STORAGE_ACCESS_KEY,
       SECRET_KEY: process.env.STORAGE_SECRET_KEY,
+    },
+
+    EMAIL: {
+      HOST: process.env.SMTP_HOST,
+      PORT: parseInt(process.env.SMTP_PORT),
+      SECURE: truthy.includes(process.env.SMTP_SECURE),
+      USER: process.env.EMAIL_USER,
+      PASSWORD: process.env.EMAIL_PASSWORD,
+      FROM: process.env.EMAIL_FROM,
     },
 
     // BACKEND_URL: process.env.BACKEND_URL,
@@ -51,15 +61,6 @@ export default registerAs('config', () => {
     //     USER: process.env.KEYCLOAK_DB_USER,
     //     PASSWORD: process.env.KEYCLOAK_DB_PASSWORD,
     //   },
-    // },
-
-    // EMAIL: {
-    //   HOST: process.env.EMAIL_HOST,
-    //   USER: process.env.EMAIL_USER,
-    //   PORT: process.env.EMAIL_PORT,
-    //   SECURE: process.env.EMAIL_SECURE,
-    //   PASSWORD: process.env.EMAIL_PASSWORD,
-    //   FROM: process.env.EMAIL_FROM,
     // },
   };
 });

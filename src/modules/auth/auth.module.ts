@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthProviders } from './providers/auth.providers';
-import { MailModule } from '../mail/mail.module';
+import { MailModule } from '../../common/modules/mail.module';
 import { UserModule } from '../user/user.module';
 import { User } from '../user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';

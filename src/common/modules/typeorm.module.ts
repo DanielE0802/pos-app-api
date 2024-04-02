@@ -3,7 +3,7 @@ import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
-import configuration from '../validations/configuration';
+import configuration from '../config/configuration';
 
 @Module({
   imports: [

@@ -1,6 +1,5 @@
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { ConflictException, Injectable } from '@nestjs/common';
-// import { APP_BASE_URL } from 'src/common/config/app.config';
 import { EmailTemplates } from 'src/common/constants/templates/email/templates.mail';
 
 @Injectable()
