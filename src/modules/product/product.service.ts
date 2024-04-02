@@ -7,6 +7,7 @@ import {
 import { Product } from './entities/product.entity';
 import { ProductsPdvsService } from '../products-pdvs/products-pdvs.service';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class ProductService {
@@ -26,8 +27,13 @@ export class ProductService {
     return this.findOne(product.id, companyId);
   };
 
-  findAll = async (companyId: string): Promise<Product[]> =>
-    await this.productRepo.findAll(companyId);
+  findAll = async (
+    companyId: string,
+    pags: PaginationDto,
+  ): Promise<Product[]> => {
+    const { limit = 10, offset = 0 } = pags;
+    return await this.productRepo.findAll(companyId, { limit, offset });
+  };
 
   findOne = async (
     id: string,

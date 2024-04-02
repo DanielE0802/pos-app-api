@@ -1,0 +1,44 @@
+{
+  "invoiceNumber": "INV-1990",
+  "createDate": "2023-11-25T15:54:38.943Z",
+  "totalTaxes": 335000,
+  "shipping": 0,
+  "status": 1,
+  "method": "Credito",
+  "paymentTerm": "30 días",
+  "totalAmount": 2475000,
+  "currency": "COP",
+  "paymentMethod": "Tarjeta de crédito",
+  "invoiceProvider": {
+    "id": "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1"
+  },
+  "items": [
+    {
+      "product": "iPhone 11",
+      "pdv": "80c1547e-a36e-47dc-be2f-cbc01594a8db",
+      "description": "prueba",
+      "quantity": 12,
+      "price": 8,
+      "total": 10,
+      "taxes": 2
+    },
+    {
+      "product": "iPhone 11 Pro",
+      "pdv": "ee78b1f2-2a7a-11ee-8003-7085c296afc1",
+      "description": "Description of Product A",
+      "quantity": 12,
+      "price": 10,
+      "total": 13,
+      "taxes": 3
+    },
+    {
+      "title": "iPhone 12",
+      "pdv": "80c1547e-a36e-47dc-be2f-cbc01594a8db",
+      "description": "prueba",
+      "quantity": 12,
+      "price": 12,
+      "total": 16,
+      "taxes": 4
+    }
+  ]
+}

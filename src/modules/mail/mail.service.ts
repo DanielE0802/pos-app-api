@@ -1,7 +1,6 @@
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { ConflictException, Injectable } from '@nestjs/common';
-import { APP_BASE_URL } from 'src/common/config/app.config';
-import { MAIL } from 'src/common/constants/templates.mail';
+import { EmailTemplates } from 'src/common/constants/templates/email/templates.mail';
 
 @Injectable()
 export class MailService {
@@ -10,11 +9,13 @@ export class MailService {
   async sendVerifyEmail(user: any) {
     return 'Email Sent';
 
-    const url = `${APP_BASE_URL}/auth/activate-account?uid=${user.id}&code=${user.verifyToken}`;
+    const url = `${null}/auth/activate-account?uid=${user.id}&code=${
+      user.verifyToken
+    }`;
     console.log(url);
 
     return await this.mailerService.sendMail(
-      this.getMailConfig(user, url, MAIL.activation_account),
+      this.getMailConfig(user, url, EmailTemplates.activation_account),
     );
   }
 
@@ -24,7 +25,7 @@ export class MailService {
     const url = `/view/reset-password?tk=${user.resetPasswordToken}`;
 
     return await this.mailerService.sendMail(
-      this.getMailConfig(user, url, MAIL.req_reset_password),
+      this.getMailConfig(user, url, EmailTemplates.req_reset_password),
     );
   }
 

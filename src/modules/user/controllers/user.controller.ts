@@ -5,16 +5,17 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
-import { UpdateResult } from 'typeorm';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { Auth } from 'src/modules/auth/decorators';
+import { ValidRoles } from 'src/common/constants/app/valid-roles.app';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -24,33 +25,22 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  // @Auth(ValidRoles.owner)
+  findAll(@Query() pags: PaginationDto): Promise<User[]> {
+    return this.usersService.findAll(pags);
   }
 
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    return this.usersService.findOne(id);
+    return this.usersService.findById(id);
   }
 
-  @Get('verified')
-  findAllVerify(): Promise<User[]> {
-    return this.usersService.findAllVerify();
-  }
-
+  @Auth(ValidRoles.admin)
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() data: UpdateUserDto,
-  ): Promise<UpdateResult> {
+  ): Promise<User> {
     return this.usersService.update(id, data);
-  }
-
-  @Patch('fl/:id')
-  updateFirstLogin(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() data: UpdateUserDto,
-  ): Promise<UpdateResult> {
-    return this.usersService.updateFirstLogin(id, data);
   }
 }

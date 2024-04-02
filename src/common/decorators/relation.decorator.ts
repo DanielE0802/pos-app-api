@@ -1,11 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsUUID,
-  ValidateIf,
-  ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsUUID, ValidateIf } from 'class-validator';
 
 export class IRelationType {
   @IsNotEmpty()

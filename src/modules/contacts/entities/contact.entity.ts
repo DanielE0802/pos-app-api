@@ -40,7 +40,7 @@ export class Contact {
   @JoinColumn({ name: 'identity_id' })
   identity: Identity;
 
-  @ManyToOne(() => Company, (company) => company.profiles)
+  @ManyToOne(() => Company, (company) => company.user)
   @JoinColumn({ name: 'company_id' })
   company: Company;
 

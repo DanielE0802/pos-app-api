@@ -5,7 +5,7 @@ export class ActivateUserDto {
   @ApiProperty({ description: 'User uuid' })
   @IsNotEmpty()
   @IsUUID()
-  uuid: string;
+  id: string;
 
   @ApiProperty({ description: 'Activation Token' })
   @IsNotEmpty()

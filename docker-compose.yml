@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  ally_api:
+    container_name: ally_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - '${PORT:-3000}:${PORT:-3000}'
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - ally_net
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    restart: always
+    depends_on:
+      storage:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    container_name: ally_mysql
+    hostname: mysql
+    image: mysql:8.0.28
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - '${DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-db_ally_release1}
+      MYSQL_USER: ${DB_USER:?err}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?err}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?err}
+    volumes:
+      - db_data:/var/lib/mysql/:rw
+      # - ./database:/docker-entrypoint-initdb.d/:ro
+    restart: always
+    security_opt:
+      - seccomp:unconfined
+    networks:
+      - ally_net
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          'localhost',
+          '-u',
+          '$$MYSQL_USER',
+          '--password=$$MYSQL_PASSWORD'
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  storage:
+    image: minio/minio:latest
+    container_name: ally_minio
+    hostname: storage
+    environment:
+      MINIO_ACCESS_KEY: ${STORAGE_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${STORAGE_SECRET_KEY}
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    command: server /data --console-address ":9001"
+    restart: always
+    volumes:
+      - 'minio_data:/data'
+    networks:
+      - ally_net
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+networks:
+  ally_net:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+  minio_data:
+    driver: local

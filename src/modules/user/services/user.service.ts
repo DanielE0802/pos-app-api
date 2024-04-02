@@ -1,4 +1,11 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { NFE } from 'src/common/exceptions/exception.string';
 import { CreateUserDto } from '../dto/user/create-user.dto';
@@ -6,42 +13,123 @@ import {
   I_USER_REPOSITORY,
   UserRepository,
 } from '../repositories/user/users.repository';
-import { UpdateResult } from 'typeorm';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class UsersService {
+  private logger = new Logger('UsersService');
+
   constructor(
-    @Inject(I_USER_REPOSITORY) private readonly usersRepository: UserRepository,
+    @Inject(I_USER_REPOSITORY) private readonly userRepository: UserRepository,
   ) {}
 
   // TODO: Impl Profile custom Repository
-  create = async (data: CreateUserDto): Promise<User> =>
-    await this.usersRepository.create(data);
+  async create(data: CreateUserDto): Promise<User> {
+    try {
+      return await this.userRepository.create(data);
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
 
-  findAll = async (): Promise<User[]> => await this.usersRepository.findAll();
+  async findAll(pags: PaginationDto): Promise<User[]> {
+    const { limit = 10, offset = 0 } = pags;
+    try {
+      const users = await this.userRepository.findAll({ limit, offset });
+      if (!users) this.handlerNotFound(`all`);
 
-  findOne = async (id: string): Promise<User> =>
-    await this.usersRepository.findOne(id);
+      return users;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
 
-  findAllVerify = async (): Promise<User[]> =>
-    await this.usersRepository.findAllVerify();
+  async findById(id: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findById(id);
+      if (!user) this.handlerNotFound(id);
 
-  findInectiveUsersByCode = async (uid: string, code: string): Promise<User> =>
-    await this.usersRepository.findInectiveUsersByCode(uid, code);
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
 
-  findByEmail = async (email: string): Promise<User> =>
-    await this.usersRepository.findByEmail(email);
+  async findByEmail(email: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findByEmail(email);
+      if (!user) this.handlerNotFound(email);
 
-  findByResetPasswordToken = async (resetPasswordToken: string) =>
-    await this.usersRepository.findByResetPasswordToken(resetPasswordToken);
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
 
-  update = async (id: string, data: UpdateUserDto): Promise<UpdateResult> =>
-    await this.usersRepository.update(id, data);
+  async findInectiveUsersByCode(id: string, code: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findInectiveUsersByCode(id, code);
+      if (!user) this.handlerNotFound(id);
 
-  updateFirstLogin = async (id: string, data: UpdateUserDto): Promise<any> => {
-    const user = await this.usersRepository.findOne(id);
-    user.firstLogin = data.firstLogin;
-    return await this.usersRepository.update(user.id, user);
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
+
+  async findByResetPasswordToken(resetPasswordToken: string) {
+    try {
+      const user = await this.userRepository.findByResetPasswordToken(
+        resetPasswordToken,
+      );
+
+      if (!user) this.handlerNotFound(resetPasswordToken);
+
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
+  }
+
+  update = async (id: string, data: UpdateUserDto): Promise<User> => {
+    console.log(id, { data });
+
+    try {
+      const userUpdated = await this.userRepository.update(id, data);
+      if (!userUpdated)
+        throw new UnprocessableEntityException(
+          'Ocurrio un error actualizando el usuario',
+        );
+
+      return userUpdated;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        'Error interno inesperado, revise los logs',
+      );
+    }
   };
+
+  private handlerNotFound(by: string) {
+    throw new NotFoundException(`${NFE.NOT_USER}:${by}`);
+  }
 }

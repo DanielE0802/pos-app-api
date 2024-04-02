@@ -1,27 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { dbConfig } from './common/config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
-import { ProductModule } from './modules/product/product.module';
-import { LocationModule } from './modules/location/location.module';
 import { CompanyModule } from './modules/company/company.module';
-import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from './common/config/jwt.config';
 import { ContactsModule } from './modules/contacts/contacts.module';
+import { CustomConfigModule } from './common/modules/config.module';
+import { LocationModule } from './modules/location/location.module';
+import { ProductModule } from './modules/product/product.module';
+import { ServerStaticConfigModule } from './common/modules/server-static.module';
+import { TypeORMModule } from './common/modules/typeorm.module';
+import { StorageModule } from './common/modules/storage.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: dbConfig.dbClient,
-      host: dbConfig.dbHost,
-      port: dbConfig.dbPort,
-      username: dbConfig.dbUser,
-      password: dbConfig.dbPassword,
-      database: dbConfig.dbName,
-      entities: [],
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    TypeORMModule,
+    StorageModule,
+    CustomConfigModule,
+    ServerStaticConfigModule,
+
     AuthModule,
     ContactsModule,
     ProductModule,

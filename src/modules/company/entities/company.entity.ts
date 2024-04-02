@@ -1,7 +1,14 @@
 import { Category } from 'src/modules/category/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { Profile } from 'src/modules/user/entities/profile.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
+import { User } from 'src/modules/user/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity('companies')
 export class Company {
@@ -29,12 +36,12 @@ export class Company {
   @Column({ name: 'economic_activity:' })
   economicActivity: string;
 
-  @OneToMany(() => Profile, (profile) => profile.company)
-  profiles: Profile[];
+  @ManyToOne(() => User, (user) => user.company)
+  user: User;
 
   @OneToMany(() => Pdv, (pdv) => pdv.company)
   pdvs: Pdv[];
 
-  @OneToMany(() => Category, category => category.company)
+  @OneToMany(() => Category, (category) => category.company)
   categories: Category[];
 }

@@ -13,7 +13,10 @@ export interface ProductRepository {
    * It finds all the Products in the database and returns them
    * @returns An array of Product objects.
    */
-  findAll: (companyId: string) => Promise<Product[]>;
+  findAll: (
+    companyId: string,
+    pags: { limit: number; offset: number },
+  ) => Promise<Product[]>;
 
   findOne: (id: string, companyId: string) => Promise<Product>;
 

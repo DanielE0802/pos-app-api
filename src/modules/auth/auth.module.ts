@@ -1,26 +1,30 @@
 import { JwtStrategy } from './jwt/jwt.strategy';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-
 import { AuthProviders } from './providers/auth.providers';
-import { MailModule } from '../mail/mail.module';
-import { JwtConfig } from 'src/common/config/jwt.config';
-import { EncoderService } from 'src/utils/encoder.service';
-import { GenstrService } from 'src/utils/genstr.service';
+import { MailModule } from '../../common/modules/mail.module';
 import { UserModule } from '../user/user.module';
+import { User } from '../user/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtConfig, DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { EncoderService } from 'src/common/helpers/encoder.adapter';
+import { GenstrService } from 'src/common/helpers/genstr.adapter';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
-    JwtModule.register({
-      secret: JwtConfig.secretKey,
-      signOptions: {
-        expiresIn: JwtConfig.tokenExpireIn,
-      },
+    // ConfigModule,
+    TypeOrmModule.forFeature([User]),
+    PassportModule.register(DefaultStrategy),
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: JwtConfig.secret,
+        signOptions: {
+          expiresIn: JwtConfig.expiredToken,
+        },
+      }),
     }),
     MailModule,
     UserModule,
@@ -28,11 +32,11 @@ import { UserModule } from '../user/user.module';
   controllers: [AuthController],
   providers: [
     AuthService,
-    EncoderService,
     JwtStrategy,
+    EncoderService,
     GenstrService,
     ...AuthProviders,
   ],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

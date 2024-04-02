@@ -6,11 +6,11 @@ import { Company } from './entities/company.entity';
 import { CompanyProviders } from './providers/company.providers';
 import { PdvModule } from '../pdv/pdv.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtConfig } from 'src/common/config/jwt.config';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: JwtConfig.strategy }),
+    PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([Company]),
     PdvModule,
   ],

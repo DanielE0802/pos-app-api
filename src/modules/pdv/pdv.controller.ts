@@ -15,10 +15,10 @@ import { PdvService } from './pdv.service';
 import { CreatePdvDto } from './dto/create-pdv.dto';
 import { UpdatePdvDto } from './dto/update-pdv.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from '../user/entities/user.entity';
 import { TokenUser } from 'src/common/constants/types/types.app';
-import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decarator';
+import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decorator';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 
 @ApiTags('Punto de Venta')
