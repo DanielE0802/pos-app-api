@@ -25,7 +25,7 @@ import configuration from '../config/configuration';
             from: configService.EMAIL.FROM,
           },
           template: {
-            dir: join(__dirname, '/templates'), // directorio de las plantillas
+            dir: join(__dirname, '../constants/templates/hbs/'), // directorio de las plantillas
             adapter: new HandlebarsAdapter(), // adaptador para handlebars
             options: {
               strict: true,

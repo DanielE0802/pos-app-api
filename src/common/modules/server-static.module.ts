@@ -2,13 +2,10 @@ import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-console.log(join(process.cwd(), 'public'));
-
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'public'),
-      serveRoot: '/public/',
+      rootPath: join(process.cwd(), '/public'),
     }),
   ],
 })
