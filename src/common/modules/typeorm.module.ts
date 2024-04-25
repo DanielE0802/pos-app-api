@@ -25,7 +25,9 @@ import configuration from '../config/configuration';
       },
       async dataSourceFactory(options) {
         if (!options) throw new Error('Invalid options passed');
-        return addTransactionalDataSource(new DataSource(options));
+        return addTransactionalDataSource(
+          await new DataSource(options).initialize(),
+        );
       },
     }),
   ],
