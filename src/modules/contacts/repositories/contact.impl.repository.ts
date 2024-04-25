@@ -2,10 +2,10 @@ import { Repository, UpdateResult } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContactRepository } from './contact.repository';
-import { Contact } from '../entities/contact.entity';
+import { Contact } from '../../../common/entities/contact.entity';
 import { CreateContactDto } from '../dto/contact/create-contact.dto';
 import { UpdateContactDto } from '../dto/contact/update-contact.dto';
-import { Identity } from '../entities/identy.entity';
+import { Identity } from '../../../common/entities/identity.entity';
 
 @Injectable()
 export class ContactImplRepository implements ContactRepository {

@@ -6,9 +6,9 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Category } from 'src/modules/category/entities/category.entity';
-import { Brand } from 'src/modules/brand/entities/brand.entity';
-import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
+import { Category } from 'src/common/entities/category.entity';
+import { Brand } from 'src/common/entities/brand.entity';
+import { ProductPdv } from './product-pdv.entity';
 
 @Entity('products')
 export class Product {

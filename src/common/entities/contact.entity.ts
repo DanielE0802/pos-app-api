@@ -1,14 +1,17 @@
 import { Town } from 'src/modules/location/entities/town.entity';
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Identity } from './identy.entity';
-import { Company } from 'src/modules/company/entities/company.entity';
+import { Identity } from './identity.entity';
+import { Company } from 'src/common/entities/company.entity';
 
 @Entity('contacts')
 export class Contact {
@@ -36,15 +39,32 @@ export class Contact {
   @Column()
   type: number;
 
+  // Relations
   @OneToOne(() => Identity, (identity) => identity.contact, { nullable: false })
   @JoinColumn({ name: 'identity_id' })
   identity: Identity;
 
-  @ManyToOne(() => Company, (company) => company.user)
+  @Column({ name: 'company_id', type: 'varchar', nullable: true })
+  companyId: string;
+
+  @ManyToOne(() => Company)
   @JoinColumn({ name: 'company_id' })
   company: Company;
 
-  @ManyToOne(() => Town, { nullable: true })
+  @Column({ name: 'town_id', type: 'int', nullable: true })
+  townId: number;
+
+  @ManyToOne(() => Town)
   @JoinColumn({ name: 'town_id' })
   town: Town;
+
+  // auto columns
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

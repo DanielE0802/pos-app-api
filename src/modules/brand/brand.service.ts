@@ -5,7 +5,7 @@ import {
   BrandRepository,
   I_BRAND_REPOSITORY,
 } from './repositories/brand.repository';
-import { Brand } from './entities/brand.entity';
+import { Brand } from '../../common/entities/brand.entity';
 
 @Injectable()
 export class BrandService {

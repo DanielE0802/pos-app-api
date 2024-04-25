@@ -1,6 +1,6 @@
 import { CreateCompanyDto } from '../dto/create-company.dto';
 import { UpdateCompanyDto } from '../dto/update-company.dto';
-import { Company } from '../entities/company.entity';
+import { Company } from '../../../common/entities/company.entity';
 
 export interface CompanyRepository {
   /**

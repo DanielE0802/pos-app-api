@@ -7,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthProviders } from './providers/auth.providers';
 import { MailModule } from '../../common/modules/mail.module';
 import { UserModule } from '../user/user.module';
-import { User } from '../user/entities/user.entity';
+import { User } from '../../common/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtConfig, DefaultStrategy } from 'src/common/constants/app/jwt.app';
 import { EncoderService } from 'src/common/helpers/encoder.adapter';

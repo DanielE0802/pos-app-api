@@ -5,7 +5,7 @@ import {
   CompanyRepository,
   I_COMPANY_REPOSITORY,
 } from './repositories/company.repository';
-import { Company } from './entities/company.entity';
+import { Company } from '../../common/entities/company.entity';
 
 @Injectable()
 export class CompanyService {

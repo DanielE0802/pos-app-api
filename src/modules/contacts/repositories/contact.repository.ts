@@ -1,6 +1,6 @@
 import { CreateContactDto } from '../dto/contact/create-contact.dto';
 import { UpdateContactDto } from '../dto/contact/update-contact.dto';
-import { Contact } from '../entities/contact.entity';
+import { Contact } from '../../../common/entities/contact.entity';
 
 export interface ContactRepository {
   /**

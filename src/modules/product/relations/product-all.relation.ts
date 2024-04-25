@@ -1,4 +1,4 @@
-import { Product } from '../entities/product.entity';
+import { Product } from '../../../common/entities/product.entity';
 import { CustomRelations } from 'src/common/constants/types/types.app';
 
 export const ProductRelations: Record<string, CustomRelations<Product>> = {

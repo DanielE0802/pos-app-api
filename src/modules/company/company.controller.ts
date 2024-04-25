@@ -17,7 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/decorators/relation.decorator';
 import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { User } from '../user/entities/user.entity';
+import { User } from '../../common/entities/user.entity';
 
 @ApiTags('Company')
 @ApiBearerAuth()

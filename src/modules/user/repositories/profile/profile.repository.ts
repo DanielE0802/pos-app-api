@@ -1,6 +1,6 @@
 import { CreateProfileDto } from '../../dto/profile/create-profile.dto';
 import { UpdateProfileDto } from '../../dto/profile/update-profile.dto';
-import { Profile } from '../../entities/profile.entity';
+import { Profile } from '../../../../common/entities/profile.entity';
 
 export interface ProfileRepository {
   create: (data: CreateProfileDto) => Promise<Profile>;

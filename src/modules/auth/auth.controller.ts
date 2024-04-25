@@ -18,7 +18,7 @@ import { GetUser } from './decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/user/create-user.dto';
-import { User } from '../user/entities/user.entity';
+import { User } from '../../common/entities/user.entity';
 import { Auth } from './decorators';
 
 @ApiTags('Authentication')

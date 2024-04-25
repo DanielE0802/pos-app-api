@@ -1,6 +1,6 @@
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
-import { Product } from '../entities/product.entity';
+import { Product } from '../../../common/entities/product.entity';
 
 export interface ProductRepository {
   /**

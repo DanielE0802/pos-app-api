@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePdvDto } from './dto/create-pdv.dto';
 import { UpdatePdvDto } from './dto/update-pdv.dto';
 import { I_PDV_REPOSITORY, PdvRepository } from './repositories/pdv.repository';
-import { Pdv } from './entities/pdv.entity';
+import { Pdv } from '../../common/entities/pdv.entity';
 
 @Injectable()
 export class PdvService {

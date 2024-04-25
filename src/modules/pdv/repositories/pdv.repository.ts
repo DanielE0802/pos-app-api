@@ -1,6 +1,6 @@
 import { CreatePdvDto } from '../dto/create-pdv.dto';
 import { UpdatePdvDto } from '../dto/update-pdv.dto';
-import { Pdv } from '../entities/pdv.entity';
+import { Pdv } from '../../../common/entities/pdv.entity';
 
 export interface PdvRepository {
   create: (data: CreatePdvDto) => Promise<Pdv>;

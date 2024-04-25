@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Pdv } from '../entities/pdv.entity';
+import { Pdv } from '../../../common/entities/pdv.entity';
 import { PdvRepository } from './pdv.repository';
 import { CreatePdvDto } from '../dto/create-pdv.dto';
 import { UpdatePdvDto } from '../dto/update-pdv.dto';

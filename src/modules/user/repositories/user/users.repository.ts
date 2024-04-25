@@ -1,7 +1,7 @@
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateUserDto } from '../../dto/user/create-user.dto';
 import { UpdateUserDto } from '../../dto/user/update-user.dto';
-import { User } from '../../entities/user.entity';
+import { User } from '../../../../common/entities/user.entity';
 
 export interface UserRepository {
   /**

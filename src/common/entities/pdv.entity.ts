@@ -1,16 +1,16 @@
-import { Company } from 'src/modules/company/entities/company.entity';
+import { Company } from 'src/common/entities/company.entity';
 import { Town } from 'src/modules/location/entities/town.entity';
-import { ProductPdv } from 'src/modules/products-pdvs/entities/product-pdv.entity';
-import { Product } from 'src/modules/product/entities/product.entity';
+import { ProductPdv } from 'src/common/entities/product-pdv.entity';
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('pdvs')
@@ -37,10 +37,23 @@ export class Pdv {
   @Column({ type: 'boolean' })
   main: boolean;
 
-  @ManyToOne(() => Company, (company) => company.pdvs)
+  @Column({ name: 'company_id', type: 'varchar', nullable: true })
+  companyId: string;
+
+  @ManyToOne(() => Company)
   @JoinColumn({ name: 'company_id' })
   company: Company;
 
   @OneToMany(() => ProductPdv, (productPdv) => productPdv.pdv)
-  public productPdv: ProductPdv[];
+  productPdv: ProductPdv[];
+
+  // auto columns
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

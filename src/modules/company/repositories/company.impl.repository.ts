@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCompanyDto } from '../dto/create-company.dto';
 import { UpdateCompanyDto } from '../dto/update-company.dto';
-import { Company } from '../entities/company.entity';
+import { Company } from '../../../common/entities/company.entity';
 import { CompanyRepository } from './company.repository';
 
 @Injectable()

@@ -11,7 +11,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from '../services/user.service';
-import { User } from '../entities/user.entity';
+import { User } from '../../../common/entities/user.entity';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Auth } from 'src/modules/auth/decorators';

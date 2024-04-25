@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 import { SalesInvoice } from './sales-invoice.entity';
 
 // Esta entidad representa el cliente al que se le emite la factura.
@@ -11,4 +11,14 @@ export class InvoiceCustomer {
 
   @OneToMany(() => SalesInvoice, (salesInvoice) => salesInvoice.invoiceCustomer)
   salesInvoices: SalesInvoice[];
+
+  // auto columns
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

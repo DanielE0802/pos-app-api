@@ -5,7 +5,7 @@ import {
   CategoryRepository,
   I_CATEGORY_REPOSITORY,
 } from './repositories/category.repository';
-import { Category } from './entities/category.entity';
+import { Category } from '../../common/entities/category.entity';
 
 @Injectable()
 export class CategoryService {

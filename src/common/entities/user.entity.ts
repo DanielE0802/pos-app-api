@@ -2,14 +2,16 @@ import {
   BeforeInsert,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
-import { Company } from 'src/modules/company/entities/company.entity';
+import { Company } from 'src/common/entities/company.entity';
 
 @Entity('users')
 export class User {
@@ -68,9 +70,17 @@ export class User {
   @JoinColumn({ name: 'company_id' })
   company: Company[];
 
-  @CreateDateColumn({ select: false, name: 'created_on' })
-  createdOn: Date;
+  // auto columns
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
+
+  // Hooks
   @BeforeInsert()
   setDefaultRoles() {
     if (!this.roles || this.roles.length === 0) {

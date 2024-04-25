@@ -1,7 +1,6 @@
-import { Category } from 'src/modules/category/entities/category.entity';
-import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { Profile } from 'src/modules/user/entities/profile.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { Category } from 'src/common/entities/category.entity';
+import { Pdv } from 'src/common/entities/pdv.entity';
+import { User } from 'src/common/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -33,10 +32,14 @@ export class Company {
   @Column({ name: 'quantity_employees' })
   quantityEmployees: string;
 
-  @Column({ name: 'economic_activity:' })
+  @Column({ name: 'economic_activity' })
   economicActivity: string;
 
-  @ManyToOne(() => User, (user) => user.company)
+  // Relations
+  @Column({ name: 'user_id', type: 'varchar', nullable: true })
+  userId: string;
+
+  @ManyToOne(() => User)
   user: User;
 
   @OneToMany(() => Pdv, (pdv) => pdv.company)

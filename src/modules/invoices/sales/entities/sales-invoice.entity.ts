@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { SalesInvoiceItem } from './sales-invoice-item.entity';
 import { InvoiceCustomer } from './invoice-customer.entity';
 
@@ -40,9 +50,23 @@ export class SalesInvoice {
   @Column()
   paymentMethod: string;
 
-  @ManyToOne(() => InvoiceCustomer, (customer) => customer.salesInvoices)
+  @Column({ name: 'invoice_customer_id', type: 'varchar', nullable: true })
+  invoiceCustomerId: string;
+
+  @ManyToOne(() => InvoiceCustomer)
+  @JoinColumn({ name: 'invoice_customer_id' })
   invoiceCustomer: InvoiceCustomer;
 
   @OneToMany(() => SalesInvoiceItem, (item) => item.salesInvoice)
   items: SalesInvoiceItem[];
+
+  // auto columns
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

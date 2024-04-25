@@ -1,5 +1,5 @@
 import { CreateProductsPdvDto } from '../dto/create-products-pdv.dto';
-import { ProductPdv } from '../entities/product-pdv.entity';
+import { ProductPdv } from '../../../common/entities/product-pdv.entity';
 
 export interface ProductPdvRepository {
   /**

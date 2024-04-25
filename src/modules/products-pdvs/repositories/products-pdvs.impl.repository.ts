@@ -1,7 +1,7 @@
 import { In, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
+import { ProductPdv } from '../../../common/entities/product-pdv.entity';
 import { CreateProductsPdvDto } from '../dto/create-products-pdv.dto';
 import { ProductPdvRepository } from './products-pdvs.repository';
 

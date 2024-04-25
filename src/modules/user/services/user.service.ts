@@ -6,7 +6,7 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { User } from '../entities/user.entity';
+import { User } from '../../../common/entities/user.entity';
 import { NFE } from 'src/common/exceptions/exception.string';
 import { CreateUserDto } from '../dto/user/create-user.dto';
 import {
