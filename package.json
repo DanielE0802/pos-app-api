@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/src/main.js\"",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -82,9 +82,6 @@
       "json",
       "ts"
     ],
-    "moduleNameMapper": {
-      "^src/(.*)": "<rootDir>/../src/$1"
-    },
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
