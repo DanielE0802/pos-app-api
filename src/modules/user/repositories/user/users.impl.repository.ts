@@ -7,8 +7,7 @@ import { CreateUserDto } from '../../dto/user/create-user.dto';
 import { Profile } from '../../../../common/entities/profile.entity';
 import { UpdateUserDto } from '../../dto/user/update-user.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { NFE } from 'src/common/exceptions/exception.string';
-
+import { NFE } from '../../../../common/exceptions/exception.string';
 @Injectable()
 export class UserImplRepository implements UserRepository {
   constructor(

@@ -7,7 +7,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { User } from '../../../common/entities/user.entity';
-import { NFE } from 'src/common/exceptions/exception.string';
+import { NFE } from '../../../common/exceptions/exception.string';
 import { CreateUserDto } from '../dto/user/create-user.dto';
 import {
   I_USER_REPOSITORY,

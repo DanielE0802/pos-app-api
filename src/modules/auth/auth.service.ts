@@ -16,7 +16,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { SUCC } from 'src/common/exceptions/success.string';
 import { MailService } from '../mail/mail.service';
-import { NFE, UAE, UEE } from 'src/common/exceptions/exception.string';
+import { NFE, UAE, UEE } from '../../common/exceptions/exception.string';
 import { UsersService } from '../user/services/user.service';
 import { User } from '../../common/entities/user.entity';
 import { CreateUserDto } from '../user/dto/user/create-user.dto';
