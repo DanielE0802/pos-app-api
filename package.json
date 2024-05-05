@@ -83,7 +83,7 @@
       "ts"
     ],
     "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/$1"
+      "@/(.*)": "<rootDir>/src/$1"
     },
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
