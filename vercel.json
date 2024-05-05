@@ -11,6 +11,8 @@
         "src": "/(.*)",
         "dest": "dist/main.js"
       }
-    ]
+    ],
+    "buildCommand": "npm run build",
+    "devCommand": "npm run start:prod"
   }
   
