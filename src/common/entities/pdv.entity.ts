@@ -1,5 +1,5 @@
 import { Company } from 'src/common/entities/company.entity';
-import { Town } from 'src/modules/location/entities/town.entity';
+import { Town } from 'src/components/location/entities/town.entity';
 import { ProductPdv } from 'src/common/entities/product-pdv.entity';
 import {
   Column,

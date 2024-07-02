@@ -1,4 +1,4 @@
-import { Town } from 'src/modules/location/entities/town.entity';
+import { Town } from 'src/components/location/entities/town.entity';
 import {
   Column,
   CreateDateColumn,

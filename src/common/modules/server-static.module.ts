@@ -5,7 +5,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), '/public'),
+      rootPath: join(process.cwd(), 'public'),
+      serveRoot: '/',
     }),
   ],
 })

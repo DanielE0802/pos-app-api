@@ -34,6 +34,23 @@ export default registerAs('config', () => {
       FROM: process.env.EMAIL_FROM,
     },
 
+    KEYCLOAK: {
+      ID: process.env.KEYCLOAK_ID,
+      USER: process.env.KEYCLOAK_USER,
+      PASSWORD: process.env.KEYCLOAK_PASSWORD,
+      AUTH_SERVER_URL: process.env.KEYCLOAK_AUTH_SERVER_URL,
+      REALM: process.env.KEYCLOAK_REALM,
+      CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+      SECRET: process.env.KEYCLOAK_SECRET,
+      DATABASE: {
+        ADDR: process.env.KEYCLOAK_DB_ADDR,
+        DATABASE: process.env.KEYCLOAK_DB_DATABASE,
+        PORT: process.env.KEYCLOAK_DB_PORT,
+        USER: process.env.KEYCLOAK_DB_USER,
+        PASSWORD: process.env.KEYCLOAK_DB_PASSWORD,
+      },
+    },
+
     // BACKEND_URL: process.env.BACKEND_URL,
     // SUPPORT_EMAIL:
     //   process.env.SUPPORT_EMAIL || 'soporte.gestionpedagogica@avefenix.edu.co',
@@ -44,23 +61,6 @@ export default registerAs('config', () => {
     //   SUPPORT:
     //     process.env.WEB_SUPPORT ||
     //     'https://soporte.gestionpedagogica.avefenix.edu.co',
-    // },
-
-    // KEYCLOAK: {
-    //   ID: process.env.KEYCLOAK_ID,
-    //   USER: process.env.KEYCLOAK_USER,
-    //   PASSWORD: process.env.KEYCLOAK_PASSWORD,
-    //   AUTH_SERVER_URL: process.env.KEYCLOAK_AUTH_SERVER_URL,
-    //   REALM: process.env.KEYCLOAK_REALM,
-    //   CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
-    //   SECRET: process.env.KEYCLOAK_SECRET,
-    //   DATABASE: {
-    //     ADDR: process.env.KEYCLOAK_DB_ADDR,
-    //     DATABASE: process.env.KEYCLOAK_DB_DATABASE,
-    //     PORT: process.env.KEYCLOAK_DB_PORT,
-    //     USER: process.env.KEYCLOAK_DB_USER,
-    //     PASSWORD: process.env.KEYCLOAK_DB_PASSWORD,
-    //   },
     // },
   };
 });

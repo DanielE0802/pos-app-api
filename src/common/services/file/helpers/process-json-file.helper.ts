@@ -36,29 +36,44 @@ export class JsonProcessorService implements IJsonProcessor {
     jsonData.forEach((item: any) => {
       const newItem: { [key: string]: any } = {}; // Objeto para acumular los datos procesados
 
-      for (let key in item) {
+      for (const key in item) {
         let newKey = key;
 
-        // if (key.includes('-Comment'))
-        //   newKey = key.replace('-Comment', '_descripcion'); // Reemplazar '-Comment'
+        // Reemplazo de '-Comment' con '_descripcion'
+        if (key.includes('-Comment'))
+          newKey = key.replace('-Comment', '_descripcion');
 
-        // Procesar arrays y transformar su contenido si es necesario
+        // Tratar de manera especial los arrays que contienen un objeto con `content`
         if (Array.isArray(item[key])) {
-          item[key] = item[key]
-            .map((subItem: any) =>
-              subItem.content ? subItem.content : 'Sin Archivo',
-            )
-            .join(', ');
-        }
+          const arrayTemp = item[key].map((subItem: any) => {
+            if (
+              subItem.content &&
+              subItem.type &&
+              subItem.type.startsWith('image/')
+            ) {
+              return `${this.config.API_URL}/evidence/${subItem.content}`;
+            } else {
+              return ''; /** Sin Archivo */
+            }
+          });
 
-        newKey = newKey.replace(/_/g, ' '); // Reemplazar guiones bajos por espacios en las llaves
-        newItem[newKey] = item[key]; // Asignar el valor procesado a la nueva llave en newItem
+          // Crear claves múltiples si hay más de un elemento en el array
+          // for (let i = 0; i < 5; i++) { // Max 5
+          for (let i = 0; i < Math.max(arrayTemp.length, 5); i++) {
+            newItem[`${newKey.replace(/_/g, ' ')}${i + 1}`] =
+              arrayTemp[i] || '' /** Sin Archivo */;
+          }
+        } else {
+          // Reemplazar guiones bajos por espacios en las llaves
+          newKey = newKey.replace(/_/g, ' ');
+          newItem[newKey] = item[key];
+        }
       }
 
-      Object.keys(item).forEach((key) => delete item[key]); // Eliminar todas las llaves originales
-      Object.assign(item, newItem); // Reemplazar el objeto viejo por el nuevo
+      // Eliminar todas las llaves originales y reemplazar el objeto viejo por el nuevo
+      Object.keys(item).forEach((key) => delete item[key]);
+      Object.assign(item, newItem);
     });
-
     return jsonData;
   }
 }
