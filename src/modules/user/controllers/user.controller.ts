@@ -35,7 +35,7 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
-  @Auth(ValidRoles.admin)
+  @Auth(ValidRoles.admin, ValidRoles.owner)
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
