@@ -19,10 +19,11 @@ import { GenstrService } from 'src/common/helpers/genstr.adapter';
     TypeOrmModule.forFeature([User]),
     PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
+      // TODO: Modificar las variables para obtenerlas del ConfigService
       useFactory: () => ({
-        secret: JwtConfig.secret,
+        secret: 'my-secret', // TODO
         signOptions: {
-          expiresIn: JwtConfig.expiredToken,
+          expiresIn: '1h', // TODO
         },
       }),
     }),

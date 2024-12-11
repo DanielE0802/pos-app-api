@@ -9,8 +9,9 @@ import { JwtConfig } from 'src/common/constants/app/jwt.app';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly usersService: UsersService) {
+    // TODO: Modificar las variables para obtenerlas del ConfigService
     super({
-      secretOrKey: JwtConfig.secret,
+      secretOrKey: 'my-secret',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

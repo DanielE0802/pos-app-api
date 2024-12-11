@@ -11,9 +11,9 @@ import { StorageModule } from './common/modules/storage.module';
 
 @Module({
   imports: [
-    TypeORMModule,
-    StorageModule,
     CustomConfigModule,
+    TypeORMModule,
+    // StorageModule,
     ServerStaticConfigModule,
 
     AuthModule,
