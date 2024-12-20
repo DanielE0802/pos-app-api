@@ -7,6 +7,7 @@ import {
   IsEmail,
   IsInt,
   IsOptional,
+  IsUUID,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -50,6 +51,6 @@ export class CreateCompanyDto {
   economicActivity: string;
 
   @IsOptional()
-  @Type(() => User)
-  user: User;
+  @IsUUID()
+  userId?: string;
 }

@@ -8,6 +8,7 @@ import {
   Column,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('companies')
@@ -33,10 +34,13 @@ export class Company {
   @Column({ name: 'quantity_employees' })
   quantityEmployees: string;
 
-  @Column({ name: 'economic_activity:' })
+  @Column({ name: 'economic_activity' })
   economicActivity: string;
 
+  @Column({ name: 'user_id', nullable: true })
+  userId: string;
   @ManyToOne(() => User, (user) => user.company)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @OneToMany(() => Pdv, (pdv) => pdv.company)

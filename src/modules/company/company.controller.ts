@@ -9,6 +9,7 @@ import {
   ParseBoolPipe,
   Query,
   UseGuards,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
@@ -55,5 +56,13 @@ export class CompanyController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.companyService.remove(id);
+  }
+
+  @Post(':companyId/user/:userId')
+  addUser(
+    @Param('companyId', ParseUUIDPipe) companyId: string,
+    @Param('userId', ParseUUIDPipe) userId: string,
+  ) {
+    return this.companyService.addUser(companyId, userId);
   }
 }

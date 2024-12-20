@@ -6,28 +6,45 @@ import {
   I_COMPANY_REPOSITORY,
 } from './repositories/company.repository';
 import { Company } from './entities/company.entity';
+import { UsersService } from '../user/services/user.service';
 
 @Injectable()
 export class CompanyService {
   constructor(
     @Inject(I_COMPANY_REPOSITORY)
-    private readonly companyRepo: CompanyRepository,
+    private readonly _companyRepo: CompanyRepository,
+    private _userService: UsersService,
   ) {}
 
-  create = async (data: CreateCompanyDto) =>
-    await this.companyRepo.create(data);
+  async create(data: CreateCompanyDto) {
+    return await this._companyRepo.create(data);
+  }
 
-  findAll = async (rel: boolean): Promise<Company[]> =>
-    await this.companyRepo.find(rel);
+  async findAll(rel: boolean): Promise<Company[]> {
+    return await this._companyRepo.find(rel);
+  }
 
-  findOne = async (id: string, rel: boolean) => {
-    const company = await this.companyRepo.findOne(id, rel);
+  async findOne(id: string, rel: boolean) {
+    const company = await this._companyRepo.findOne(id, rel);
     if (!company) throw new NotFoundException('Cant find Company');
     return company;
-  };
+  }
 
-  update = async (id: string, data: UpdateCompanyDto) =>
-    await this.companyRepo.update(id, data);
+  async update(id: string, data: UpdateCompanyDto) {
+    return await this._companyRepo.update(id, data);
+  }
+  async remove(id: string) {
+    return await this._companyRepo.delete(id);
+  }
 
-  remove = async (id: string) => await this.companyRepo.delete(id);
+  async addUser(companyId: string, userId: string) {
+    const currentCompany = await this._companyRepo.findOne(companyId, true);
+    const currentUser = await this._userService.findById(userId);
+
+    await this._companyRepo.update(currentCompany.id, {
+      userId: currentUser.id,
+    });
+
+    return { msg: 'User added to company' };
+  }
 }
