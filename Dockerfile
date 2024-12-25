@@ -1,30 +1,36 @@
-# Base image
-FROM node:18.14.0-alpine3.17 AS base
+# Etapa de construcción
+FROM node:18 AS build
 WORKDIR /usr/src/app
+
+# Copiar los archivos necesarios
 COPY package*.json ./
-
-# Install dependencies
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
-RUN npm install --save
-
-
-# Build stage for development
-FROM deps AS dev
+RUN npm install
 COPY . .
-CMD [ "npm", "run", "start:dev" ]
 
+# Argumento para definir el entorno (development o production)
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-# Build the app with cached dependencies for production
-FROM deps AS builder
-COPY . .
-RUN npm run build
+# Construcción en producción
+RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
 
-# Production stage
-FROM base AS prod
-COPY --from=builder /usr/src/app/dist ./dist
+# Etapa de producción
+FROM node:18 AS prod
+WORKDIR /usr/src/app
+
+# Copiar dependencias de producción
 COPY package*.json ./
 RUN npm install --only=production
-CMD [ "npm", "run", "start:prod" ]
 
+# Copiar la carpeta de distribución desde la etapa de construcción
+COPY --from=build /usr/src/app/dist ./dist
+
+# Configurar variables de entorno
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+# Exponer el puerto de la aplicación
 EXPOSE 3000
+
+# Comando para iniciar la aplicación
+CMD ["node", "dist/main"]
