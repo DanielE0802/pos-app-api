@@ -1,29 +1,26 @@
-# Etapa de construcción
-FROM node:18 AS build
+# Base image
+FROM node:18
+
+# Create app directory
 WORKDIR /usr/src/app
 
-# Copiar archivos necesarios
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+
+# Install app dependencies
 RUN npm install
+
+# Bundle app source
 COPY . .
 
-# Construir la aplicación
+# Copy the .env and .env.development files
+COPY .env .env.development ./
+
+# Creates a "dist" folder with the production build
 RUN npm run build
 
-# Etapa de producción
-FROM node:18 AS prod
-WORKDIR /usr/src/app
+# Expose the port on which the app will run
+EXPOSE 3001
 
-# Copiar solo las dependencias necesarias
-COPY package*.json ./
-RUN npm install --only=production
-
-# Copiar la carpeta 'dist' generada en la etapa de construcción
-COPY --from=build /usr/src/app/dist ./dist
-
-# Configurar el entorno de producción
-ENV NODE_ENV=production
-EXPOSE 3000
-
-# Comando para iniciar la aplicación
-CMD ["node", "dist/main"]
+# Start the server using the production build
+CMD ["npm", "run", "start:prod"]
