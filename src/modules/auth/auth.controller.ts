@@ -8,18 +8,18 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { ActivateUserDto } from './dto/activate-user.dto';
-import { ReqResetPasswordDto } from './dto/req-reset-password.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { GetUser } from './decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from '../user/dto/user/create-user.dto';
-import { User } from '../user/entities/user.entity';
+import { ActivateUserDto } from './dto/activate-user.dto';
 import { Auth } from './decorators';
+import { AuthService } from './auth.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { CreateUserDto } from '../user/dto/user/create-user.dto';
+import { GetUser } from './decorators/get-user.decorator';
+import { LoginDto } from './dto/login.dto';
+import { ReqResetPasswordDto } from './dto/req-reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { User } from '../user/entities/user.entity';
 
 @ApiTags('Authentication')
 @Controller('auth')
