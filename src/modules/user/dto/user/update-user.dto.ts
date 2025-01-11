@@ -30,4 +30,9 @@ export class UpdateUserDto {
   @Type(() => UpdateProfileDto)
   @IsOptional()
   profile?: UpdateProfileDto;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  firstLogin?: boolean;
 }
