@@ -1,30 +1,29 @@
-# Base image
-FROM node:18.14.0-alpine3.17 AS base
+# Etapa de construcción
+FROM node:18 AS build
 WORKDIR /usr/src/app
+
+# Copiar los archivos necesarios
 COPY package*.json ./
-
-# Install dependencies
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
-RUN npm install --save
-
-
-# Build stage for development
-FROM deps AS dev
+RUN npm install
 COPY . .
-CMD [ "npm", "run", "start:dev" ]
 
-
-# Build the app with cached dependencies for production
-FROM deps AS builder
-COPY . .
+# Construir la aplicación
 RUN npm run build
 
-# Production stage
-FROM base AS prod
-COPY --from=builder /usr/src/app/dist ./dist
+# Etapa de producción
+FROM node:18 AS prod
+WORKDIR /usr/src/app
+
+# Copiar las dependencias necesarias
 COPY package*.json ./
 RUN npm install --only=production
-CMD [ "npm", "run", "start:prod" ]
 
+# Copiar la carpeta dist desde la etapa de construcción
+COPY --from=build /usr/src/app/dist ./dist
+
+# Configurar variables de entorno
+ENV NODE_ENV=production
 EXPOSE 3000
+
+# Comando para iniciar la aplicación
+CMD ["node", "dist/main"]
