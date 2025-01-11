@@ -14,8 +14,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProfileService } from '../services/profile.service';
 import { UpdateProfileDto } from '../dto/profile/update-profile.dto';
 import { CreateProfileDto } from '../dto/profile/create-profile.dto';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
-import { GetUserCompany } from 'src/modules/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 @ApiTags('Profile')

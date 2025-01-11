@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { User } from 'src/modules/user/entities/user.entity';
+import { User } from 'src/common/entities/user.entity';
 
 export class CreateCompanyDto {
   @ApiProperty()

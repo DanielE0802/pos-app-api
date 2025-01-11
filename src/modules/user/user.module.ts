@@ -6,8 +6,8 @@ import { PassportModule } from '@nestjs/passport';
 import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 import { UserProviders } from './providers/user.providers';
-import { User } from './entities/user.entity';
-import { Profile } from './entities/profile.entity';
+import { User } from '../../common/entities/user.entity';
+import { Profile } from '../../common/entities/profile.entity';
 import { ProfileController } from './controllers/profile.controller';
 import { ProfileService } from './services/profile.service';
 

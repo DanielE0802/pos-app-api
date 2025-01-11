@@ -1,6 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsUUID, ValidateIf } from 'class-validator';
 
+// TODO: Eliminar este tipo, manejar la relación desde la lógica del servicio!
 export class IRelationType {
   @IsNotEmpty()
   @IsUUID()

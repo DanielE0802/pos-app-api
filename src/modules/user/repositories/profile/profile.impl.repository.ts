@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateProfileDto } from '../../dto/profile/update-profile.dto';
-import { Profile } from '../../entities/profile.entity';
+import { Profile } from '../../../../common/entities/profile.entity';
 import { ProfileRepository } from './profile.repository';
 import { CreateProfileDto } from '../../dto/profile/create-profile.dto';
 

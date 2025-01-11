@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID, ValidateNested } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 
 export class CreateProductsPdvDto {
   @ApiProperty()

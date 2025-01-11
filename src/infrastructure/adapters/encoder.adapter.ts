@@ -18,7 +18,7 @@ export interface HashService {
 }
 
 @Injectable()
-export class EncoderService implements HashService {
+export class EncoderAdapter implements HashService {
   constructor() {}
 
   public async encodePassword(p: string): Promise<string> {

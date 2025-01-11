@@ -9,9 +9,9 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProfileDto } from '../profile/create-profile.dto';
+import { CreateProfileDto } from '../../user/dto/profile/create-profile.dto';
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @ApiProperty()
   @IsEmail()
   @IsNotEmpty()

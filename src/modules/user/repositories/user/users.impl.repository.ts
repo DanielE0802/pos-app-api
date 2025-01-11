@@ -2,11 +2,11 @@ import { UserRepository } from './users.repository';
 import { Repository, UpdateResult } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../entities/user.entity';
-import { CreateUserDto } from '../../dto/user/create-user.dto';
-import { Profile } from '../../entities/profile.entity';
+import { User } from '../../../../common/entities/user.entity';
+import { RegisterUserDto } from '../../../auth/dtos/register-user.dto';
+import { Profile } from '../../../../common/entities/profile.entity';
 import { UpdateUserDto } from '../../dto/user/update-user.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { NFE } from 'src/common/exceptions/exception.string';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UserImplRepository implements UserRepository {
     private profileRepository: Repository<Profile>,
   ) {}
 
-  async create(data: CreateUserDto): Promise<User> {
+  async create(data: RegisterUserDto): Promise<User> {
     const { profile } = data;
 
     return await this.userRepository.save(

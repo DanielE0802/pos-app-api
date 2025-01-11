@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UpdateProfileDto } from '../dto/profile/update-profile.dto';
-import { Profile } from '../entities/profile.entity';
+import { Profile } from '../../../common/entities/profile.entity';
 import { CreateProfileDto } from '../dto/profile/create-profile.dto';
 import {
   I_PROFILE_REPOSITORY,

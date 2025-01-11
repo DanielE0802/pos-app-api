@@ -12,7 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { TypeProduct } from "src/common/constants/app/products.app";
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 import { CreateProductsPdvDto } from '../../products-pdvs/dto/create-products-pdv.dto';
 
 export class CreateProductDto {

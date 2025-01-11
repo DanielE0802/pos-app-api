@@ -7,7 +7,7 @@ import {
 import { Product } from './entities/product.entity';
 import { ProductsPdvsService } from '../products-pdvs/products-pdvs.service';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class ProductService {

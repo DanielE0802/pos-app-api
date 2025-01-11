@@ -6,15 +6,15 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { User } from '../entities/user.entity';
+import { User } from '../../../common/entities/user.entity';
 import { NFE } from 'src/common/exceptions/exception.string';
-import { CreateUserDto } from '../dto/user/create-user.dto';
+import { RegisterUserDto } from '../../auth/dtos/register-user.dto';
 import {
   I_USER_REPOSITORY,
   UserRepository,
 } from '../repositories/user/users.repository';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +25,7 @@ export class UsersService {
   ) {}
 
   // TODO: Impl Profile custom Repository
-  async create(data: CreateUserDto): Promise<User> {
+  async create(data: RegisterUserDto): Promise<User> {
     try {
       return await this.userRepository.create(data);
     } catch (error) {

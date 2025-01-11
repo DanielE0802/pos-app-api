@@ -1,17 +1,15 @@
-import { JwtStrategy } from './jwt/jwt.strategy';
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthProviders } from './providers/auth.providers';
-import { MailModule } from '../../common/modules/mail.module';
-import { UserModule } from '../user/user.module';
-import { User } from '../user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtConfig, DefaultStrategy } from 'src/common/constants/app/jwt.app';
-import { EncoderService } from 'src/common/helpers/encoder.adapter';
-import { GenstrService } from 'src/common/helpers/genstr.adapter';
+import { AuthController } from './auth.controller';
+import { AuthServices } from './services';
+import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { EncoderAdapter } from 'src/infrastructure/adapters/encoder.adapter';
+import { GenstrAdapter } from 'src/infrastructure/adapters/genstr.adapter';
+import { JwtStrategy } from './jwt/jwt.strategy';
+import { MailModule } from '../../common/modules/mail.module';
+import { User } from '../../common/entities/user.entity';
 
 @Module({
   imports: [
@@ -28,16 +26,9 @@ import { GenstrService } from 'src/common/helpers/genstr.adapter';
       }),
     }),
     MailModule,
-    UserModule,
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    EncoderService,
-    GenstrService,
-    ...AuthProviders,
-  ],
+  providers: [...AuthServices, JwtStrategy, EncoderAdapter, GenstrAdapter],
   exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

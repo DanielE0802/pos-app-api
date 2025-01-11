@@ -7,7 +7,7 @@ import {
   IsBoolean,
   ValidateNested,
 } from 'class-validator';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 
 export class CreatePdvDto {
   @ApiProperty()

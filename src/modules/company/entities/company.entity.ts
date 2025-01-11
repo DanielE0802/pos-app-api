@@ -1,7 +1,7 @@
 import { Category } from 'src/modules/category/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { Profile } from 'src/modules/user/entities/profile.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { Profile } from 'src/common/entities/profile.entity';
+import { User } from 'src/common/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

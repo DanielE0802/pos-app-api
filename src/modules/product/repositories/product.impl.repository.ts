@@ -6,7 +6,7 @@ import { ProductRepository } from './product.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductRelations } from '../relations/product-all.relation';
 import { UpdateProductDto } from '../dto/update-product.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class ProductImplRepository implements ProductRepository {

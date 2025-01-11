@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import configuration from '../config/configuration';
+import { Profile, User } from '../entities';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import configuration from '../config/configuration';
           autoLoadEntities: true,
           synchronize: configService.DATABASE.SYNC,
           charset: 'UTF8',
-          entities: [],
+          entities: [User, Profile],
         };
       },
       async dataSourceFactory(options) {

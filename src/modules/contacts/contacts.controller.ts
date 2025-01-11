@@ -13,7 +13,7 @@ import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/contact/create-contact.dto';
 import { UpdateContactDto } from './dto/contact/update-contact.dto';
 import { GetUserCompany } from '../auth/decorators/get-user.decorator';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 

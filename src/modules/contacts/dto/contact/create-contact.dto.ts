@@ -8,7 +8,7 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 import { CreateIdentityDto } from '../identity/create-identity.dto';
 import { ContactType } from 'src/common/constants/app/person-identity.app';
 import { ApiProperty } from '@nestjs/swagger';

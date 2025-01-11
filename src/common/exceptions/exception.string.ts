@@ -14,7 +14,6 @@ export const NFE = {
  ** Constants messages for UnprocessableEntityException
  */
 export const UEE = {
-  USER_UNVERIFY: 'Por favor, verifique su email.',
   ENTITY_PROCESS: 'Encontramos un error en la informacio proporcionada.',
   NOT_UPDATE_USER: 'Ocurrió un error mientras se actualizaba el usuario.',
 };
@@ -23,6 +22,7 @@ export const UEE = {
  ** Constants messages for UnauthorizedException
  */
 export const UAE = {
+  USER_UNVERIFY: 'Por favor, verifique su email.',
   UNAUTHORIZED: 'Verifica tus credenciales.',
 };
 /**

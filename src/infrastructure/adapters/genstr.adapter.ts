@@ -6,7 +6,7 @@ export interface StrBase {
 }
 
 @Injectable()
-export class GenstrService implements StrBase {
+export class GenstrAdapter implements StrBase {
   /**
    * * Service that returns a token for validations.
    * @param size Length of the token to be returned

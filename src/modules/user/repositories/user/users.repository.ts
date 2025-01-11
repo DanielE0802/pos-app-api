@@ -1,15 +1,15 @@
-import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { CreateUserDto } from '../../dto/user/create-user.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { RegisterUserDto } from '../../../auth/dtos/register-user.dto';
 import { UpdateUserDto } from '../../dto/user/update-user.dto';
-import { User } from '../../entities/user.entity';
+import { User } from '../../../../common/entities/user.entity';
 
 export interface UserRepository {
   /**
    * It saves the user to the database and returns the saved user
-   * @param {CreateUserDto} createUserDto - CreateUserDto
+   * @param {RegisterUserDto} createUserDto - CreateUserDto
    * @returns The user that was updated
    */
-  create: (createUserDto: CreateUserDto) => Promise<User>;
+  create: (createUserDto: RegisterUserDto) => Promise<User>;
   /**
    * It finds all the users in the database and returns them
    * @returns An array of User objects.

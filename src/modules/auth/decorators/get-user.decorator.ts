@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { IRelationType } from 'src/common/decorators/relation.decorator';
+import { IRelationType } from 'src/common/types/relation.decorator';
 
 export const GetUser = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {

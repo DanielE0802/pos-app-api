@@ -7,7 +7,7 @@ export interface TransactionalBase {
 }
 
 @Injectable()
-export class TypeormTransactional {
+export class TypeormTransactionalAdapter {
   public create(options: DataSourceOptions) {
     return addTransactionalDataSource(new DataSource(options));
   }
