@@ -37,6 +37,6 @@ export const GetUserCompany = createParamDecorator(
     if (!req.user.company)
       throw new UnprocessableEntityException('User has no companies assigned');
 
-    return req.user.profile.company as IRelationType;
+    return req.user.company as IRelationType;
   },
 );
