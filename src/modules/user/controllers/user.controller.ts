@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { UsersService } from '../services/user.service';
-import { User } from '../../../common/entities/user.entity';
-import { UpdateUserDto } from '../dto/user/update-user.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { Auth } from 'src/modules/auth/decorators';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { UpdateUserDto } from '../dto/user/update-user.dto';
+import { User } from '../../../common/entities/user.entity';
+import { UsersService } from '../services/user.service';
 import { ValidRoles } from 'src/common/constants/app/valid-roles.app';
 
 @ApiTags('Users')

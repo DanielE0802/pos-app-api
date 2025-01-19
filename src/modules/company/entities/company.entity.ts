@@ -1,6 +1,5 @@
 import { Category } from 'src/modules/category/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { Profile } from 'src/common/entities/profile.entity';
 import { User } from 'src/common/entities/user.entity';
 import {
   Entity,
@@ -9,26 +8,31 @@ import {
   OneToMany,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 @Entity('companies')
+@Index(['nit'])
 export class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 100 })
+  @Column({ name: 'name', length: 100 })
   name: string;
 
-  @Column()
+  @Column({ name: 'nit' })
   nit: string;
 
-  @Column({ length: 50 })
+  @Column({ name: 'address', length: 50 })
   address: string;
 
   @Column({ name: 'phone_number', length: 20 })
   phoneNumber: string;
 
-  @Column()
+  @Column({ name: 'website' })
   website: string;
 
   @Column({ name: 'quantity_employees' })
@@ -48,4 +52,13 @@ export class Company {
 
   @OneToMany(() => Category, (category) => category.company)
   categories: Category[];
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', nullable: true })
+  updatedAt?: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  deletedAt?: Date;
 }

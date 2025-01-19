@@ -1,9 +1,9 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Contact } from './contact.entity';
 
-@Entity('identities')
-export class Identity {
-  @PrimaryGeneratedColumn('uuid')
+@Entity('contact_identities')
+export class ContactIdentity {
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ name: 'type_document' })

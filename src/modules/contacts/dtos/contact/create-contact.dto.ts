@@ -1,70 +1,60 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsEnum,
   IsInt,
-  IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
-import { IRelationType } from 'src/common/types/relation.decorator';
 import { CreateIdentityDto } from '../identity/create-identity.dto';
 import { ContactType } from 'src/common/constants/app/person-identity.app';
-import { ApiProperty } from '@nestjs/swagger';
 import { IsAddress } from './validators/address.validator';
 
 export class CreateContactDto {
-  @IsNotEmpty()
-  @IsString()
   @ApiProperty()
+  @IsString()
   name: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
-  @ApiProperty()
   lastname?: string;
 
-  @IsNotEmpty()
-  @IsEmail()
   @ApiProperty()
+  @IsEmail()
   email: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   @IsAddress()
   address: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   @IsPhoneNumber()
   phoneNumber: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsString()
+  @IsOptional()
   @IsPhoneNumber()
   phoneNumber2?: string;
 
-  @IsNotEmpty()
+  @ApiProperty()
   @IsInt()
   @IsEnum(ContactType)
-  @ApiProperty()
   type: number;
 
   @ApiProperty()
-  @IsNotEmpty()
   @Type(() => CreateIdentityDto)
   identity: CreateIdentityDto;
 
   @ApiProperty()
-  @IsOptional()
-  @Type(() => IRelationType)
-  town: IRelationType;
+  @Type(() => Number)
+  townId: number;
 
   @IsOptional()
-  @Type(() => IRelationType)
-  company: IRelationType;
+  companyId: string;
 }
