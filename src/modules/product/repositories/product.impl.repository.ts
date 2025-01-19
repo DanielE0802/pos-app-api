@@ -20,7 +20,7 @@ export class ProductImplRepository implements ProductRepository {
 
   findAll = async (
     companyId: string,
-    pags: PaginationDto,
+    pags: { limit: number; offset: number },
   ): Promise<Product[]> =>
     await this.productRepo.find({
       where: { productPdv: { pdv: { company: { id: companyId } } } },

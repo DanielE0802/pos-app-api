@@ -10,6 +10,8 @@ import { GenstrAdapter } from 'src/infrastructure/adapters/genstr.adapter';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { MailModule } from '../../common/modules/mail.module';
 import { User } from '../../common/entities/user.entity';
+import { UserRepository } from 'src/common/repositories';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -26,9 +28,16 @@ import { User } from '../../common/entities/user.entity';
       }),
     }),
     MailModule,
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [...AuthServices, JwtStrategy, EncoderAdapter, GenstrAdapter],
+  providers: [
+    ...AuthServices,
+    JwtStrategy,
+    EncoderAdapter,
+    GenstrAdapter,
+    UserRepository,
+  ],
   exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

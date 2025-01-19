@@ -30,9 +30,11 @@ export class UserImplRepository implements UserRepository {
   }
 
   async findAll(pags: PaginationDto): Promise<User[]> {
+    const { pageSize, page } = pags;
+
     return await this.userRepository.find({
-      skip: pags.offset,
-      take: pags.limit,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
     });
   }
 

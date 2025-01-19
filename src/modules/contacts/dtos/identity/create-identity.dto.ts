@@ -15,13 +15,13 @@ export class CreateIdentityDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsInt()
-  number: number;
+  @IsEnum(PersonType)
+  typePerson: number;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsInt()
-  @IsEnum(PersonType)
-  typePerson: number;
+  number: number;
 
   @ApiProperty()
   @IsOptional()

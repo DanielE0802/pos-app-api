@@ -15,7 +15,7 @@ import { UpdateProductsPdvDto } from './dto/update-products-pdv.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { IRelationType } from 'src/common/types/relation.decorator';
-import { GetUserCompany } from '../auth/decorators/get-user.decorator';
+import { GetUserCompany } from '../auth/decorators';
 
 @ApiTags('Product x Pdvs')
 @ApiBearerAuth()

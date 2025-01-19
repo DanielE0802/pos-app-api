@@ -37,9 +37,9 @@ export class UsersService {
   }
 
   async findAll(pags: PaginationDto): Promise<User[]> {
-    const { limit = 10, offset = 0 } = pags;
+    const { pageSize, page } = pags;
     try {
-      const users = await this.userRepository.findAll({ limit, offset });
+      const users = await this.userRepository.findAll({ pageSize, page });
       if (!users) this.handlerNotFound(`all`);
 
       return users;

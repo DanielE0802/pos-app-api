@@ -16,7 +16,7 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/types/relation.decorator';
-import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decorator';
+import { GetUser, GetUserCompany } from '../auth/decorators';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from '../../common/entities/user.entity';
 

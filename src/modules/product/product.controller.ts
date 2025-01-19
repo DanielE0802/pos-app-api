@@ -15,7 +15,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/types/relation.decorator';
-import { GetUserCompany } from '../auth/decorators/get-user.decorator';
+import { GetUserCompany } from '../auth/decorators';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 

@@ -15,8 +15,8 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IRelationType } from 'src/common/types/relation.decorator';
-import { GetUserCompany } from '../auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { GetUserCompany } from '../auth/decorators';
 
 @ApiTags('Category')
 @ApiBearerAuth()

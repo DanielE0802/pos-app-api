@@ -6,12 +6,10 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { CompanyIdHeaderDto } from 'src/common/dtos/company-headers.dto';
 import { CustomHeaders } from 'src/infrastructure/decorators/custom-headers.decorator';
 import { BaseResponse, PaginationDto } from 'src/common/dtos';
@@ -24,8 +22,8 @@ import { UpdateContactService } from './services/update-contact.service';
 import { SoftDeleteContactService } from './services/soft-delete.service';
 
 @ApiTags('Contacts')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 @Controller('contacts')
 export class ContactsController {
   constructor(
@@ -36,6 +34,10 @@ export class ContactsController {
     private readonly _softDeleteContactService: SoftDeleteContactService,
   ) {}
 
+  @ApiHeader({
+    name: 'company-id',
+    required: true,
+  })
   @Post()
   async create(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
@@ -47,6 +49,10 @@ export class ContactsController {
     });
   }
 
+  @ApiHeader({
+    name: 'company-id',
+    required: true,
+  })
   @Get('/:contactId')
   findOne(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
@@ -55,6 +61,10 @@ export class ContactsController {
     return this._getContactService.execute(id, companyIdHeader['company-id']);
   }
 
+  @ApiHeader({
+    name: 'company-id',
+    required: true,
+  })
   @Get()
   findAll(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
@@ -66,6 +76,10 @@ export class ContactsController {
     });
   }
 
+  @ApiHeader({
+    name: 'company-id',
+    required: true,
+  })
   @Patch('/:contactId')
   update(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
@@ -79,6 +93,10 @@ export class ContactsController {
     );
   }
 
+  @ApiHeader({
+    name: 'company-id',
+    required: true,
+  })
   @Delete('/:contactId')
   remove(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,

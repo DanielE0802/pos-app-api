@@ -31,7 +31,7 @@ export class ProductService {
     companyId: string,
     pags: PaginationDto,
   ): Promise<Product[]> => {
-    const { limit = 10, offset = 0 } = pags;
+    const { pageSize: limit = 10, page: offset = 0 } = pags;
     return await this.productRepo.findAll(companyId, { limit, offset });
   };
 

@@ -16,9 +16,7 @@ import { CreatePdvDto } from './dto/create-pdv.dto';
 import { UpdatePdvDto } from './dto/update-pdv.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { User } from '../../common/entities/user.entity';
-import { TokenUser } from 'src/common/constants/types/types.app';
-import { GetUser, GetUserCompany } from '../auth/decorators/get-user.decorator';
+import { GetUserCompany } from '../auth/decorators';
 import { IRelationType } from 'src/common/types/relation.decorator';
 
 @ApiTags('Punto de Venta')
