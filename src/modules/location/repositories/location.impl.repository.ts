@@ -17,7 +17,7 @@ export class LocationImplRepository implements LocationRepository {
   find = async (rel: boolean): Promise<Department[]> =>
     await this.departmentRepo.find({ relations: { towns: rel } });
 
-  findOne = async (id: string, rel: boolean): Promise<Department> =>
+  findOne = async (id: number, rel: boolean): Promise<Department> =>
     await this.departmentRepo.findOne({
       where: { id },
       relations: { towns: rel },

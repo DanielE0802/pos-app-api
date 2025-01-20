@@ -13,7 +13,7 @@ import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 @Entity('towns')
 export class Town {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column()
   name: string;

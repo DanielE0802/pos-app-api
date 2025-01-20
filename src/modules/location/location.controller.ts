@@ -8,6 +8,7 @@ import {
   Delete,
   ParseBoolPipe,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -24,7 +25,7 @@ export class LocationController {
 
   @Get(':id')
   findOne(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Query('r', ParseBoolPipe) rel: boolean = false,
   ) {
     return this.locationService.findOne(id, rel);

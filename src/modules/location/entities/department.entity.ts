@@ -4,7 +4,7 @@ import { Town } from './town.entity';
 @Entity('departments')
 export class Department {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column()
   name: string;

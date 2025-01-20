@@ -7,7 +7,7 @@ export interface LocationRepository {
    */
   find: (rel: boolean) => Promise<Department[]>;
 
-  findOne: (id: string, rel: boolean) => Promise<Department>;
+  findOne: (id: number, rel: boolean) => Promise<Department>;
 }
 
 export const I_LOCATION_REPOSITORY = 'LocationIRepository';

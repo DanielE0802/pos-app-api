@@ -12,7 +12,7 @@ export class PdvImplRepository implements PdvRepository {
   ) {}
 
   create = async (data: CreatePdvDto): Promise<Pdv> =>
-    await this.pdvRepo.save(this.pdvRepo.create(data));
+    await this.pdvRepo.save(this.pdvRepo.create({ ...data, location: null })); // TODO: Change 'location: null' in single-service impl
 
   find = async (companyId: string, rel: boolean): Promise<Pdv[]> =>
     await this.pdvRepo.find({
@@ -33,7 +33,10 @@ export class PdvImplRepository implements PdvRepository {
     data: UpdatePdvDto,
     companyId: string,
   ): Promise<any> =>
-    await this.pdvRepo.update({ id, company: { id: companyId } }, data);
+    await this.pdvRepo.update(
+      { id, company: { id: companyId } },
+      { ...data, location: null }, // TODO: Change 'location: null' in single-service impl
+    );
 
   delete = async (entity: Pdv): Promise<Pdv> =>
     await this.pdvRepo.remove(entity);

@@ -15,6 +15,6 @@ export class LocationService {
   findAll = async (rel: boolean): Promise<Department[]> =>
     await this.locationRepo.find(rel);
 
-  findOne = async (id: string, rel: boolean): Promise<Department> =>
+  findOne = async (id: number, rel: boolean): Promise<Department> =>
     await this.locationRepo.findOne(id, rel);
 }
