@@ -17,7 +17,7 @@ export class LoginService {
   private _logger = new Logger(LoginService.name);
   constructor(
     @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    private readonly _userRepository: UserRepository,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _jwtService: JwtService,
   ) {}
@@ -27,7 +27,7 @@ export class LoginService {
   ): Promise<BaseResponse<{ accessToken: string }>> {
     const { email, password } = loginDto;
 
-    const userExists = await this._userRepo.findOneBy({ email });
+    const userExists = await this._userRepository.findOneBy({ email });
     if (!userExists) {
       this._logger.error(`Usuario no encontrado con email: ${email}`);
       throw new NotFoundException({

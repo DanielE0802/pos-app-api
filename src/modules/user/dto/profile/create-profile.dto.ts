@@ -1,4 +1,4 @@
-import { IsString, Length, IsPhoneNumber } from 'class-validator';
+import { IsString, Length, IsPhoneNumber, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProfileDto {
@@ -21,5 +21,6 @@ export class CreateProfileDto {
 
   @ApiProperty()
   @IsString()
-  photo: string;
+  @IsOptional()
+  photo?: string;
 }

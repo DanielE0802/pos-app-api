@@ -59,7 +59,9 @@ export class RegisterService {
     // TODO: Implementar el envio del email (event?)
     // await this._mailService.sendVerifyEmail(user);
 
-    this._logger.debug('Usuario registrado exitosamente');
+    this._logger.debug(
+      `${userRegistered.createdOn} -> Usuario ${userRegistered.email} registrado exitosamente`,
+    );
 
     return {
       message: 'Usuario registrado exitosamente',
