@@ -6,11 +6,13 @@ export class PaginationDto {
   @IsNumber()
   @IsInt()
   @Min(1)
-  page: number;
+  @IsOptional()
+  page: number = 1;
 
   @Type(() => Number)
   @IsNumber()
   @IsInt()
   @Max(25)
-  pageSize: number;
+  @IsOptional()
+  pageSize: number = 10;
 }
