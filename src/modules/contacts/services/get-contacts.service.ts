@@ -23,7 +23,7 @@ export class GetContactsService {
         companyId,
         deletedAt: IsNull(),
       },
-      relations: { identity: true },
+      relations: { identity: true, town: true },
       order: { createdAt: 'ASC' },
       skip: (page - 1) * pageSize,
       take: pageSize,
