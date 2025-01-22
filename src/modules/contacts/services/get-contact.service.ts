@@ -22,7 +22,7 @@ export class GetContactService {
         companyId,
         deletedAt: IsNull(),
       },
-      relations: { identity: true },
+      relations: { identity: true, town: true },
       cache: true,
     });
 
