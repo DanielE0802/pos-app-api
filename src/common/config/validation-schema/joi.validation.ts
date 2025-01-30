@@ -61,15 +61,11 @@ export const JoiValidationSchema = Joi.object({
     then: Joi.string().required(),
   }),
 
-  SMTP_HOST: Joi.string()
-    .hostname()
-    .required()
-    .pattern(new RegExp('^smtp.')) // Asegurarse de que comience con 'smtp.'
-    .example('smtp.sendgrid.net'),
+  EMAIL_HOST: Joi.string().hostname().required().pattern(new RegExp('^smtp.')), // Asegurarse de que comience con 'smtp.'
 
-  SMTP_PORT: Joi.number().port().required().valid(587, 465), // Restringe a puertos comunes para SMTP
+  EMAIL_PORT: Joi.number().port().required().valid(587, 465), // Restringe a puertos comunes para SMTP
 
-  SMTP_SECURE: Joi.boolean()
+  EMAIL_SECURE: Joi.boolean()
     .required()
     .truthy(...truthy)
     .falsy(...falsy),
@@ -77,22 +73,5 @@ export const JoiValidationSchema = Joi.object({
   EMAIL_USER: Joi.string().required(),
   EMAIL_PASSWORD: Joi.string().required(),
 
-  EMAIL_FROM: Joi.string()
-    .required()
-    .custom((value, helpers) => {
-      if (!value.includes('@')) {
-        return helpers.error('any.invalid');
-      }
-      const parts = value.match(/<(.+)>/);
-      if (
-        parts &&
-        parts[1] &&
-        !Joi.string()
-          .email({ tlds: { allow: false } })
-          .validate(parts[1]).error
-      ) {
-        return value;
-      }
-      return helpers.error('string.email');
-    }, 'Email From Validation'),
+  EMAIL_FROM: Joi.string(),
 });

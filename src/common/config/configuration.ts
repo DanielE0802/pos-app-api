@@ -26,13 +26,16 @@ export default registerAs('config', () => {
     },
 
     EMAIL: {
-      HOST: process.env.SMTP_HOST,
-      PORT: parseInt(process.env.SMTP_PORT),
-      SECURE: truthy.includes(process.env.SMTP_SECURE),
+      HOST: process.env.EMAIL_HOST,
+      PORT: parseInt(process.env.EMAIL_PORT, 10),
+      SECURE: truthy.includes(process.env.EMAIL_SECURE),
       USER: process.env.EMAIL_USER,
       PASSWORD: process.env.EMAIL_PASSWORD,
       FROM: process.env.EMAIL_FROM,
     },
+
+    SECRET: process.env.SECRET,
+    TOKEN_EXPIRE_IN: process.env.TOKEN_EXPIRE_IN,
 
     // BACKEND_URL: process.env.BACKEND_URL,
     // SUPPORT_EMAIL:
