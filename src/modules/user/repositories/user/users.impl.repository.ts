@@ -33,6 +33,7 @@ export class UserImplRepository implements UserRepository {
     const { pageSize, page } = pags;
 
     return await this.userRepository.find({
+      select: { password: false },
       skip: (page - 1) * pageSize,
       take: pageSize,
     });

@@ -4,15 +4,15 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 INSERT INTO `departments` (`id`, `name`) VALUES
-(1, 'Departamento A'),
-(2, 'Departamento B'),
-(3, 'Departamento C');
+(100, 'Departamento A'),
+(101, 'Departamento B'),
+(102, 'Departamento C');
 
 INSERT INTO `towns` (`id`, `name`, `department_id`) VALUES
-(1, 'CIUDAD 1', 1),
-(2, 'CIUDAD 2', 2),
-(3, 'CIUDAD 3', 3),
-(4, 'CIUDAD 4', 3);
+(101, 'Ciudad 1', 100),
+(102, 'Ciudad 2', 101),
+(103, 'Ciudad 3', 102),
+(104, 'Ciudad 4', 102);
 
 INSERT INTO `companies` (`id`, `name`, `nit`, `address`, `phone_number`, `website`, `quantity_employees`, `economic_activity`, `user_id`) VALUES
 ('f6a88da6-8822-4a50-bb72-c7766822e0f1', 'Daniel SAS', '10002003009', 'KR 108 25-23', '+573014005060', 'www.danielsas.com', '1-10', '0001', '6c64a381-9445-4c82-9954-3731df733625');
