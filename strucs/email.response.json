@@ -1,0 +1,24 @@
+{
+  "emailInfo": {
+    "accepted": ["ally360.erp@yopmail.com"],
+    "rejected": [],
+    "ehlo": [
+      "SIZE 35882577",
+      "8BITMIME",
+      "AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH",
+      "ENHANCEDSTATUSCODES",
+      "PIPELINING",
+      "CHUNKING",
+      "SMTPUTF8"
+    ],
+    "envelopeTime": 1143,
+    "messageTime": 1423,
+    "messageSize": 672,
+    "response": "250 2.0.0 OK  1738018878 71dfb90a1353d-51e4ebedbcbsm1561791e0c.43 - gsmtp",
+    "envelope": {
+      "from": "ally360.erp@gmail.com",
+      "to": ["ally360.erp@yopmail.com"]
+    },
+    "messageId": "<6a2241a4-a555-e52e-a33a-1f81e75c8824@gmail.com>"
+  }
+}

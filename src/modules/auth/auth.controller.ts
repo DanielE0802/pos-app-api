@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Redirect,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -50,6 +51,7 @@ export class AuthController {
   }
 
   @Get('/user/:userId/verify')
+  // @Redirect('http://localhost:3000/auth/activate-account')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   putActivateAccount(
     @Param('userId') userId: string,

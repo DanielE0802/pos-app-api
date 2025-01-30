@@ -23,15 +23,15 @@ import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Post()
-  create(@Body() data: CreateProfileDto) {
-    return this.profileService.create(data);
-  }
+  // @Post()
+  // create(@Body() data: CreateProfileDto) {
+  //   return this.profileService.create(data);
+  // }
 
-  @Get()
-  findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
-    return this.profileService.findAll(rel);
-  }
+  // @Get()
+  // findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
+  //   return this.profileService.findAll(rel);
+  // }
 
   @Get(':id')
   findOne(
@@ -46,8 +46,8 @@ export class ProfileController {
     return this.profileService.update(id, data);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.profileService.remove(id);
+  // }
 }

@@ -10,6 +10,7 @@ import { UserRepository } from 'src/common/repositories';
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
 import { BaseResponse } from 'src/common/dtos';
 import { RegisterUserResponse } from '../dtos/register-user-response.dto';
+import { MailService } from 'src/modules/mail/mail.service';
 
 @Injectable()
 export class RegisterService {
@@ -19,6 +20,7 @@ export class RegisterService {
     private readonly _userRepo: UserRepository,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _genstrAdapter: GenstrAdapter,
+    private readonly _emailSender: MailService,
   ) {}
 
   async execute(
@@ -56,13 +58,17 @@ export class RegisterService {
     const userRegistered = await this._userRepo.save(user);
     delete userRegistered.password;
 
-    // TODO: Implementar el envio del email (event?)
-    // await this._mailService.sendVerifyEmail(user);
-
     this._logger.debug(
       `${userRegistered.createdOn} -> Usuario ${userRegistered.email} registrado exitosamente`,
     );
 
+    const url = `http://[::1]:3010//auth/activate-account?uid=${user.id}&code=${user.verifyToken}`;
+    // TODO: Implementar el EVENT del email
+    await this._emailSender.sendVerifyEmail(user.email, {
+      name: user.profile.name,
+      activationLink: url,
+    });
+    
     return {
       message: 'Usuario registrado exitosamente',
       data: { id: userRegistered.id, email: userRegistered.email },

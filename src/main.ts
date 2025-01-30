@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { APIVersion } from './common/constants/app/version.app';
+import { AllyExceptionInterceptor } from './infrastructure/interceptors/exception.interceptor';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -13,11 +14,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix(APIVersion.v2);
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      forbidNonWhitelisted: true,
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({ forbidNonWhitelisted: true }));
+  app.useGlobalInterceptors(new AllyExceptionInterceptor());
 
   app.enableCors();
 
