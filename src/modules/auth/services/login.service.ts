@@ -4,6 +4,7 @@ import {
   Logger,
   NotFoundException,
   UnauthorizedException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EncoderAdapter } from 'src/infrastructure/adapters';
@@ -25,6 +26,8 @@ export class LoginService {
   async execute(
     loginDto: LoginDto,
   ): Promise<BaseResponse<{ accessToken: string }>> {
+    throw new UnprocessableEntityException();
+
     const { email, password } = loginDto;
 
     const userExists = await this._userRepository.findOneBy({ email });

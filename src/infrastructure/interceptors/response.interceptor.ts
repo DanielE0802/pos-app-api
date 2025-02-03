@@ -18,6 +18,7 @@ export class ResponseInterceptor<T>
     context: ExecutionContext,
     next: CallHandler<T>,
   ): Observable<ResponseDto<T>> {
+    this._logger.warn('Procesando en ResponseInterceptor')
     const request = context.switchToHttp().getRequest();
 
     return next.handle().pipe(

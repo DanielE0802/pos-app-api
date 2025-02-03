@@ -8,7 +8,6 @@ import {
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { UnauthorizedExceptionMsgs } from '../enums/exeption-codes.enum';
 
 @Injectable()
 export class AllyExceptionInterceptor implements NestInterceptor {
@@ -17,29 +16,15 @@ export class AllyExceptionInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((error) => {
         let status = HttpStatus.INTERNAL_SERVER_ERROR;
-        let response = { success: false, acode: 1100, details: {} };
+        let response = { success: false, details: {} };
 
         if (error instanceof HttpException) {
           status = error.getStatus();
           const errorResponse: any = error.getResponse();
 
-          const _acode =
-            typeof errorResponse === 'string'
-              ? errorResponse
-              : errorResponse?.message || 'An error occurred';
-
           response = {
             success: false,
-            acode: _acode,
-            details:
-              typeof errorResponse === 'object'
-                ? {
-                    ...errorResponse,
-                    message:
-                      UnauthorizedExceptionMsgs[Number(_acode)] ||
-                      'Unknown acode',
-                  }
-                : {},
+            details: this.setACode(errorResponse),
           };
           this._logger.error(
             JSON.stringify({
@@ -49,11 +34,32 @@ export class AllyExceptionInterceptor implements NestInterceptor {
             }),
           );
         } else {
-          this._logger.error('Unexpected error:', { error });
+          response = {
+            success: false,
+            details: {
+              message: 'Unexpected error',
+              acode: 1100,
+            },
+          };
+          this._logger.error(
+            JSON.stringify({
+              ...response,
+              originalError: JSON.stringify(error, null),
+              path: context.switchToHttp().getRequest().url,
+              timestamp: new Date().toISOString(),
+            }),
+          );
         }
 
         return throwError(() => new HttpException(response, status));
       }),
     );
+  }
+
+  private setACode(errorResponse: any) {
+    if (typeof errorResponse === 'object' && errorResponse.message) {
+      return { ...errorResponse, acode: 1000 };
+    }
+    return errorResponse;
   }
 }
