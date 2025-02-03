@@ -5,7 +5,7 @@ import {
   Logger,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { BaseResponse } from 'src/common/dtos';
+
 import { Contact } from '../entities';
 import { ContactRepository } from 'src/common/repositories';
 import { CreateContactDto } from '../dtos/contact/create-contact.dto';
@@ -22,7 +22,7 @@ export class CreateContactService {
   ) {}
 
   @MakeTransactional()
-  async execute(data: CreateContactDto): Promise<BaseResponse<Contact>> {
+  async execute(data: CreateContactDto): Promise<Contact> {
     const { identity, companyId, email, phoneNumber } = data;
 
     const contactExistsByCompany = await this._contactRepository.find({
@@ -39,7 +39,7 @@ export class CreateContactService {
       );
     }
 
-    const { data: contactIdentityResult } =
+    const contactIdentityResult =
       await this._createContactIdentityService.execute(identity);
 
     const createdContact = await this._contactRepository.save(
@@ -55,6 +55,6 @@ export class CreateContactService {
     }
 
     this._logger.debug(`Contact created -> ${createdContact.id}`);
-    return { data: createdContact };
+    return createdContact;
   }
 }

@@ -12,7 +12,7 @@ import {
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { CompanyIdHeaderDto } from 'src/common/dtos/company-headers.dto';
 import { CustomHeaders } from 'src/infrastructure/decorators/custom-headers.decorator';
-import { BaseResponse, PaginationDto } from 'src/common/dtos';
+import { PaginationDto } from 'src/common/dtos';
 import { CreateContactDto, UpdateContactDto } from './dtos/contact';
 import { CreateContactService } from './services/create-contact.service';
 import { Contact } from './entities';
@@ -42,7 +42,7 @@ export class ContactsController {
   async create(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
     @Body() input: CreateContactDto,
-  ): Promise<BaseResponse<Contact>> {
+  ): Promise<Contact> {
     return this._createContactService.execute({
       ...input,
       companyId: companyIdHeader['company-id'],
@@ -57,7 +57,7 @@ export class ContactsController {
   findOne(
     @CustomHeaders(CompanyIdHeaderDto) companyIdHeader: CompanyIdHeaderDto,
     @Param('contactId', ParseIntPipe) id: number,
-  ): Promise<BaseResponse<Contact>> {
+  ): Promise<Contact> {
     return this._getContactService.execute(id, companyIdHeader['company-id']);
   }
 

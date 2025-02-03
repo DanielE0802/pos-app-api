@@ -5,26 +5,25 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserRepository } from 'src/common/repositories';
 import { EncoderAdapter } from 'src/infrastructure/adapters';
 import { ChangePasswordDto } from '../dtos';
-import { BaseResponse } from 'src/common/dtos';
+
 import { UAE } from 'src/common/exceptions/exception.string';
 import { SUCC } from 'src/common/exceptions/success.string';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/common/entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ChangePasswordService {
   private _logger = new Logger(ChangePasswordService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    @InjectRepository(User)
+    private readonly _userRepo: Repository<User>,
     private readonly _encoderAdapter: EncoderAdapter,
   ) {}
 
-  async execute(
-    data: ChangePasswordDto,
-    authId: string,
-  ): Promise<BaseResponse> {
+  async execute(data: ChangePasswordDto, authId: string): Promise<void> {
     const { oldPassword, newPassword } = data;
 
     const user = await this._userRepo.findOne({
@@ -33,10 +32,7 @@ export class ChangePasswordService {
     });
     if (!user) {
       this._logger.error(`Usuario no encontrado con el id: ${authId}`);
-      throw new NotFoundException({
-        code: 104, // Handler custom code exceptions
-        message: 'Usuario no encontrado',
-      });
+      throw new NotFoundException({ acode: 2004 });
     }
 
     const validateOldPassword = await this._encoderAdapter.checkPassword(
@@ -53,7 +49,5 @@ export class ChangePasswordService {
     await this._userRepo.save(user);
 
     this._logger.debug(`Contraseña actualizada exitosamente: ${authId}`);
-
-    return { message: SUCC.SUCC_PASS_UPDATED };
   }
 }

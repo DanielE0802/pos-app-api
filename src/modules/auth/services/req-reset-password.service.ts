@@ -1,22 +1,20 @@
 import { Injectable, Logger, Inject, NotFoundException } from '@nestjs/common';
-import { UserRepository } from 'src/common/repositories';
 import { ReqResetPasswordDto } from '../dtos';
 import { GenstrAdapter } from 'src/infrastructure/adapters';
-import { BaseResponse } from 'src/common/dtos';
-import { SUCC } from 'src/common/exceptions/success.string';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/common/entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReqResetPasswordService {
   private _logger = new Logger(ReqResetPasswordService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    @InjectRepository(User)
+    private readonly _userRepo: Repository<User>,
     private readonly _genstrAdapter: GenstrAdapter,
   ) {}
 
-  async execute(
-    data: ReqResetPasswordDto,
-  ): Promise<BaseResponse<{ msg: string }>> {
+  async execute(data: ReqResetPasswordDto): Promise<void> {
     const { email } = data;
 
     const user = await this._userRepo.findOneBy({ email });
@@ -34,7 +32,5 @@ export class ReqResetPasswordService {
 
     // TODO: Implementar el envio del email (event?)
     // const emailSend = await this.mailService.sendResetPasswordEmail(record);
-
-    return { message: SUCC.SUCC_RESET_CODE_SENT };
   }
 }

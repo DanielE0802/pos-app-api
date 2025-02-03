@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { BaseResponse } from 'src/common/dtos';
+
 import { ContactIdentityRepository } from 'src/common/repositories';
 import { CreateIdentityDto } from '../dtos/identity/create-identity.dto';
 import { ContactIdentity } from '../entities';
@@ -17,9 +17,7 @@ export class CreateContactIdentityService {
     private readonly _contactIdentityRepository: ContactIdentityRepository,
   ) {}
 
-  async execute(
-    data: CreateIdentityDto,
-  ): Promise<BaseResponse<ContactIdentity>> {
+  async execute(data: CreateIdentityDto): Promise<ContactIdentity> {
     const newIdentity = await this._contactIdentityRepository.save(
       this._contactIdentityRepository.create(data),
     );
@@ -31,6 +29,6 @@ export class CreateContactIdentityService {
       );
     }
 
-    return { data: newIdentity };
+    return newIdentity;
   }
 }

@@ -1,40 +1,35 @@
 import {
-  Inject,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
-  UnprocessableEntityException,
 } from '@nestjs/common';
-import { RegisterUserDto } from '../dtos';
-import { UserRepository } from 'src/common/repositories';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
-import { BaseResponse } from 'src/common/dtos';
-import { RegisterUserResponse } from '../dtos/register-user-response.dto';
 import { MailService } from 'src/modules/mail/mail.service';
+import { RegisterUserDto } from '../dtos';
+import { User } from 'src/common/entities';
 
 @Injectable()
 export class RegisterService {
   private _logger = new Logger(RegisterService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    @InjectRepository(User)
+    private readonly _userRepo: Repository<User>,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _genstrAdapter: GenstrAdapter,
     private readonly _emailSender: MailService,
   ) {}
 
-  async execute(
-    data: RegisterUserDto,
-  ): Promise<BaseResponse<RegisterUserResponse>> {
+  async execute(data: RegisterUserDto): Promise<User> {
     const { email, password } = data;
 
     const userExists = await this._userRepo.findOneBy({ email });
     if (userExists) {
       this._logger.error('Este email ya esta registrado');
-      throw new UnprocessableEntityException({
-        code: 100, // Handler custom code exceptions
-        message: 'Este email ya esta registrado',
-      });
+      throw new ConflictException({ acode: 2001 });
     }
 
     const hash = await this._encoderAdapter.encodePassword(password);
@@ -69,9 +64,6 @@ export class RegisterService {
       activationLink: url,
     });
 
-    return {
-      message: 'Usuario registrado exitosamente',
-      data: { userId: userRegistered.authId, email: userRegistered.email },
-    };
+    return userRegistered;
   }
 }

@@ -1,36 +1,32 @@
 import {
-  Inject,
   Injectable,
   Logger,
   NotFoundException,
   UnauthorizedException,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EncoderAdapter } from 'src/infrastructure/adapters';
 import { LoginDto } from '../dtos';
 import { UAE } from 'src/common/exceptions/exception.string';
-import { UserRepository } from 'src/common/repositories';
-import { BaseResponse } from 'src/common/dtos';
+
+import { User } from 'src/common/entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LoginService {
   private _logger = new Logger(LoginService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepository: UserRepository,
+    @InjectRepository(User)
+    private readonly _userRepo: Repository<User>,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _jwtService: JwtService,
   ) {}
 
-  async execute(
-    loginDto: LoginDto,
-  ): Promise<BaseResponse<{ accessToken: string }>> {
-    throw new UnprocessableEntityException();
-
+  async execute(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
 
-    const userExists = await this._userRepository.findOneBy({ email });
+    const userExists = await this._userRepo.findOneBy({ email });
     if (!userExists) {
       this._logger.error(`Usuario no encontrado con email: ${email}`);
       throw new NotFoundException({
@@ -58,12 +54,10 @@ export class LoginService {
     delete userExists.password;
 
     return {
-      data: {
-        accessToken: this._jwtService.sign({
-          id: userExists.id,
-          email: userExists.email,
-        }),
-      },
+      accessToken: this._jwtService.sign({
+        id: userExists.id,
+        email: userExists.email,
+      }),
     };
   }
 }

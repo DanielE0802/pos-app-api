@@ -18,19 +18,18 @@ export class ResponseInterceptor<T>
     context: ExecutionContext,
     next: CallHandler<T>,
   ): Observable<ResponseDto<T>> {
-    this._logger.warn('Procesando en ResponseInterceptor')
     const request = context.switchToHttp().getRequest();
 
     return next.handle().pipe(
       map((data) => {
         const response = new ResponseDto(data);
         const statusCode = context.switchToHttp().getResponse().statusCode;
+
         this._logger.debug(
           JSON.stringify({
             path: request.url,
             method: request.method,
             statusCode,
-            message: response.message || 'No message',
           }),
         );
         return response;

@@ -2,7 +2,20 @@ import * as entities from '../../common/entities';
 
 export const config = {
   db: {
-    entities: [entities],
+    entities: [
+      entities.Brand,
+      entities.Category,
+      entities.Company,
+      entities.Contact,
+      entities.ContactIdentity,
+      entities.Department,
+      entities.Town,
+      entities.Pdv,
+      entities.Product,
+      entities.ProductPdv,
+      entities.Profile,
+      entities.User,
+    ],
     type: 'postgres',
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
