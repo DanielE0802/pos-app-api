@@ -8,7 +8,7 @@ import {
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { UnauthorizedExceptionMsgs } from '../enums/exeption-messages.enum';
+import { UnauthorizedExceptionMsgs } from '../enums/exeption-codes.enum';
 
 @Injectable()
 export class AllyExceptionInterceptor implements NestInterceptor {
