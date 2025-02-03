@@ -40,7 +40,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql/:rw
-      - ./database:/docker-entrypoint-initdb.d/:ro
+      - ./database/migrations:/docker-entrypoint-initdb.d/:ro
     restart: always
     security_opt:
       - seccomp:unconfined

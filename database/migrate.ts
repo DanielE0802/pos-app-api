@@ -1,6 +1,10 @@
+import { Logger } from '@nestjs/common';
 import { SlonikMigrator } from '@slonik/migrator';
 import { createPool } from 'slonik';
 import { configuration } from '../src/config';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const migrationsPath = __dirname + '/migrations';
 const migrationTable = 'dbchangelog';
@@ -22,24 +26,31 @@ export class DbMigrator {
   constructor(public dbConfig: DBConfig, public migrator: SlonikMigrator) {}
 
   static async create(dbConfig?: DBConfig): Promise<DbMigrator> {
-    console.log(`DATABASE MIGRATIONS SETUP ...`);
-    const db: DBConfig = dbConfig ?? (await configuration()).db;
+    const _logger = new Logger(DbMigrator.name);
+
+    _logger.log(`-> DATABASE MIGRATIONS SETUP`);
+    // TODO: Revisar y acomodar el tipo DBConfig
+    const db: /* DBConfig */ any = dbConfig ?? (await configuration()).db;
 
     let connectionString: string;
     let clientConfig;
     let schema: string;
 
     if (process.env.POSTGRES_CONNECTION_STRING) {
-      console.log(`POSTGRES_CONNECTION_STRING env is present, using it as connection string`);
+      _logger.log(
+        `POSTGRES_CONNECTION_STRING env is present, using it as connection string`,
+      );
       connectionString = process.env.POSTGRES_CONNECTION_STRING;
       clientConfig = {};
       schema = 'public';
     } else {
-      console.log(`Environment config: ${process.env.NODE_ENV || 'development'}`);
-      connectionString = `postgresql://${db.username}:${encodeURIComponent(db.password)}@${db.host}:${
-        db.port
-      }/${db.database}`;
-      schema = db.schema;
+      _logger.log(
+        `Environment config: ${process.env.NODE_ENV || 'development'}`,
+      );
+      connectionString = `postgresql://${db.username}:${encodeURIComponent(
+        db.password,
+      )}@${db.host}:${db.port}/${db.database}`;
+      schema = db.schema ?? 'public';
       clientConfig = db.ssl ? { ssl: db.ssl } : {};
     }
     const slonik = createPool(connectionString, {
@@ -66,17 +77,18 @@ export class DbMigrator {
 }
 
 if (require.main === module) {
+  const _logger = new Logger(DbMigrator.name);
   DbMigrator.create()
     .then((dbMigrator) => {
-      console.log(`DATABASE MIGRATIONS STARTING ...`);
+      _logger.log(`-> DATABASE MIGRATIONS STARTING`);
       if (!dbMigrator.isEnabled()) {
-        console.log(`Sincronize=true - Migrations skipped`);
+        _logger.log(`synchronize=true - Migrations skipped`);
         return;
       }
       dbMigrator.migrator.runAsCLI();
-      console.log(`... DATABASE MIGRATIONS FINISHED`);
+      _logger.log(`-> DATABASE MIGRATIONS FINISHED`);
     })
     .catch((error) => {
-      console.error(error);
+      _logger.error(error);
     });
 }

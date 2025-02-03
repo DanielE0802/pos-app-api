@@ -2,13 +2,14 @@ import * as Joi from 'joi';
 import { truthy, falsy } from 'src/common/constants/app/bools.app';
 
 export const JoiValidationSchema = Joi.object({
-  NODE_ENV: Joi.required(),
-  ENV_PORT: Joi.number().port().default(3000),
-  DB_NAME: Joi.required(),
+  NODE_ENV: Joi.required().valid('local', 'development', 'prod'),
+  PORT: Joi.number().port().default(3000),
+
   DB_HOST: Joi.required(),
   DB_PORT: Joi.number().port().default(3306),
-  DB_USER: Joi.required(),
+  DB_USERNAME: Joi.required(),
   DB_PASSWORD: Joi.required(),
+  DB_DATABASE: Joi.required(),
 
   DB_SYNC: Joi.boolean()
     .truthy(...truthy)

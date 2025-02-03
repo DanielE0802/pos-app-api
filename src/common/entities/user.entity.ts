@@ -1,7 +1,6 @@
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
@@ -10,28 +9,31 @@ import {
 } from 'typeorm';
 import { Profile } from './profile.entity';
 import { Company } from 'src/modules/company/entities/company.entity';
+import { BaseEntity } from './base.entity';
+
+import { v4 } from 'uuid';
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
+  id: number;
 
-  @Column('varchar', { length: 100, unique: true })
+  @Column({ name: 'auth_id', unique: true })
+  authId: string;
+
+  @Column({ length: 100, unique: true })
   email: string;
 
-  @Column('varchar', { length: 155 })
+  // TODO: Temporal hasta que se integre KeyCloak
+  @Column({ length: 155 })
   password: string;
 
-  /**
-   * TODO: set default false when EmailService has implemented
-   */
+  // TODO: establecer en falso por defecto hasta que se haya implementado EmailService
   @Column('boolean', { default: true })
   verified: boolean;
 
-  @Column('boolean', { name: 'is_active', default: true })
-  isActive: boolean;
-
-  @Column('varchar', {
+  // TODO: Implementar UserTokens como entidad para almacenar tokens temporales
+  @Column({
     length: 55,
     unique: true,
     nullable: true,
@@ -39,22 +41,14 @@ export class User {
   })
   verifyToken: string;
 
-  @Column('varchar', {
+  // TODO: Implementar UserTokens como entidad para almacenar tokens temporales
+  @Column({
     length: 55,
     unique: true,
     nullable: true,
     name: 'reset_password_token',
   })
   resetPasswordToken: string;
-
-  @Column('boolean', {
-    default: true,
-    name: 'first_login',
-  })
-  firstLogin: boolean;
-
-  @Column('simple-array', { nullable: true })
-  roles: string[];
 
   @OneToOne(() => Profile, (profile) => profile.user, {
     nullable: false,
@@ -65,16 +59,11 @@ export class User {
   profile: Profile;
 
   @OneToMany(() => Company, (company) => company.user)
-  @JoinColumn({ name: 'company_id' })
   company: Company[];
 
-  @CreateDateColumn({ select: false, name: 'created_on' })
-  createdOn: Date;
-
+  // TODO: Temporal hasta que se integre KeyCloak
   @BeforeInsert()
   setDefaultRoles() {
-    if (!this.roles || this.roles.length === 0) {
-      this.roles = ['owner'];
-    }
+    this.authId = v4();
   }
 }

@@ -33,7 +33,7 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(process.env.PORT);
+  await app.listen(parseInt(process.env.PORT));
 
   logger.log(`Server is running!, View services: ${await app.getUrl()}/docs/`);
 }
