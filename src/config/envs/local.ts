@@ -1,10 +1,10 @@
 export const config = {
   db: {
-    type: 'posgrest',
+    type: 'postgres',
     host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'mysql',
+    port: 5432,
+    username: 'postgres',
+    password: 'admin',
     database: 'main_erp',
     extra: {
       connectionLimit: 10,

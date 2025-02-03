@@ -51,7 +51,7 @@ export class UsersService {
     }
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: number): Promise<User> {
     try {
       const user = await this.userRepository.findById(id);
       if (!user) this.handlerNotFound(id);
@@ -79,7 +79,7 @@ export class UsersService {
     }
   }
 
-  async findInectiveUsersByCode(id: string, code: string): Promise<User> {
+  async findInectiveUsersByCode(id: number, code: string): Promise<User> {
     try {
       const user = await this.userRepository.findInectiveUsersByCode(id, code);
       if (!user) this.handlerNotFound(id);
@@ -110,7 +110,7 @@ export class UsersService {
     }
   }
 
-  update = async (id: string, data: UpdateUserDto): Promise<User> => {
+  update = async (id: number, data: UpdateUserDto): Promise<User> => {
     console.log(id, { data });
 
     try {
@@ -129,7 +129,7 @@ export class UsersService {
     }
   };
 
-  private handlerNotFound(by: string) {
+  private handlerNotFound(by: any) {
     throw new NotFoundException(`${NFE.NOT_USER}:${by}`);
   }
 }

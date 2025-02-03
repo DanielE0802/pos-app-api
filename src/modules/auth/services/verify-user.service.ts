@@ -21,7 +21,7 @@ export class VerifyUserService {
     const { code } = data;
 
     const userVerifying = await this._userRepo.findOneBy({
-      id: userId,
+      authId: userId,
       verifyToken: code,
     });
 
@@ -44,7 +44,7 @@ export class VerifyUserService {
 
     return {
       message: 'Usuario activado correctamente',
-      data: { id: userVerifying.id, email: userVerifying.email },
+      data: { userId: userVerifying.authId, email: userVerifying.email },
     };
   }
 }

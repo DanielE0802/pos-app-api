@@ -39,7 +39,7 @@ export class CompanyService {
 
   async addUser(companyId: string, userId: string) {
     const currentCompany = await this._companyRepo.findOne(companyId, true);
-    const currentUser = await this._userService.findById(userId);
+    const currentUser = await this._userService.findById(+userId);
 
     await this._companyRepo.update(currentCompany.id, {
       userId: currentUser.id,

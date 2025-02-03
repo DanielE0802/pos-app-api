@@ -39,7 +39,7 @@ export class UserImplRepository implements UserRepository {
     });
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: number): Promise<User> {
     return await this.userRepository.findOne({
       where: { id },
       relations: { company: true },
@@ -61,7 +61,7 @@ export class UserImplRepository implements UserRepository {
   }
 
   async findInectiveUsersByCode(
-    id: string,
+    id: number,
     verifyToken: string,
   ): Promise<User> {
     return await this.userRepository.findOne({
@@ -73,7 +73,7 @@ export class UserImplRepository implements UserRepository {
     return await this.userRepository.findOne({ where: { resetPasswordToken } });
   }
 
-  async update(id: string, data: UpdateUserDto): Promise<any> {
+  async update(id: number, data: UpdateUserDto): Promise<any> {
     const { profile, ...rest } = data;
     const user = await this.userRepository.findOneOrFail({ where: { id } });
 

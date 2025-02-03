@@ -5,13 +5,17 @@ import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { User } from 'src/common/entities/user.entity';
 import { UsersService } from 'src/modules/user/services/user.service';
 import { JwtConfig } from 'src/common/constants/app/jwt.app';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly usersService: UsersService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly usersService: UsersService,
+  ) {
     // TODO: Modificar las variables para obtenerlas del ConfigService
     super({
-      secretOrKey: 'my-secret',
+      secretOrKey: configService.get('jwt').secret,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
@@ -19,10 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload): Promise<User> {
     const { id } = payload;
 
-    const user = await this.usersService.findById(id);
+    const user = await this.usersService.findById(+id);
 
     if (!user) throw new UnauthorizedException('Token not valid');
-    if (!user.isActive) throw new UnauthorizedException('User is inactive');
+    // if (!user.isActive) throw new UnauthorizedException('User is inactive');
 
     return user;
   }

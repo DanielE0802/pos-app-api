@@ -36,10 +36,10 @@ import { configuration, JoiValidationSchema } from './config';
     }),
 
     AuthModule,
-    ContactsModule,
-    ProductModule,
-    LocationModule,
-    CompanyModule,
+    // ContactsModule,
+    // ProductModule,
+    // LocationModule,
+    // CompanyModule,
   ],
 })
 export class AppModule {}

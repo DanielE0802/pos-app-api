@@ -1,5 +1,11 @@
+export { Brand } from 'src/modules/brand/entities/brand.entity';
+export { Category } from 'src/modules/category/entities/category.entity';
 export { Company } from 'src/modules/company/entities/company.entity';
-export { Contact } from 'src/modules/contacts/entities/contact.entity';
-export { ContactIdentity } from 'src/modules/contacts/entities';
+export { Contact, ContactIdentity } from 'src/modules/contacts/entities';
+export { Department } from 'src/modules/location/entities/department.entity';
+export { Town } from 'src/modules/location/entities/town.entity';
+export { Pdv } from 'src/modules/pdv/entities/pdv.entity';
+export { Product } from 'src/modules/product/entities/product.entity';
+export { ProductPdv } from 'src/modules/products-pdvs/entities/product-pdv.entity';
 export { Profile } from './profile.entity';
 export { User } from './user.entity';

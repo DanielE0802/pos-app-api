@@ -32,7 +32,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    return this.usersService.findById(id);
+    return this.usersService.findById(+id);
   }
 
   @Auth(ValidRoles.admin, ValidRoles.owner)
@@ -41,6 +41,6 @@ export class UsersController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() data: UpdateUserDto,
   ): Promise<User> {
-    return this.usersService.update(id, data);
+    return this.usersService.update(+id, data);
   }
 }

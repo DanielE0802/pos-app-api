@@ -20,14 +20,14 @@ export interface UserRepository {
    * @param {string} id - string - the uuid of the user we want to find
    * @returns A user object
    */
-  findById: (id: string) => Promise<User>;
+  findById: (id: number) => Promise<User>;
   /**
    * Find a user by their id and activation token, and make sure they're not active
    * @param {string} id - The user's id
    * @param {string} code - The code that was sent to the user's email.
    * @returns User
    */
-  findInectiveUsersByCode: (id: string, code: string) => Promise<User>;
+  findInectiveUsersByCode: (id: number, code: string) => Promise<User>;
   /**
    * It finds a user by email and throws an error if it can't find one
    * @param {string} email - string - the email of the user we want to find
@@ -44,7 +44,7 @@ export interface UserRepository {
    * Method which is responsible only for updating a user.
    * @param user This method receives as parameter the user to be updated
    */
-  update: (id: string, data: UpdateUserDto) => Promise<User>;
+  update: (id: number, data: UpdateUserDto) => Promise<User>;
 }
 
 export const I_USER_REPOSITORY = 'UsersIRepository';

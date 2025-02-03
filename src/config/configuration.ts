@@ -29,6 +29,6 @@ export const configuration = async (): Promise<Config> => {
     await import(`${__dirname}/envs/${process.env.NODE_ENV || 'development'}`)
   );
   const envs = util.merge(config, environment);
-  console.log(JSON.stringify(envs, null, 2));
+  console.log(JSON.stringify(envs, null));
   return envs;
 };

@@ -59,7 +59,7 @@ export class RegisterService {
     delete userRegistered.password;
 
     this._logger.debug(
-      `${userRegistered.createdOn} -> Usuario ${userRegistered.email} registrado exitosamente`,
+      `${userRegistered.createdAt} -> Usuario ${userRegistered.email} registrado exitosamente`,
     );
 
     const url = `http://[::1]:3010//auth/activate-account?uid=${user.id}&code=${user.verifyToken}`;
@@ -68,10 +68,10 @@ export class RegisterService {
       name: user.profile.name,
       activationLink: url,
     });
-    
+
     return {
       message: 'Usuario registrado exitosamente',
-      data: { id: userRegistered.id, email: userRegistered.email },
+      data: { userId: userRegistered.authId, email: userRegistered.email },
     };
   }
 }

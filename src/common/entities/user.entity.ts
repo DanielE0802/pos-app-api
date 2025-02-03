@@ -2,7 +2,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  JoinColumn,
+  Index,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -14,6 +14,7 @@ import { BaseEntity } from './base.entity';
 import { v4 } from 'uuid';
 
 @Entity('users')
+@Index(['authId', 'email'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
   id: number;
@@ -29,7 +30,7 @@ export class User extends BaseEntity {
   password: string;
 
   // TODO: establecer en falso por defecto hasta que se haya implementado EmailService
-  @Column('boolean', { default: true })
+  @Column({ type: 'boolean', default: true })
   verified: boolean;
 
   // TODO: Implementar UserTokens como entidad para almacenar tokens temporales
@@ -50,12 +51,7 @@ export class User extends BaseEntity {
   })
   resetPasswordToken: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user, {
-    nullable: false,
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({ name: 'profile_id' })
+  @OneToOne(() => Profile, (profile) => profile.user)
   profile: Profile;
 
   @OneToMany(() => Company, (company) => company.user)

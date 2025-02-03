@@ -52,5 +52,5 @@ export class CreateCompanyDto {
 
   @IsOptional()
   @IsUUID()
-  userId?: string;
+  userId?: number;
 }

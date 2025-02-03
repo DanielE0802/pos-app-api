@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigType } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthServices } from './services';
 import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
@@ -13,20 +13,17 @@ import { MailModule } from '../mail/mail.module';
 import { User } from '../../common/entities/user.entity';
 import { UserRepository } from 'src/common/repositories';
 import { UserModule } from '../user/user.module';
-import configuration from 'src/common/config/configuration';
-import { MailService } from '../mail/mail.service';
 
 @Module({
   imports: [
-    // ConfigModule,
     TypeOrmModule.forFeature([User]),
     PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
-      inject: [configuration.KEY],
-      useFactory: async (config: ConfigType<typeof configuration>) => ({
-        secret: config.SECRET,
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        secret: config.get('jwt').secret,
         signOptions: {
-          expiresIn: config.TOKEN_EXPIRE_IN,
+          expiresIn: config.get('jwt').expire_in,
         },
       }),
     }),

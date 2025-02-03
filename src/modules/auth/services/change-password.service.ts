@@ -23,16 +23,16 @@ export class ChangePasswordService {
 
   async execute(
     data: ChangePasswordDto,
-    userId: string,
+    authId: string,
   ): Promise<BaseResponse> {
     const { oldPassword, newPassword } = data;
 
     const user = await this._userRepo.findOne({
       select: { password: true },
-      where: { id: userId },
+      where: { authId },
     });
     if (!user) {
-      this._logger.error(`Usuario no encontrado con el id: ${userId}`);
+      this._logger.error(`Usuario no encontrado con el id: ${authId}`);
       throw new NotFoundException({
         code: 104, // Handler custom code exceptions
         message: 'Usuario no encontrado',
@@ -45,14 +45,14 @@ export class ChangePasswordService {
     );
 
     if (!validateOldPassword) {
-      this._logger.error(`Error en las credenciales: ${userId}`);
+      this._logger.error(`Error en las credenciales: ${authId}`);
       throw new UnauthorizedException(UAE.UNAUTHORIZED);
     }
 
     user.password = await this._encoderAdapter.encodePassword(newPassword);
     await this._userRepo.save(user);
 
-    this._logger.debug(`Contraseña actualizada exitosamente: ${userId}`);
+    this._logger.debug(`Contraseña actualizada exitosamente: ${authId}`);
 
     return { message: SUCC.SUCC_PASS_UPDATED };
   }

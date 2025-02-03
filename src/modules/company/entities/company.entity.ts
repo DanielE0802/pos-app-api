@@ -8,15 +8,13 @@ import {
   OneToMany,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
   Index,
 } from 'typeorm';
+import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Entity('companies')
 @Index(['nit'])
-export class Company {
+export class Company extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,7 +40,7 @@ export class Company {
   economicActivity: string;
 
   @Column({ name: 'user_id', nullable: true })
-  userId: string;
+  userId: number;
   @ManyToOne(() => User, (user) => user.company)
   @JoinColumn({ name: 'user_id' })
   user: User;
@@ -52,13 +50,4 @@ export class Company {
 
   @OneToMany(() => Category, (category) => category.company)
   categories: Category[];
-
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', nullable: true })
-  updatedAt?: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
-  deletedAt?: Date;
 }
