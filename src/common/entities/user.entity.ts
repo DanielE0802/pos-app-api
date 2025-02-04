@@ -51,7 +51,7 @@ export class User extends BaseEntity {
   })
   resetPasswordToken: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user, { cascade: ['insert'] })
   profile: Profile;
 
   @OneToMany(() => Company, (company) => company.user)

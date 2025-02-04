@@ -2,6 +2,8 @@ import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
+import { MailListener } from './mail.listener';
+import * as Events from './events';
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { MailService } from './mail.service';
       }),
     }),
   ],
-  providers: [MailService],
-  exports: [MailService],
+  providers: [MailService, MailListener, ...Object.values(Events)],
+  exports: [MailService, MailListener],
 })
 export class MailModule {}

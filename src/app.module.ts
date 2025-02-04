@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
@@ -10,7 +10,9 @@ import { CompanyModule } from './modules/company/company.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { LocationModule } from './modules/location/location.module';
 import { ProductModule } from './modules/product/product.module';
-import { configuration, JoiValidationSchema } from './config';
+import { configuration } from './config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -31,11 +33,12 @@ import { configuration, JoiValidationSchema } from './config';
         );
       },
     }),
+    EventEmitterModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), '/public'),
     }),
-
     AuthModule,
+    MailModule,
     // ContactsModule,
     // ProductModule,
     // LocationModule,

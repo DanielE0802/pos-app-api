@@ -5,12 +5,14 @@ import {
   Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Repository } from 'typeorm';
 
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
-import { MailService } from 'src/modules/mail/mail.service';
 import { RegisterUserDto } from '../dtos';
 import { User } from 'src/common/entities';
+import { EmailActionsEvent } from 'src/modules/mail/enums/email-events.enum';
+import { ActivationLinkEvent } from 'src/modules/mail/events';
 
 @Injectable()
 export class RegisterService {
@@ -20,7 +22,7 @@ export class RegisterService {
     private readonly _userRepo: Repository<User>,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _genstrAdapter: GenstrAdapter,
-    private readonly _emailSender: MailService,
+    private readonly _eventEmitter: EventEmitter2,
   ) {}
 
   async execute(data: RegisterUserDto): Promise<User> {
@@ -58,11 +60,11 @@ export class RegisterService {
     );
 
     const url = `http://[::1]:3010//auth/activate-account?uid=${user.id}&code=${user.verifyToken}`;
-    // TODO: Implementar el EVENT del email
-    await this._emailSender.sendVerifyEmail(user.email, {
-      name: user.profile.name,
-      activationLink: url,
-    });
+
+    this._eventEmitter.emit(
+      EmailActionsEvent.ActivationLink,
+      new ActivationLinkEvent(user.email, user.profile.name, url),
+    );
 
     return userRegistered;
   }

@@ -1,18 +1,15 @@
 import {
-  Inject,
   Injectable,
   Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { EncoderAdapter } from 'src/infrastructure/adapters';
-import { ChangePasswordDto } from '../dtos';
-
-import { UAE } from 'src/common/exceptions/exception.string';
-import { SUCC } from 'src/common/exceptions/success.string';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/common/entities';
 import { Repository } from 'typeorm';
+import { ChangePasswordDto } from '../dtos';
+import { EncoderAdapter } from 'src/infrastructure/adapters';
+import { UAE } from 'src/common/exceptions/exception.string';
+import { User } from 'src/common/entities';
 
 @Injectable()
 export class ChangePasswordService {

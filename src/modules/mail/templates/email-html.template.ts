@@ -74,7 +74,7 @@ export const EmailsTemplates = {
       <br />
       <a
         style='background-color: turquoise; border: none; border-radius: 5px; color: #333; padding: 15px 32px'
-        href='{{url_activation}}'
+        href='{{change_password_url}}'
       >
         Reestablecer contraseña
       </a>

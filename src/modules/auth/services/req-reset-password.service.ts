@@ -1,9 +1,12 @@
 import { Injectable, Logger, Inject, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { ReqResetPasswordDto } from '../dtos';
 import { GenstrAdapter } from 'src/infrastructure/adapters';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/common/entities';
-import { Repository } from 'typeorm';
+import { ReqResetPasswordEvent } from 'src/modules/mail/events';
+import { EmailActionsEvent } from 'src/modules/mail/enums/email-events.enum';
 
 @Injectable()
 export class ReqResetPasswordService {
@@ -12,6 +15,7 @@ export class ReqResetPasswordService {
     @InjectRepository(User)
     private readonly _userRepo: Repository<User>,
     private readonly _genstrAdapter: GenstrAdapter,
+    private readonly _eventEmitter: EventEmitter2,
   ) {}
 
   async execute(data: ReqResetPasswordDto): Promise<void> {
@@ -20,15 +24,17 @@ export class ReqResetPasswordService {
     const user = await this._userRepo.findOneBy({ email });
     if (!user) {
       this._logger.error(`Usuario no encontrado con el email: ${email}`);
-      throw new NotFoundException({
-        code: 100, // Handler custom code exceptions
-        message: 'Usuario no encontrado',
-      });
+      throw new NotFoundException({ acode: 2004 });
     }
 
     user.resetPasswordToken = this._genstrAdapter.generate(50);
 
     await this._userRepo.save(user);
+
+    this._eventEmitter.emit(
+      EmailActionsEvent.ReqResetPassword,
+      new ReqResetPasswordEvent(user.email, user.profile.name),
+    );
 
     // TODO: Implementar el envio del email (event?)
     // const emailSend = await this.mailService.sendResetPasswordEmail(record);
