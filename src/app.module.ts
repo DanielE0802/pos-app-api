@@ -13,6 +13,9 @@ import { ProductModule } from './modules/product/product.module';
 import { configuration } from './config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MailModule } from './modules/mail/mail.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { UserRepository } from './common/repositories';
+import { SharedModule } from './infrastructure/shared/shared.module';
 
 @Module({
   imports: [
@@ -21,6 +24,7 @@ import { MailModule } from './modules/mail/mail.module';
       load: [configuration],
       // validationSchema: JoiValidationSchema,
     }),
+    SharedModule,
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         ...config.get<TypeOrmModuleOptions>('db'),
@@ -39,10 +43,13 @@ import { MailModule } from './modules/mail/mail.module';
     }),
     AuthModule,
     MailModule,
+    BrandModule
     // ContactsModule,
     // ProductModule,
     // LocationModule,
     // CompanyModule,
   ],
+  // providers: [UserRepository],
+  // exports: [UserRepository]
 })
-export class AppModule {}
+export class AppModule { }
