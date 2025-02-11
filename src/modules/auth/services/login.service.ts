@@ -26,7 +26,10 @@ export class LoginService {
   async execute(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
 
-    const userExists = await this._userRepo.findOneBy({ email });
+    const userExists = await this._userRepo.findOne({
+      where: { email },
+      relations: { company: true },
+    });
     if (!userExists) {
       this._logger.error(`Usuario no encontrado con email: ${email}`);
       throw new NotFoundException({
@@ -57,6 +60,7 @@ export class LoginService {
       accessToken: this._jwtService.sign({
         id: userExists.id,
         email: userExists.email,
+        authId: userExists.authId,
       }),
     };
   }
