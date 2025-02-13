@@ -9,14 +9,19 @@ import {
   ManyToOne,
   JoinColumn,
   Index,
+  Generated,
 } from 'typeorm';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Entity('companies')
 @Index(['nit'])
 export class Company extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
+  id: number;
+
+  @Column({ type: 'uuid', unique: true })
+  @Generated('uuid')
+  companyId: string
 
   @Column({ name: 'name', length: 100 })
   name: string;

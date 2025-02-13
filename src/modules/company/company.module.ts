@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common';
-import { CompanyService } from './company.service';
-import { CompanyController } from './company.controller';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Company } from './entities/company.entity';
-import { CompanyProviders } from './providers/company.providers';
-import { PdvModule } from '../pdv/pdv.module';
-import { PassportModule } from '@nestjs/passport';
-import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { CompanyServices } from './services/company';
+import { DefaultStrategy } from '../../common/constants/app/jwt.app';
 import { UserModule } from '../user/user.module';
+import { CompanyControllers } from './controllers';
+import { Product } from './entities/product.entity';
+import { Brand } from './entities/brand.entity';
+import { Category } from './entities/category.entity';
+
 
 @Module({
   imports: [
     PassportModule.register(DefaultStrategy),
-    TypeOrmModule.forFeature([Company]),
-    PdvModule,
+    TypeOrmModule.forFeature([Company, Product, Brand, Category]),
     UserModule,
   ],
-  controllers: [CompanyController],
-  providers: [CompanyService, ...CompanyProviders],
-  exports: [CompanyService],
+  controllers: [...Object.values(CompanyControllers)],
+  providers: [...Object.values(CompanyServices)],
+  exports: [CompanyServices.FindCompanyByCompanyIdService],
 })
 export class CompanyModule {}

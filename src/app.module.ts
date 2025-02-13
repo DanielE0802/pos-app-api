@@ -9,11 +9,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { LocationModule } from './modules/location/location.module';
-import { ProductModule } from './modules/product/product.module';
 import { configuration } from './config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MailModule } from './modules/mail/mail.module';
-import { BrandModule } from './modules/brand/brand.module';
 import { UserRepository } from './common/repositories';
 import { SharedModule } from './infrastructure/shared/shared.module';
 
@@ -43,13 +41,11 @@ import { SharedModule } from './infrastructure/shared/shared.module';
     }),
     AuthModule,
     MailModule,
-    BrandModule
     // ContactsModule,
-    // ProductModule,
     // LocationModule,
     // CompanyModule,
   ],
   // providers: [UserRepository],
   // exports: [UserRepository]
 })
-export class AppModule { }
+export class AppModule {}
