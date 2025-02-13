@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
@@ -7,13 +7,9 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
-import { TypeProduct } from "src/common/constants/app/products.app";
-import { IRelationType } from 'src/common/types/relation.decorator';
-import { CreateProductsPdvDto } from '../../products-pdvs/dto/create-products-pdv.dto';
+import { TypeProduct } from 'src/common/constants/app/products.app';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -87,34 +83,24 @@ export class CreateProductDto {
   @Transform(({ value }) => parseInt(value))
   quantityStock: number;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => IRelationType)
-  // @ValidateNested()
-  brand: IRelationType;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @Type(() => IRelationType)
-  // @ValidateNested()
-  productMainProduct: IRelationType; // ID of the main product (optional)
+  // @ApiPropertyOptional()
+  // @IsOptional()
+  // @Type(() => IRelationType)
+  // productMainProduct: IRelationType; // ID of the main product (optional)
 
   // TODO: Revisar Insercion con SubPruductos
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNumber({}, { each: true })
-  @ValidateNested({ each: true })
-  @Type(() => String)
-  subProductsIds: string[]; // Array of IDs of sub-products (optional)
+  // @ApiPropertyOptional()
+  // @IsOptional()
+  // @IsNumber({}, { each: true })
+  // @ValidateNested({ each: true })
+  // @Type(() => String)
+  // subProductsIds: string[]; // Array of IDs of sub-products (optional)
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IRelationType)
-  // @ValidateNested()
-  category: IRelationType;
+  categoryId: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => CreateProductsPdvDto)
-  productsPdvs: CreateProductsPdvDto[];
+  brandId: string;
 }

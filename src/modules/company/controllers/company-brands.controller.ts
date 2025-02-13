@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BrandService } from './brand.service';
-import { CreateBrandDto } from './dto/create-brand.dto';
-import { UpdateBrandDto } from './dto/update-brand.dto';
+import { CreateBrandDto } from '../dtos/company-brands/create-brand.dto';
+import { UpdateBrandDto } from '../dtos/company-brands/update-brand.dto';
 
 @Controller('companies/:companyId/brands')
 export class CompanyBrandController {
@@ -18,17 +26,27 @@ export class CompanyBrandController {
   }
 
   @Get(':brandId')
-  findOne(@Param('companyId') companyId: string, @Param('brandId') brandId: string) {
+  findOne(
+    @Param('companyId') companyId: string,
+    @Param('brandId') brandId: string,
+  ) {
     return this.brandService.findOne(companyId, brandId);
   }
 
   @Patch(':brandId')
-  update(@Param('companyId') companyId: string, @Param('brandId') brandId: string, @Body() data: UpdateBrandDto) {
+  update(
+    @Param('companyId') companyId: string,
+    @Param('brandId') brandId: string,
+    @Body() data: UpdateBrandDto,
+  ) {
     return this.brandService.update(companyId, brandId, data);
   }
 
   @Delete(':brandId')
-  remove(@Param('companyId') companyId: string, @Param('brandId') brandId: string) {
+  remove(
+    @Param('companyId') companyId: string,
+    @Param('brandId') brandId: string,
+  ) {
     return this.brandService.remove(companyId, brandId);
   }
 }

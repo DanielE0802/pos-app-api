@@ -5,15 +5,20 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  Generated,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { Brand } from './brand.entity';
-// import { ProductPdv } from '../../products-pdvs/entities/product-pdv.entity';
+import { Company } from './company.entity';
 
 @Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
   id: string;
+
+  @Column({ type: 'uuid', unique: true })
+  @Generated('uuid')
+  productId: string;
 
   @Column()
   name: string;
@@ -52,13 +57,11 @@ export class Product {
   @Column({ name: 'price_base' })
   priceBase: number;
 
-  // @Column({ name: '' })
-  // precio al que lo compro: number;
-
   @Column({ name: 'quantity_stock' })
   quantityStock: number; // Global stock couting all PDVs
 
   // TODO: Identify if that product is ConfigProduct or SimpleProduct
+
   @ManyToOne(() => Product, (Product) => Product.subProducts, {
     nullable: true,
   })
@@ -70,14 +73,24 @@ export class Product {
   })
   subProducts: Product[];
 
+  @Column({ name: 'company_id', type: 'int' })
+  companyId: number;
+
+  @Column({ name: 'brand_id', type: 'int' })
+  brandId: number;
+
+  @Column({ name: 'category_id', type: 'int' })
+  categoryId: number;
+
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
-  category: Category;
+  public category: Category;
 
   @ManyToOne(() => Brand, (brand) => brand.products)
   @JoinColumn({ name: 'brand_id' })
-  brand: Brand;
+  public brand: Brand;
 
-  // @OneToMany(() => ProductPdv, (productPdv) => productPdv.product)
-  // public productPdv: ProductPdv[];
+  @ManyToOne(() => Company, (c) => c.id)
+  @JoinColumn({ name: 'company_id' })
+  public company: Company;
 }
