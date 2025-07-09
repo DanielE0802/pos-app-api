@@ -4,27 +4,26 @@ import {
   I_PRODUCTS_PDVS_REPOSITORY,
   ProductPdvRepository,
 } from './repositories/products-pdvs.repository';
-import { CompanyService } from '../company/company.service';
+// import { CompanyService } from '../company/company.service';
 
 @Injectable()
 export class ProductsPdvsService {
   constructor(
     @Inject(I_PRODUCTS_PDVS_REPOSITORY)
-    private readonly productPdvRepo: ProductPdvRepository,
-    private readonly companyService: CompanyService,
+    private readonly productPdvRepo: ProductPdvRepository, // private readonly companyService: CompanyService,
   ) {}
 
   create = async (data: CreateProductsPdvDto | CreateProductsPdvDto[]) =>
     await this.productPdvRepo.create(data);
 
-  findInPdvs = async (companyId: string, pdvsId: string[]) => {
-    const products = await this.productPdvRepo.findInPdvs(companyId, pdvsId);
+  // findInPdvs = async (companyId: string, pdvsId: string[]) => {
+  //   const products = await this.productPdvRepo.findInPdvs(companyId, pdvsId);
 
-    if (!products)
-      throw new NotFoundException('Cant find Products in this Company');
+  //   if (!products)
+  //     throw new NotFoundException('Cant find Products in this Company');
 
-    return products;
-  };
+  //   return products;
+  // };
 
   // findAll() {
   //   return `This action returns all productsPdvs`;

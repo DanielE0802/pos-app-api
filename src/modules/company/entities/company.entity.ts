@@ -1,4 +1,4 @@
-import { Category } from 'src/modules/category/entities/category.entity';
+import { Category } from 'src/modules/company/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { User } from 'src/common/entities/user.entity';
 import {
@@ -21,7 +21,7 @@ export class Company extends BaseEntity {
 
   @Column({ type: 'uuid', unique: true })
   @Generated('uuid')
-  companyId: string
+  companyId: string;
 
   @Column({ name: 'name', length: 100 })
   name: string;
@@ -43,6 +43,9 @@ export class Company extends BaseEntity {
 
   @Column({ name: 'economic_activity' })
   economicActivity: string;
+
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
 
   @Column({ name: 'user_id', nullable: true })
   userId: number;

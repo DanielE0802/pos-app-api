@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { BrandService } from './brand.service';
+
 import { CreateBrandDto } from '../dtos/company-brands/create-brand.dto';
 import { UpdateBrandDto } from '../dtos/company-brands/update-brand.dto';
 
 @Controller('companies/:companyId/brands')
 export class CompanyBrandController {
-  constructor(private readonly brandService: BrandService) {}
+  constructor(private readonly brandService: /* BrandService */ any) {}
 
   @Post()
   create(@Param('companyId') companyId: string, @Body() data: CreateBrandDto) {

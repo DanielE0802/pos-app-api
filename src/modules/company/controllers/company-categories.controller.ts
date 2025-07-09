@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CategoryService } from './category.service';
+
 import { CreateCategoryDto } from '../dtos/company-categories/create-category.dto';
 import { UpdateCategoryDto } from '../dtos/company-categories/update-category.dto';
 
 @Controller('companies/:companyId/categories')
 export class CompanyCategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(private readonly categoryService: /* CategoryService */ any) {}
 
   @Post()
   create(

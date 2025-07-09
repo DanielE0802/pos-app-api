@@ -10,7 +10,6 @@ import { Product } from './entities/product.entity';
 import { Brand } from './entities/brand.entity';
 import { Category } from './entities/category.entity';
 
-
 @Module({
   imports: [
     PassportModule.register(DefaultStrategy),

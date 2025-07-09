@@ -13,10 +13,11 @@ import { MailModule } from '../mail/mail.module';
 import { User } from '../../common/entities/user.entity';
 import { UserRepository } from 'src/common/repositories';
 import { UserModule } from '../user/user.module';
+import { Company } from 'src/common/entities';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Company]),
     PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
       inject: [ConfigService],

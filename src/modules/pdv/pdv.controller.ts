@@ -26,43 +26,43 @@ import { IRelationType } from 'src/common/types/relation.decorator';
 export class PdvController {
   constructor(private readonly pdvService: PdvService) {}
 
-  @Post()
-  create(@GetUserCompany() company: IRelationType, @Body() data: CreatePdvDto) {
-    if (!data.company) data.company = company;
-    return this.pdvService.create(data);
-  }
+  // @Post()
+  // create(@GetUserCompany() company: IRelationType, @Body() data: CreatePdvDto) {
+  //   if (!data.company) data.company = company;
+  //   return this.pdvService.create(data);
+  // }
 
-  @Get()
-  findAll(
-    @GetUserCompany() company: IRelationType,
-    @Query('r', ParseBoolPipe) rel: boolean = false,
-  ) {
-    return this.pdvService.findAll(company.id, rel);
-  }
+  // @Get()
+  // findAll(
+  //   @GetUserCompany() company: IRelationType,
+  //   @Query('r', ParseBoolPipe) rel: boolean = false,
+  // ) {
+  //   return this.pdvService.findAll(company.id, rel);
+  // }
 
-  @Get(':id')
-  findOne(
-    @GetUserCompany() company: IRelationType,
-    @Param('id', ParseUUIDPipe) id: string,
-    @Query('r', ParseBoolPipe) rel: boolean = false,
-  ) {
-    return this.pdvService.findOne(id, company.id, rel);
-  }
+  // @Get(':id')
+  // findOne(
+  //   @GetUserCompany() company: IRelationType,
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Query('r', ParseBoolPipe) rel: boolean = false,
+  // ) {
+  //   return this.pdvService.findOne(id, company.id, rel);
+  // }
 
-  @Patch(':id')
-  update(
-    @GetUserCompany() company: IRelationType,
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() data: UpdatePdvDto,
-  ) {
-    return this.pdvService.update(id, data, company.id);
-  }
+  // @Patch(':id')
+  // update(
+  //   @GetUserCompany() company: IRelationType,
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() data: UpdatePdvDto,
+  // ) {
+  //   return this.pdvService.update(id, data, company.id);
+  // }
 
-  @Delete(':id')
-  async remove(
-    @GetUserCompany() company: IRelationType,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.pdvService.remove(await this.findOne(company, id));
-  }
+  // @Delete(':id')
+  // async remove(
+  //   @GetUserCompany() company: IRelationType,
+  //   @Param('id', ParseUUIDPipe) id: string,
+  // ) {
+  //   return this.pdvService.remove(await this.findOne(company, id));
+  // }
 }

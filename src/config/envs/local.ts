@@ -4,8 +4,8 @@ export const config = {
     host: 'localhost',
     port: 5432,
     username: 'postgres',
-    password: 'admin',
-    database: 'main_erp',
+    password: 'X3zywz0XB7ed',
+    database: 'ally-erp-local',
     extra: {
       connectionLimit: 10,
     },

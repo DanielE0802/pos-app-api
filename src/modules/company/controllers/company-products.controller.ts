@@ -7,13 +7,12 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ProductService } from './product.service';
 import { CreateProductDto } from '../dtos/company-products/create-product.dto';
 import { UpdateProductDto } from '../dtos/company-products/update-product.dto';
 
 @Controller('companies/:companyId/products')
 export class CompanyProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: /* ProductService */ any) {}
 
   @Post()
   create(

@@ -1,7 +1,7 @@
 import { Company } from 'src/modules/company/entities/company.entity';
 import { Town } from 'src/modules/location/entities/town.entity';
 import { ProductPdv } from 'src/modules/products-pdvs/entities/product-pdv.entity';
-import { Product } from 'src/modules/product/entities/product.entity';
+// import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Column,
   Entity,

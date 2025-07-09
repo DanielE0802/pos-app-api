@@ -11,7 +11,7 @@ export class PdvService {
     private readonly pdvRepo: PdvRepository,
   ) {}
 
-  create = async (data: CreatePdvDto) => await this.pdvRepo.create(data);
+  // create = async (data: CreatePdvDto) => await this.pdvRepo.create(data);
 
   findAll = async (companyId: string, rel: boolean): Promise<Pdv[]> =>
     await this.pdvRepo.find(companyId, rel);
@@ -19,8 +19,8 @@ export class PdvService {
   findOne = async (id: string, companyId: string, rel: boolean) =>
     await this.pdvRepo.findOne(id, companyId, rel);
 
-  update = async (id: string, data: UpdatePdvDto, companyId: string) =>
-    await this.pdvRepo.update(id, data, companyId);
+  // update = async (id: string, data: UpdatePdvDto, companyId: string) =>
+  //   await this.pdvRepo.update(id, data, companyId);
 
   remove = async (entity: Pdv) => await this.pdvRepo.delete(entity);
 }

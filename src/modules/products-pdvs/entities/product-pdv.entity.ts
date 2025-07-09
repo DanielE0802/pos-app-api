@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
-import { Product } from '../../product/entities/product.entity';
+import { Product } from 'src/modules/company/entities/product.entity';
 
 @Entity('products_pdvs')
 export class ProductPdv {
@@ -19,7 +19,7 @@ export class ProductPdv {
   @Column({ name: 'min_quantity' })
   minQuantity: number;
 
-  @ManyToOne(() => Product, (product) => product.productPdv)
+  @ManyToOne(() => Product, (product) => product.id)
   @JoinColumn({ name: 'products_id' })
   public product: Product;
 

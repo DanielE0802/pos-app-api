@@ -16,7 +16,7 @@ export class MailService {
     email: string,
     welcomeEmailParams: Omit<WelcomeEvent, 'email'>,
   ): Promise<void> {
-    let template = EmailsTemplates.Welcome;
+    const template = EmailsTemplates.Welcome;
     await this.mailerService.sendMail({
       to: email,
       subject: 'Bienvenido a Ally360.',

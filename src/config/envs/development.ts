@@ -4,7 +4,7 @@ export const config = {
       connectionLimit: 10,
     },
     ssl: false,
-    synchronize: false,
+    synchronize: true,
     logging: true,
   },
 };

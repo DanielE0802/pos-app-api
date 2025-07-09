@@ -11,12 +11,12 @@ export class PdvImplRepository implements PdvRepository {
     private readonly pdvRepo: Repository<Pdv>,
   ) {}
 
-  create = async (data: CreatePdvDto): Promise<Pdv> =>
-    await this.pdvRepo.save(this.pdvRepo.create({ ...data, location: null })); // TODO: Change 'location: null' in single-service impl
+  // create = async (data: CreatePdvDto): Promise<Pdv> =>
+  //   await this.pdvRepo.save(this.pdvRepo.create({ ...data, location: null })); // TODO: Change 'location: null' in single-service impl
 
   find = async (companyId: string, rel: boolean): Promise<Pdv[]> =>
     await this.pdvRepo.find({
-      where: { company: { id: companyId } },
+      where: { company: { id: Number(companyId) } },
       relations: { location: rel },
       cache: true,
     });
@@ -28,15 +28,15 @@ export class PdvImplRepository implements PdvRepository {
       cache: true,
     });
 
-  update = async (
-    id: string,
-    data: UpdatePdvDto,
-    companyId: string,
-  ): Promise<any> =>
-    await this.pdvRepo.update(
-      { id, company: { id: companyId } },
-      { ...data, location: null }, // TODO: Change 'location: null' in single-service impl
-    );
+  // update = async (
+  //   id: string,
+  //   data: UpdatePdvDto,
+  //   companyId: string,
+  // ): Promise<any> =>
+  //   await this.pdvRepo.update(
+  //     { id, company: { id: companyId } },
+  //     { ...data, location: null }, // TODO: Change 'location: null' in single-service impl
+  //   );
 
   delete = async (entity: Pdv): Promise<Pdv> =>
     await this.pdvRepo.remove(entity);

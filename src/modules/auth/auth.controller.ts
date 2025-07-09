@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -27,6 +28,7 @@ import { VerifyUserService } from './services/verify-user.service';
 import { ReqResetPasswordService } from './services/req-reset-password.service';
 import { ResetPasswordService } from './services/reset-password.service';
 import { ChangePasswordService } from './services/change-password.service';
+import { SelectCompanyService } from './services/select-company.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -38,6 +40,7 @@ export class AuthController {
     private readonly _reqResetPasswordService: ReqResetPasswordService,
     private readonly _resetPasswordService: ResetPasswordService,
     private readonly _changePasswordService: ChangePasswordService,
+    private readonly _selectCompanyService: SelectCompanyService,
   ) {}
 
   @Post('/register')
@@ -79,5 +82,16 @@ export class AuthController {
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
     return this._changePasswordService.execute(changePasswordDto, userId);
+  }
+
+  @Get('/user/select-company')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  getUserCompany(
+    @GetUser('id', ParseIntPipe) userId: number,
+    @GetUser('email') email: string,
+    @Query('companyId', ParseIntPipe) companyId: number,
+  ) {
+    return this._selectCompanyService.execute(companyId, { userId, email });
   }
 }
