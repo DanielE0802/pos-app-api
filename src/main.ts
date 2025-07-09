@@ -13,7 +13,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix(APIVersion.v2);
+  app.setGlobalPrefix(APIVersion.v1);
 
   app.useGlobalPipes(new ValidationPipe({ forbidNonWhitelisted: true }));
   app.useGlobalInterceptors(
