@@ -1,6 +1,7 @@
 import * as entities from '../../common/entities';
 
 export const config = {
+  port: process.env.PORT,
   db: {
     entities: [...Object.values(entities)],
     type: 'postgres',
