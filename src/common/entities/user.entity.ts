@@ -55,7 +55,7 @@ export class User extends BaseEntity {
   profile: Profile;
 
   @OneToMany(() => Company, (company) => company.user)
-  company: Company[];
+  companies: Company[];
 
   // TODO: Temporal hasta que se integre KeyCloak
   @BeforeInsert()

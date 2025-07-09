@@ -49,7 +49,7 @@ export class Company extends BaseEntity {
 
   @Column({ name: 'user_id', nullable: true })
   userId: number;
-  @ManyToOne(() => User, (user) => user.company)
+  @ManyToOne(() => User, (user) => user.companies)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
