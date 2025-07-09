@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   Query,
-  Redirect,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -53,16 +52,6 @@ export class AuthController {
     return this._loginService.execute(loginDto);
   }
 
-  @Get('/user/:userId/verify')
-  // @Redirect('http://localhost:3000/auth/activate-account')
-  @UsePipes(new ValidationPipe({ whitelist: true }))
-  putActivateAccount(
-    @Param('userId') userId: string,
-    @Query() data: ActivateUserDto,
-  ) {
-    return this._verifyUserService.execute(userId, data);
-  }
-
   @Patch('/req/reset-password')
   reqResetPassword(@Body() data: ReqResetPasswordDto) {
     return this._reqResetPasswordService.execute(data);
@@ -78,20 +67,30 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   changePassword(
-    @GetUser('id', ParseUUIDPipe) userId: string,
+    @GetUser('authId', ParseUUIDPipe) authId: string,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    return this._changePasswordService.execute(changePasswordDto, userId);
+    return this._changePasswordService.execute(authId, changePasswordDto);
+  }
+
+  @Get('/user/:authId/verify')
+  // @Redirect('http://localhost:3000/auth/activate-account')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  putActivateAccount(
+    @Param('authId') authId: string,
+    @Query() data: ActivateUserDto,
+  ) {
+    return this._verifyUserService.execute(authId, data);
   }
 
   @Get('/user/select-company')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   getUserCompany(
-    @GetUser('id', ParseIntPipe) userId: number,
+    @GetUser('authId', ParseUUIDPipe) authId: string,
     @GetUser('email') email: string,
     @Query('companyId', ParseIntPipe) companyId: number,
   ) {
-    return this._selectCompanyService.execute(companyId, { userId, email });
+    return this._selectCompanyService.execute(companyId, { authId, email });
   }
 }

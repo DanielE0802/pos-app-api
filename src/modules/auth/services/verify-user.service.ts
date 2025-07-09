@@ -1,42 +1,34 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ActivateUserDto } from '../dtos';
-import { User } from 'src/common/entities';
+import { UserRepository } from 'src/common/repositories';
 
-// TODO: Change logic to Email Verify
+// TODO: Implement logic to Email Verify
 
 @Injectable()
 export class VerifyUserService {
   private _logger = new Logger(VerifyUserService.name);
   constructor(
-    @InjectRepository(User)
-    private readonly _userRepo: Repository<User>,
+    @Inject(UserRepository)
+    private readonly _userRepo: UserRepository,
   ) {}
 
-  async execute(userId: string, data: ActivateUserDto): Promise<void> {
-    const { code } = data;
+  async execute(
+    authId: string,
+    data: ActivateUserDto,
+  ): Promise<{ message: string }> {
+    const { code: verifyToken } = data;
 
-    const userVerifying = await this._userRepo.findOneBy({
-      authId: userId,
-      verifyToken: code,
-    });
-
-    if (!userVerifying) {
-      this._logger.warn(
-        `No se encuentra un usuario para activar con el id: ${userId}`,
-      );
-      throw new NotFoundException({
-        code: 101, // Handler custom code exceptions
-        message: 'No se encuentra un usuario para activar',
-      });
-    }
+    const user = await this._userRepo.findOneByFilters({ authId, verifyToken });
 
     // TODO: Implementar estado de Onboarding "VERIFIED"
-    userVerifying.verified = true;
-    userVerifying.verifyToken = null;
+    user.verified = true;
+    user.verifyToken = null;
 
-    await this._userRepo.save(userVerifying);
-    this._logger.debug(`Se verificó el usuario con el id: ${userId}`);
+    await this._userRepo.save(user);
+    this._logger.debug(`Se verificó el usuario con el id: ${authId}`);
+
+    return {
+      message: 'User verified successfully',
+    };
   }
 }

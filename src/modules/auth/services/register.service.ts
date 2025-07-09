@@ -1,25 +1,25 @@
 import {
-  ConflictException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Repository } from 'typeorm';
-
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
 import { RegisterUserDto } from '../dtos';
 import { User } from 'src/common/entities';
 import { EmailActionsEvent } from 'src/modules/mail/enums/email-events.enum';
 import { ActivationLinkEvent } from 'src/modules/mail/events';
+import { UserRepository } from 'src/common/repositories';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RegisterService {
   private _logger = new Logger(RegisterService.name);
   constructor(
-    @InjectRepository(User)
-    private readonly _userRepo: Repository<User>,
+    private readonly _configService: ConfigService,
+    @Inject(UserRepository)
+    private readonly _userRepo: UserRepository,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _genstrAdapter: GenstrAdapter,
     private readonly _eventEmitter: EventEmitter2,
@@ -27,12 +27,7 @@ export class RegisterService {
 
   async execute(data: RegisterUserDto): Promise<User> {
     const { email, password } = data;
-
-    const userExists = await this._userRepo.findOneBy({ email });
-    if (userExists) {
-      this._logger.error('Este email ya esta registrado');
-      throw new ConflictException({ acode: 2001 });
-    }
+    await this._userRepo.validateIfUserExist({ email });
 
     const hash = await this._encoderAdapter.encodePassword(password);
     const verifyToken = this._genstrAdapter.generate(25);
@@ -59,7 +54,9 @@ export class RegisterService {
       `${userRegistered.createdAt} -> Usuario ${userRegistered.email} registrado exitosamente`,
     );
 
-    const url = `http://[::1]:3010//auth/activate-account?uid=${user.id}&code=${user.verifyToken}`;
+    const url = `http://127.0.0.1:${this._configService.get(
+      'port',
+    )}/auth/activate-account?userId=${user.id}&code=${user.verifyToken}`;
 
     this._eventEmitter.emit(
       EmailActionsEvent.ActivationLink,

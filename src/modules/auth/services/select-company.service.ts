@@ -1,35 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Company } from 'src/modules/company/entities/company.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UserRepository } from 'src/common/repositories';
 
 @Injectable()
 export class SelectCompanyService {
   constructor(
-    @InjectRepository(Company)
-    private readonly _companyRepository: Repository<Company>,
+    @Inject(UserRepository)
+    private readonly _userRepo: UserRepository,
     private readonly _jwtService: JwtService,
   ) {}
 
   async execute(
     companyId: number,
-    userData: { userId: number; email: string },
+    userData: { authId: string; email: string },
   ) {
-    const company = await this._companyRepository.findOne({
-      where: {
-        id: companyId,
-        userId: userData.userId,
-        isActive: true,
-      },
-    });
+    const user = await this._userRepo.findOneByFilters(
+      { authId: userData.authId },
+      { companies: true },
+    );
+    const company = user.companies.find((company) => company.id === companyId);
 
-    return {
-      accessToken: this._jwtService.sign({
-        id: userData.userId,
-        email: userData.email,
-        // authId: userData.authId,
-      }),
+    if (!company) {
+      throw new NotFoundException('Company not found');
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      authId: user.authId,
+      selectedCompanyId: company.id,
     };
+
+    const accessToken = this._jwtService.sign(payload);
+    return { accessToken };
   }
 }
