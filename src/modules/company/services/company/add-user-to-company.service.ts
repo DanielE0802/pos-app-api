@@ -4,7 +4,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersService } from 'src/modules/user/services/user.service';
+import { FindUserService } from 'src/modules/user/services/find-user.service';
 import { Repository } from 'typeorm';
 import { Company } from '../../entities/company.entity';
 import { FindCompanyByCompanyIdService } from './find-company.service';
@@ -15,13 +15,13 @@ export class AddUserToCompanyService {
     @InjectRepository(Company)
     private readonly _companyRepo: Repository<Company>,
     private readonly _findCompanyService: FindCompanyByCompanyIdService,
-    private readonly _userService: UsersService,
+    private readonly _findUserService: FindUserService,
   ) {}
 
   async execute(companyId: string, userId: string): Promise<{ msg: string }> {
     const currentCompany = await this._findCompanyService.execute(companyId);
 
-    const user = await this._userService.findById(+userId);
+    const user = await this._findUserService.execute({ id: +userId });
     if (!user) throw new NotFoundException('User not found');
 
     if (currentCompany.userId) {
