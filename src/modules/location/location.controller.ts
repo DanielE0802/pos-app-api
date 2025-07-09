@@ -19,14 +19,14 @@ export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Get()
-  findAll(@Query('r', ParseBoolPipe) rel: boolean = false) {
+  findAll(@Query('r', ParseBoolPipe) rel = false) {
     return this.locationService.findAll(rel);
   }
 
   @Get(':id')
   findOne(
     @Param('id', ParseIntPipe) id: number,
-    @Query('r', ParseBoolPipe) rel: boolean = false,
+    @Query('r', ParseBoolPipe) rel = false,
   ) {
     return this.locationService.findOne(id, rel);
   }

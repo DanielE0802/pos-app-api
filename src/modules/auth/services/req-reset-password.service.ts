@@ -1,4 +1,4 @@
-import { Injectable, Logger, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ReqResetPasswordDto } from '../dtos';
 import { GenstrAdapter } from 'src/infrastructure/adapters';

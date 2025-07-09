@@ -5,7 +5,7 @@ import { Company } from '../../entities/company.entity';
 
 @Injectable()
 export class FindCompanyByCompanyIdService {
-  private _logger = new Logger(FindCompanyByCompanyIdService.name)
+  private _logger = new Logger(FindCompanyByCompanyIdService.name);
 
   constructor(
     @InjectRepository(Company)
@@ -20,7 +20,7 @@ export class FindCompanyByCompanyIdService {
       withDeleted: false,
     });
 
-    this._logger.debug(`Company with companyId found ${companyId}`)
+    this._logger.debug(`Company with companyId found ${companyId}`);
     if (!company) throw new NotFoundException('No se encontro una empresa');
     return company;
   }

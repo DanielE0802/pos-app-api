@@ -7,12 +7,12 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   @IsOptional()
-  page: number = 1;
+  page = 1;
 
   @Type(() => Number)
   @IsNumber()
   @IsInt()
   @Max(25)
   @IsOptional()
-  pageSize: number = 10;
+  pageSize = 10;
 }

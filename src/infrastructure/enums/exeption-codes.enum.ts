@@ -1,7 +1,7 @@
 export const UnauthorizedExceptionMsgs = {
   1000: 'Default Error',
   1100: 'Internal Server Error',
-  
+
   // Auth [4]
   4001: 'Verifica tus credenciales.',
 

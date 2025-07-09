@@ -15,7 +15,10 @@ export class UpdateCompanyService {
 
   async execute(compnayId: string, dto: UpdateCompanyDto): Promise<Company> {
     const currentCompany = await this._findCompanyService.execute(compnayId);
-    const companyUpdated = await this._companyRepo.save({ ...currentCompany, ...dto });
+    const companyUpdated = await this._companyRepo.save({
+      ...currentCompany,
+      ...dto,
+    });
 
     return companyUpdated;
   }

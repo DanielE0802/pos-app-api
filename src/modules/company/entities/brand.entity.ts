@@ -1,6 +1,13 @@
 import { Company } from 'src/modules/company/entities/company.entity';
 import { Product } from './product.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity('brands')
 export class Brand {

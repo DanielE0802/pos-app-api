@@ -8,8 +8,7 @@ import { Company } from '../../entities/company.entity';
 export class CreateCompanyService {
   constructor(
     @InjectRepository(Company)
-    private readonly _companyRepo: Repository<Company>,
-    // TODO: Import FindUserByAuthId
+    private readonly _companyRepo: Repository<Company>, // TODO: Import FindUserByAuthId
   ) {}
 
   async execute(dto: CreateCompanyDto): Promise<Company> {

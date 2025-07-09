@@ -34,10 +34,7 @@ export class ProfileController {
   // }
 
   @Get(':id')
-  findOne(
-    @Param('id') id: string,
-    @Query('r', ParseBoolPipe) rel: boolean = false,
-  ) {
+  findOne(@Param('id') id: string, @Query('r', ParseBoolPipe) rel = false) {
     return this.profileService.findOne(id, rel);
   }
 
