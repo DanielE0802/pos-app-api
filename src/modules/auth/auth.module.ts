@@ -10,14 +10,11 @@ import { EncoderAdapter } from 'src/infrastructure/adapters/encoder.adapter';
 import { GenstrAdapter } from 'src/infrastructure/adapters/genstr.adapter';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { MailModule } from '../mail/mail.module';
-import { User } from '../../common/entities/user.entity';
-import { UserRepository } from 'src/common/repositories';
 import { UserModule } from '../user/user.module';
-import { Company } from 'src/common/entities';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Company]),
+    TypeOrmModule.forFeature(),
     PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -32,13 +29,7 @@ import { Company } from 'src/common/entities';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [
-    ...AuthServices,
-    JwtStrategy,
-    EncoderAdapter,
-    GenstrAdapter,
-    UserRepository,
-  ],
+  providers: [...AuthServices, JwtStrategy, EncoderAdapter, GenstrAdapter],
   exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

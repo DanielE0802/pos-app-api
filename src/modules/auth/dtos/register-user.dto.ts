@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProfileDto } from '../../user/dto/profile/create-profile.dto';
+import { CreateProfileDto } from 'src/modules/user/dtos/in/create-user.dto';
 
 export class RegisterUserDto {
   @ApiProperty()

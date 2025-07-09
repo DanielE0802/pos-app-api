@@ -1,10 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  FindOptionsRelations,
-  FindOptionsWhere,
-  IsNull,
-  Repository,
-} from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { User } from '../entities';
 import { PaginationDto } from '../dtos';
 import {
@@ -12,6 +7,10 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import {
+  UserFiltersType,
+  UserRelationsType,
+} from 'src/modules/user/dtos/in/user-filters.dto';
 
 export class UserRepository extends Repository<User> {
   private readonly _logger = new Logger(UserRepository.name);
@@ -22,9 +21,9 @@ export class UserRepository extends Repository<User> {
   }
 
   public async findByFilters(
-    filters: FindOptionsWhere<User>,
+    filters: UserFiltersType,
     pagination: PaginationDto,
-    relations?: FindOptionsRelations<User>,
+    relations?: UserRelationsType,
   ): Promise<[User[], number]> {
     const { page, pageSize } = pagination;
     const findOptions = {
@@ -48,8 +47,8 @@ export class UserRepository extends Repository<User> {
   }
 
   public async findOneByFilters(
-    filters: FindOptionsWhere<User>,
-    relations?: FindOptionsRelations<User>,
+    filters: UserFiltersType,
+    relations?: UserRelationsType,
   ): Promise<User> {
     const user = await this._repo.findOne({
       where: { ...filters, deletedAt: IsNull() },
@@ -65,9 +64,8 @@ export class UserRepository extends Repository<User> {
     return user;
   }
 
-  public async validateIfUserExist(
-    filters: FindOptionsWhere<User>,
-  ): Promise<void> {
+  // TODO: Response must be a boolean
+  public async validateIfUserExist(filters: UserFiltersType): Promise<void> {
     const user = await this._repo.findOne({
       where: { ...filters, deletedAt: IsNull() },
       withDeleted: false,

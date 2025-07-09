@@ -8,14 +8,13 @@ import { JwtService } from '@nestjs/jwt';
 import { EncoderAdapter } from 'src/infrastructure/adapters';
 import { LoginDto } from '../dtos';
 import { UAE } from 'src/common/exceptions/exception.string';
-import { UserRepository } from 'src/common/repositories';
+import { FindUserService } from 'src/modules/user/services/find-user.service';
 
 @Injectable()
 export class LoginService {
   private _logger = new Logger(LoginService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    private readonly _findUserService: FindUserService,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _jwtService: JwtService,
   ) {}
@@ -23,9 +22,9 @@ export class LoginService {
   async execute(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
 
-    const userExists = await this._userRepo.findOneByFilters(
+    const userExists = await this._findUserService.execute(
       { email },
-      { company: true },
+      { companies: true },
     );
 
     const passwordChecked = await this._encoderAdapter.checkPassword(

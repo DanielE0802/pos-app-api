@@ -6,13 +6,9 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './modules/auth/auth.module';
-import { CompanyModule } from './modules/company/company.module';
-import { ContactsModule } from './modules/contacts/contacts.module';
-import { LocationModule } from './modules/location/location.module';
 import { configuration } from './config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MailModule } from './modules/mail/mail.module';
-import { UserRepository } from './common/repositories';
 import { SharedModule } from './infrastructure/shared/shared.module';
 
 @Module({
