@@ -2,7 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCompanyDto } from '../../dtos/company/create-company.dto';
-import { Company } from '../../entities/company.entity';
+import { Company } from 'src/common/entities';
 
 @Injectable()
 export class CreateCompanyService {

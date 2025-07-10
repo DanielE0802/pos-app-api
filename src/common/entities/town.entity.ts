@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Department } from './department.entity';
-import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
+import { Warehouse } from 'src/common/entities/warehouse.entity';
 
 @Entity('towns')
 export class Town {
@@ -18,8 +18,8 @@ export class Town {
   @Column()
   name: string;
 
-  @OneToMany(() => Pdv, (pdv) => pdv.location)
-  pdv: Pdv[];
+  @OneToMany(() => Warehouse, (pdv) => pdv.location)
+  pdv: Warehouse[];
 
   @ManyToOne(() => Department, (department) => department.towns)
   @JoinColumn({ name: 'department_id' })

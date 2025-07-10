@@ -6,7 +6,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 
-import { Contact } from '../entities';
+import { Contact } from 'src/common/entities';
 import { ContactRepository } from 'src/common/repositories';
 import { CreateContactDto } from '../dtos/contact/create-contact.dto';
 import { CreateContactIdentityService } from './create-contact-identity.service';

@@ -3,10 +3,8 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
 } from '@nestjs/common';
-import { IsNull } from 'typeorm';
-import { Contact } from '../entities';
+import { Contact } from 'src/common/entities';
 import { ContactRepository } from 'src/common/repositories';
 import { GetContactService } from './get-contact.service';
 import { UpdateContactDto } from '../dtos/contact';

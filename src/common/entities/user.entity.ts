@@ -2,13 +2,14 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  Generated,
   Index,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
-import { Company } from 'src/modules/company/entities/company.entity';
+import { Company } from 'src/common/entities/company.entity';
 import { BaseEntity } from './base.entity';
 
 import { v4 } from 'uuid';
@@ -19,7 +20,8 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
   id: number;
 
-  @Column({ name: 'auth_id', unique: true })
+  @Column({ name: 'auth_id', type: 'uuid', unique: true })
+  @Generated('uuid')
   authId: string;
 
   @Column({ length: 100, unique: true })

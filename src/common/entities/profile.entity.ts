@@ -6,9 +6,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { BaseEntity } from './base.entity';
 
 @Entity('profiles')
-export class Profile {
+export class Profile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

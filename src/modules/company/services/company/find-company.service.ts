@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Company } from '../../entities/company.entity';
+import { Company } from 'src/common/entities';
 
 @Injectable()
 export class FindCompanyByCompanyIdService {
@@ -15,7 +15,7 @@ export class FindCompanyByCompanyIdService {
   async execute(companyId: string): Promise<Company> {
     const company = await this._companyRepo.findOne({
       where: {
-        companyId,
+        id: companyId,
       },
       withDeleted: false,
     });

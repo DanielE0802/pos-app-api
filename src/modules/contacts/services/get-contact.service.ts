@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 
-import { Contact } from '../entities';
+import { Contact } from 'src/common/entities';
 import { ContactRepository } from 'src/common/repositories';
 
 @Injectable()

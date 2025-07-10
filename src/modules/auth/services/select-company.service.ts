@@ -11,7 +11,7 @@ export class SelectCompanyService {
   ) {}
 
   async execute(
-    companyId: number,
+    companyId: string,
     userData: { authId: string; email: string },
   ) {
     const user = await this._userRepo.findOneByFilters(
