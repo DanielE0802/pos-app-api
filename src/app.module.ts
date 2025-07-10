@@ -10,6 +10,7 @@ import { configuration } from './config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MailModule } from './modules/mail/mail.module';
 import { SharedModule } from './infrastructure/shared/shared.module';
+import { LocationModule } from './modules/location/location.module';
 
 @Module({
   imports: [
@@ -37,8 +38,8 @@ import { SharedModule } from './infrastructure/shared/shared.module';
     }),
     AuthModule,
     MailModule,
+    LocationModule,
     // ContactsModule,
-    // LocationModule,
     // CompanyModule,
   ],
   // providers: [UserRepository],

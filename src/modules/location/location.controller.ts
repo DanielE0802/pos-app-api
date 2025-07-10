@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseBoolPipe,
-  Query,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -19,15 +8,12 @@ export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Get()
-  findAll(@Query('r', ParseBoolPipe) rel = false) {
-    return this.locationService.findAll(rel);
+  findAll() {
+    return this.locationService.findAll();
   }
 
   @Get(':id')
-  findOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('r', ParseBoolPipe) rel = false,
-  ) {
-    return this.locationService.findOne(id, rel);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.locationService.findOne(id);
   }
 }

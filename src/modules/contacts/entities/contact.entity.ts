@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ContactIdentity } from './identy.entity';
-import { Town } from 'src/modules/location/entities/town.entity';
+import { Town } from 'src/common/entities/town.entity';
 import { Company } from 'src/modules/company/entities/company.entity';
 import { BaseEntity } from 'src/common/entities/base.entity';
 

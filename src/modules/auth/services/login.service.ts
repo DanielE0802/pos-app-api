@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EncoderAdapter } from 'src/infrastructure/adapters';
 import { LoginDto } from '../dtos';
@@ -42,12 +37,19 @@ export class LoginService {
     }
 
     delete userExists.password;
+    // TODO: Identificar la o las empresas del usuario
+    /*
+     * [company - company]
+     * [company]
+     */
 
     return {
       accessToken: this._jwtService.sign({
         id: userExists.id,
         email: userExists.email,
         authId: userExists.authId,
+        selectedCompanyId: null, // TODO: Agregar el id de la empresa inicial
+        // TODO: Agregar el rol del usuario
       }),
     };
   }

@@ -9,6 +9,6 @@ export class Department {
   @Column()
   name: string;
 
-  @OneToMany(() => Town, (town) => town.department)
+  @OneToMany(() => Town, (town) => town.department, { eager: true })
   towns: Town[];
 }
