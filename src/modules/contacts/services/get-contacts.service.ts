@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { BaseResponse, PaginationDto } from 'src/common/dtos';
+import { PaginationDto } from 'src/common/dtos';
 import { Contact } from '../entities';
 import { ContactRepository } from 'src/common/repositories';
 
@@ -12,10 +12,7 @@ export class GetContactsService {
     private readonly _contactRepository: ContactRepository,
   ) {}
 
-  async execute(
-    companyId: string,
-    pags: PaginationDto,
-  ): Promise<BaseResponse<Contact[]>> {
+  async execute(companyId: string, pags: PaginationDto): Promise<Contact[]> {
     const { pageSize, page } = pags;
 
     const currentContacts = await this._contactRepository.find({
@@ -23,7 +20,7 @@ export class GetContactsService {
         companyId,
         deletedAt: IsNull(),
       },
-      relations: { identity: true },
+      relations: { identity: true, town: true },
       order: { createdAt: 'ASC' },
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -35,8 +32,6 @@ export class GetContactsService {
       throw new NotFoundException('No se encontraron contactos');
     }
 
-    return {
-      data: currentContacts,
-    };
+    return currentContacts;
   }
 }

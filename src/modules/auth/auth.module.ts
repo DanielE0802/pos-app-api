@@ -2,28 +2,26 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthServices } from './services';
 import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 import { EncoderAdapter } from 'src/infrastructure/adapters/encoder.adapter';
 import { GenstrAdapter } from 'src/infrastructure/adapters/genstr.adapter';
 import { JwtStrategy } from './jwt/jwt.strategy';
-import { MailModule } from '../../common/modules/mail.module';
-import { User } from '../../common/entities/user.entity';
-import { UserRepository } from 'src/common/repositories';
+import { MailModule } from '../mail/mail.module';
 import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    // ConfigModule,
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature(),
     PassportModule.register(DefaultStrategy),
     JwtModule.registerAsync({
-      // TODO: Modificar las variables para obtenerlas del ConfigService
-      useFactory: () => ({
-        secret: 'my-secret', // TODO
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        secret: config.get('jwt').secret,
         signOptions: {
-          expiresIn: '1h', // TODO
+          expiresIn: config.get('jwt').expire_in,
         },
       }),
     }),
@@ -31,13 +29,7 @@ import { UserModule } from '../user/user.module';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [
-    ...AuthServices,
-    JwtStrategy,
-    EncoderAdapter,
-    GenstrAdapter,
-    UserRepository,
-  ],
+  providers: [...AuthServices, JwtStrategy, EncoderAdapter, GenstrAdapter],
   exports: [JwtModule, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

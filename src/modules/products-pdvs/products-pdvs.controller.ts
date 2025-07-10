@@ -34,13 +34,13 @@ export class ProductsPdvsController {
   //   return this.productsPdvsService.findAll();
   // }
 
-  @Get('pdv/:id')
-  findOne(
-    @GetUserCompany() company: IRelationType,
-    @Param('id', ParseUUIDPipe) pdvId: string,
-  ) {
-    return this.productsPdvsService.findInPdvs(company.id, [pdvId]);
-  }
+  // @Get('pdv/:id')
+  // findOne(
+  //   @GetUserCompany() company: IRelationType,
+  //   @Param('id', ParseUUIDPipe) pdvId: string,
+  // ) {
+  //   return this.productsPdvsService.findInPdvs(company.id, [pdvId]);
+  // }
 
   // @Patch(':id')
   // update(

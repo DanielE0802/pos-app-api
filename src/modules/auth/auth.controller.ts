@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -26,6 +27,7 @@ import { VerifyUserService } from './services/verify-user.service';
 import { ReqResetPasswordService } from './services/req-reset-password.service';
 import { ResetPasswordService } from './services/reset-password.service';
 import { ChangePasswordService } from './services/change-password.service';
+import { SelectCompanyService } from './services/select-company.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -37,6 +39,7 @@ export class AuthController {
     private readonly _reqResetPasswordService: ReqResetPasswordService,
     private readonly _resetPasswordService: ResetPasswordService,
     private readonly _changePasswordService: ChangePasswordService,
+    private readonly _selectCompanyService: SelectCompanyService,
   ) {}
 
   @Post('/register')
@@ -47,15 +50,6 @@ export class AuthController {
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
     return this._loginService.execute(loginDto);
-  }
-
-  @Get('/user/:userId/verify')
-  @UsePipes(new ValidationPipe({ whitelist: true }))
-  putActivateAccount(
-    @Param('userId') userId: string,
-    @Query() data: ActivateUserDto,
-  ) {
-    return this._verifyUserService.execute(userId, data);
   }
 
   @Patch('/req/reset-password')
@@ -73,9 +67,30 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   changePassword(
-    @GetUser('id', ParseUUIDPipe) userId: string,
+    @GetUser('authId', ParseUUIDPipe) authId: string,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    return this._changePasswordService.execute(changePasswordDto, userId);
+    return this._changePasswordService.execute(authId, changePasswordDto);
+  }
+
+  @Get('/user/:authId/verify')
+  // @Redirect('http://localhost:3000/auth/activate-account')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  putActivateAccount(
+    @Param('authId') authId: string,
+    @Query() data: ActivateUserDto,
+  ) {
+    return this._verifyUserService.execute(authId, data);
+  }
+
+  @Get('/user/select-company')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  getUserCompany(
+    @GetUser('authId', ParseUUIDPipe) authId: string,
+    @GetUser('email') email: string,
+    @Query('companyId', ParseIntPipe) companyId: number,
+  ) {
+    return this._selectCompanyService.execute(companyId, { authId, email });
   }
 }

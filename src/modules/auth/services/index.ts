@@ -4,6 +4,7 @@ import { RegisterService } from './register.service';
 import { ReqResetPasswordService } from './req-reset-password.service';
 import { ResetPasswordService } from './reset-password.service';
 import { VerifyUserService } from './verify-user.service';
+import { SelectCompanyService } from './select-company.service';
 
 export const AuthServices = [
   LoginService,
@@ -12,4 +13,5 @@ export const AuthServices = [
   ReqResetPasswordService,
   ResetPasswordService,
   ChangePasswordService,
+  SelectCompanyService,
 ];

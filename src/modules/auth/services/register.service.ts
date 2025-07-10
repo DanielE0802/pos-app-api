@@ -1,44 +1,35 @@
 import {
-  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
-  UnprocessableEntityException,
 } from '@nestjs/common';
-import { RegisterUserDto } from '../dtos';
-import { UserRepository } from 'src/common/repositories';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
-import { BaseResponse } from 'src/common/dtos';
-import { RegisterUserResponse } from '../dtos/register-user-response.dto';
+import { RegisterUserDto } from '../dtos';
+import { User } from 'src/common/entities';
+import { EmailActionsEvent } from 'src/modules/mail/enums/email-events.enum';
+import { ActivationLinkEvent } from 'src/modules/mail/events';
+import { ConfigService } from '@nestjs/config';
+import { CreateUserService } from 'src/modules/user/services/create-user.service';
 
 @Injectable()
 export class RegisterService {
   private _logger = new Logger(RegisterService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    private readonly _configService: ConfigService,
+    private readonly _createUserService: CreateUserService,
     private readonly _encoderAdapter: EncoderAdapter,
     private readonly _genstrAdapter: GenstrAdapter,
+    private readonly _eventEmitter: EventEmitter2,
   ) {}
 
-  async execute(
-    data: RegisterUserDto,
-  ): Promise<BaseResponse<RegisterUserResponse>> {
-    const { email, password } = data;
-
-    const userExists = await this._userRepo.findOneBy({ email });
-    if (userExists) {
-      this._logger.error('Este email ya esta registrado');
-      throw new UnprocessableEntityException({
-        code: 100, // Handler custom code exceptions
-        message: 'Este email ya esta registrado',
-      });
-    }
+  async execute(data: RegisterUserDto): Promise<User> {
+    const { password } = data;
 
     const hash = await this._encoderAdapter.encodePassword(password);
     const verifyToken = this._genstrAdapter.generate(25);
 
-    const user = this._userRepo.create({
+    const user = await this._createUserService.execute({
       ...data,
       password: hash,
       verifyToken,
@@ -53,19 +44,21 @@ export class RegisterService {
       );
     }
 
-    const userRegistered = await this._userRepo.save(user);
-    delete userRegistered.password;
-
-    // TODO: Implementar el envio del email (event?)
-    // await this._mailService.sendVerifyEmail(user);
+    delete user.password;
 
     this._logger.debug(
-      `${userRegistered.createdOn} -> Usuario ${userRegistered.email} registrado exitosamente`,
+      `${user.createdAt} -> Usuario ${user.email} registrado exitosamente`,
     );
 
-    return {
-      message: 'Usuario registrado exitosamente',
-      data: { id: userRegistered.id, email: userRegistered.email },
-    };
+    const url = `http://127.0.0.1:${this._configService.get(
+      'port',
+    )}/auth/activate-account?userId=${user.id}&code=${user.verifyToken}`;
+
+    this._eventEmitter.emit(
+      EmailActionsEvent.ActivationLink,
+      new ActivationLinkEvent(user.email, user.profile.name, url),
+    );
+
+    return user;
   }
 }

@@ -6,7 +6,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IsNull } from 'typeorm';
-import { BaseResponse } from 'src/common/dtos';
 import { Contact } from '../entities';
 import { ContactRepository } from 'src/common/repositories';
 import { GetContactService } from './get-contact.service';
@@ -27,8 +26,8 @@ export class UpdateContactService {
     contactId: number,
     companyId: string,
     updateContactDto: UpdateContactDto,
-  ): Promise<BaseResponse<Contact>> {
-    const { data: existingContact } = await this._getContactService.execute(
+  ): Promise<Contact> {
+    const existingContact = await this._getContactService.execute(
       contactId,
       companyId,
     );
@@ -41,9 +40,7 @@ export class UpdateContactService {
 
       this._logger.debug(`Contact with id ${contactUpdated.id} updated`);
 
-      return {
-        data: contactUpdated,
-      };
+      return contactUpdated;
     } catch (error) {
       this._logger.error(error.message);
       throw new InternalServerErrorException(

@@ -23,7 +23,7 @@ export const UEE = {
  */
 export const UAE = {
   USER_UNVERIFY: 'Por favor, verifique su email.',
-  UNAUTHORIZED: 'Verifica tus credenciales.',
+  UNAUTHORIZED: 1110 /* 'Verifica tus credenciales.' */,
 };
 /**
  ** Constants messages for BadRequestException

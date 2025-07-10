@@ -1,4 +1,4 @@
-import { Category } from 'src/modules/category/entities/category.entity';
+import { Category } from 'src/modules/company/entities/category.entity';
 import { Pdv } from 'src/modules/pdv/entities/pdv.entity';
 import { User } from 'src/common/entities/user.entity';
 import {
@@ -8,17 +8,20 @@ import {
   OneToMany,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
   Index,
+  Generated,
 } from 'typeorm';
+import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Entity('companies')
 @Index(['nit'])
-export class Company {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Company extends BaseEntity {
+  @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
+  id: number;
+
+  @Column({ type: 'uuid', unique: true })
+  @Generated('uuid')
+  companyId: string;
 
   @Column({ name: 'name', length: 100 })
   name: string;
@@ -41,9 +44,12 @@ export class Company {
   @Column({ name: 'economic_activity' })
   economicActivity: string;
 
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
+
   @Column({ name: 'user_id', nullable: true })
-  userId: string;
-  @ManyToOne(() => User, (user) => user.company)
+  userId: number;
+  @ManyToOne(() => User, (user) => user.companies)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
@@ -52,13 +58,4 @@ export class Company {
 
   @OneToMany(() => Category, (category) => category.company)
   categories: Category[];
-
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', nullable: true })
-  updatedAt?: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
-  deletedAt?: Date;
 }

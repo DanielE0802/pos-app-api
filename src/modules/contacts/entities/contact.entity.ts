@@ -1,22 +1,20 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { ContactIdentity } from './identy.entity';
-import { Town } from 'src/modules/location/entities/town.entity';
+import { Town } from 'src/common/entities/town.entity';
 import { Company } from 'src/modules/company/entities/company.entity';
+import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Entity('contacts')
 @Index(['email'])
-export class Contact {
+export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -60,13 +58,4 @@ export class Contact {
   @ManyToOne(() => Town, { nullable: true })
   @JoinColumn({ name: 'town_id' })
   town: Town;
-
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', nullable: true })
-  updatedAt?: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
-  deletedAt?: Date;
 }

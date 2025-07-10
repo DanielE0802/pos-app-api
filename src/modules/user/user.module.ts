@@ -1,23 +1,21 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { UsersService } from './services/user.service';
-import { UsersController } from './controllers/user.controller';
+import { UsersController } from './user.controller';
 import { PassportModule } from '@nestjs/passport';
 import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
 import { JwtStrategy } from '../auth/jwt/jwt.strategy';
-import { UserProviders } from './providers/user.providers';
 import { User } from '../../common/entities/user.entity';
 import { Profile } from '../../common/entities/profile.entity';
-import { ProfileController } from './controllers/profile.controller';
-import { ProfileService } from './services/profile.service';
+import { UserServices } from './services';
+import { UserRepository } from 'src/common/repositories/user.repository';
 
 @Module({
   imports: [
     PassportModule.register(DefaultStrategy),
     TypeOrmModule.forFeature([User, Profile]),
   ],
-  controllers: [UsersController, ProfileController],
-  providers: [UsersService, ProfileService, JwtStrategy, ...UserProviders],
-  exports: [UsersService, ProfileService],
+  controllers: [UsersController],
+  providers: [...UserServices, UserRepository, JwtStrategy],
+  exports: [...UserServices, UserRepository],
 })
 export class UserModule {}

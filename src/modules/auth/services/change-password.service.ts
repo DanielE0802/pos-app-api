@@ -1,43 +1,26 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { UserRepository } from 'src/common/repositories';
-import { EncoderAdapter } from 'src/infrastructure/adapters';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ChangePasswordDto } from '../dtos';
-import { BaseResponse } from 'src/common/dtos';
+import { EncoderAdapter } from 'src/infrastructure/adapters';
 import { UAE } from 'src/common/exceptions/exception.string';
-import { SUCC } from 'src/common/exceptions/success.string';
+import { FindUserService } from 'src/modules/user/services/find-user.service';
+import { UpdateUserService } from 'src/modules/user/services/update-user.service';
 
 @Injectable()
 export class ChangePasswordService {
   private _logger = new Logger(ChangePasswordService.name);
   constructor(
-    @Inject(UserRepository)
-    private readonly _userRepo: UserRepository,
+    private readonly _findUserService: FindUserService,
+    private readonly _updateUserService: UpdateUserService,
     private readonly _encoderAdapter: EncoderAdapter,
   ) {}
 
   async execute(
+    authId: string,
     data: ChangePasswordDto,
-    userId: string,
-  ): Promise<BaseResponse> {
+  ): Promise<{ message: string }> {
     const { oldPassword, newPassword } = data;
 
-    const user = await this._userRepo.findOne({
-      select: { password: true },
-      where: { id: userId },
-    });
-    if (!user) {
-      this._logger.error(`Usuario no encontrado con el id: ${userId}`);
-      throw new NotFoundException({
-        code: 104, // Handler custom code exceptions
-        message: 'Usuario no encontrado',
-      });
-    }
+    const user = await this._findUserService.execute({ authId });
 
     const validateOldPassword = await this._encoderAdapter.checkPassword(
       oldPassword,
@@ -45,15 +28,19 @@ export class ChangePasswordService {
     );
 
     if (!validateOldPassword) {
-      this._logger.error(`Error en las credenciales: ${userId}`);
+      this._logger.error(`Error en las credenciales: ${authId}`);
       throw new UnauthorizedException(UAE.UNAUTHORIZED);
     }
 
     user.password = await this._encoderAdapter.encodePassword(newPassword);
-    await this._userRepo.save(user);
+    await this._updateUserService.execute(user.authId, {
+      password: user.password,
+    });
 
-    this._logger.debug(`Contraseña actualizada exitosamente: ${userId}`);
+    this._logger.debug(`Contraseña actualizada exitosamente: ${authId}`);
 
-    return { message: SUCC.SUCC_PASS_UPDATED };
+    return {
+      message: 'Password updated successfully',
+    };
   }
 }

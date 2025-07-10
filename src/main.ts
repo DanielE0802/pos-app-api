@@ -4,6 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { APIVersion } from './common/constants/app/version.app';
+import { AllyExceptionInterceptor } from './infrastructure/interceptors/exception.interceptor';
+import { ResponseInterceptor } from './infrastructure/interceptors/response.interceptor';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -11,12 +13,12 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix(APIVersion.v2);
+  app.setGlobalPrefix(APIVersion.v1);
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      forbidNonWhitelisted: true,
-    }),
+  app.useGlobalPipes(new ValidationPipe({ forbidNonWhitelisted: true }));
+  app.useGlobalInterceptors(
+    new AllyExceptionInterceptor(),
+    new ResponseInterceptor(),
   );
 
   app.enableCors();
@@ -35,7 +37,7 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(process.env.PORT);
+  await app.listen(parseInt(process.env.PORT));
 
   logger.log(`Server is running!, View services: ${await app.getUrl()}/docs/`);
 }

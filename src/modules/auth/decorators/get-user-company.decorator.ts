@@ -2,7 +2,7 @@ import {
   createParamDecorator,
   ExecutionContext,
   Logger,
-  UnprocessableEntityException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { IRelationType } from 'src/common/types/relation.decorator';
 
@@ -12,12 +12,12 @@ export const GetUserCompany = createParamDecorator(
   (_data, ctx: ExecutionContext) => {
     const { user } = ctx.switchToHttp().getRequest();
 
-    if (!user.company) {
-      _logger.error(`User request not found`);
-      throw new UnprocessableEntityException('User has no companies assigned');
+    if (!user.id) {
+      _logger.error(`Invalid token`, { user });
+      throw new UnauthorizedException();
     }
 
-    _logger.debug(`User request found: ${JSON.stringify(user, null, 2)}`);
+    _logger.debug(`User request found: ${JSON.stringify(user)}`);
     return user.company as IRelationType;
   },
 );
