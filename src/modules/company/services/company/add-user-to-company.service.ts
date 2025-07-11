@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindUserService } from 'src/modules/user/services/find-user.service';
 import { Repository } from 'typeorm';
-import { Company } from '../../entities/company.entity';
+import { Company } from 'src/common/entities';
 import { FindCompanyByCompanyIdService } from './find-company.service';
 
 @Injectable()

@@ -15,7 +15,7 @@ import { CustomHeaders } from 'src/infrastructure/decorators/custom-headers.deco
 import { PaginationDto } from 'src/common/dtos';
 import { CreateContactDto, UpdateContactDto } from './dtos/contact';
 import { CreateContactService } from './services/create-contact.service';
-import { Contact } from './entities';
+import { Contact } from 'src/common/entities';
 import { GetContactService } from './services/get-contact.service';
 import { GetContactsService } from './services/get-contacts.service';
 import { UpdateContactService } from './services/update-contact.service';

@@ -89,7 +89,7 @@ export class AuthController {
   getUserCompany(
     @GetUser('authId', ParseUUIDPipe) authId: string,
     @GetUser('email') email: string,
-    @Query('companyId', ParseIntPipe) companyId: number,
+    @Query('companyId', ParseUUIDPipe) companyId: string,
   ) {
     return this._selectCompanyService.execute(companyId, { authId, email });
   }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contact, ContactIdentity } from './entities';
+import { Contact, ContactIdentity } from 'src/common/entities';
 import {
   ContactRepository,
   ContactIdentityRepository,

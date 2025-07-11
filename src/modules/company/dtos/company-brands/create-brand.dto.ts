@@ -1,15 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { IRelationType } from 'src/common/types/relation.decorator';
 
-export class CreateBrandDto {
+export class CompanyDataDto {
+  companyId?: string;
+}
+
+export class CreateBrandDto extends CompanyDataDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   name: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
-  @Type(() => IRelationType)
-  company: IRelationType;
+  @IsString()
+  description?: string;
 }

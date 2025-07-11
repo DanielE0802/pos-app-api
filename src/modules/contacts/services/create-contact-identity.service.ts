@@ -7,7 +7,7 @@ import {
 
 import { ContactIdentityRepository } from 'src/common/repositories';
 import { CreateIdentityDto } from '../dtos/identity/create-identity.dto';
-import { ContactIdentity } from '../entities';
+import { ContactIdentity } from 'src/common/entities';
 
 @Injectable()
 export class CreateContactIdentityService {

@@ -11,6 +11,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MailModule } from './modules/mail/mail.module';
 import { SharedModule } from './infrastructure/shared/shared.module';
 import { LocationModule } from './modules/location/location.module';
+import { CompanyModule } from './modules/company/company.module';
+import { WarehouseModule } from './modules/warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -39,8 +41,9 @@ import { LocationModule } from './modules/location/location.module';
     AuthModule,
     MailModule,
     LocationModule,
+    CompanyModule,
+    WarehouseModule,
     // ContactsModule,
-    // CompanyModule,
   ],
   // providers: [UserRepository],
   // exports: [UserRepository]
