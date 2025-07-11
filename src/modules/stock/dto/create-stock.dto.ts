@@ -1,12 +1,6 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IRelationType } from 'src/common/types/relation.decorator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateStockDto {
   @ApiProperty()
@@ -16,22 +10,11 @@ export class CreateStockDto {
   @Transform(({ value }) => parseInt(value))
   quantity: number;
 
-  // @ApiProperty()
-  // @IsNotEmpty()
-  // @IsNumber()
-  // @Type(() => Number)
-  // @Transform(({ value }) => parseInt(value))
-  // minQuantity: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @Type(() => IRelationType)
-  @ValidateNested()
-  product?: IRelationType;
+  @ApiProperty()
+  @IsUUID()
+  productId: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => IRelationType)
-  @ValidateNested()
-  pdv: IRelationType;
+  @IsUUID()
+  warehouseId: string;
 }

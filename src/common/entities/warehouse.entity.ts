@@ -35,6 +35,8 @@ export class Warehouse {
   @Column({ type: 'boolean' })
   main: boolean;
 
+  @Column({ name: 'company_id' })
+  companyId: string;
   @ManyToOne(() => Company, (company) => company.warehouses)
   @JoinColumn({ name: 'company_id' })
   company: Company;

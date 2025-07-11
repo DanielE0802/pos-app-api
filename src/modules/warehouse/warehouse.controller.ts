@@ -12,25 +12,26 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { WarehouseService } from './warehouse.service';
-import { CreatePdvDto } from './dto/create-warehouse.dto';
-import { UpdatePdvDto } from './dto/update-warehouse.dto';
+import { CreateWarehouseDto } from './dto/create-warehouse.dto';
+import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetUserCompany } from '../auth/decorators';
-import { IRelationType } from 'src/common/types/relation.decorator';
 
-@ApiTags('Punto de Venta')
+@ApiTags('Warehouse')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('warehouse')
 export class WarehouseController {
-  constructor(private readonly pdvService: WarehouseService) {}
+  constructor(private readonly warehouseService: WarehouseService) {}
 
-  // @Post()
-  // create(@GetUserCompany() company: IRelationType, @Body() data: CreatePdvDto) {
-  //   if (!data.company) data.company = company;
-  //   return this.pdvService.create(data);
-  // }
+  @Post()
+  create(
+    @GetUserCompany() companyId: string,
+    @Body() data: CreateWarehouseDto,
+  ) {
+    return this.warehouseService.create(companyId, data);
+  }
 
   // @Get()
   // findAll(

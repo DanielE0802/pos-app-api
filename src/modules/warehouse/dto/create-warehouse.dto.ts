@@ -5,11 +5,10 @@ import {
   IsString,
   IsPhoneNumber,
   IsBoolean,
-  ValidateNested,
+  IsUUID,
 } from 'class-validator';
-import { IRelationType } from 'src/common/types/relation.decorator';
 
-export class CreatePdvDto {
+export class CreateWarehouseDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -22,8 +21,8 @@ export class CreatePdvDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IRelationType)
-  location: IRelationType;
+  @IsUUID()
+  locationId: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -42,6 +41,6 @@ export class CreatePdvDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => IRelationType)
-  company: IRelationType;
+  @IsUUID()
+  companyId?: string;
 }

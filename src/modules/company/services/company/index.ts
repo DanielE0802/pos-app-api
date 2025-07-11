@@ -1,13 +1,5 @@
-import { AddUserToCompanyService } from './add-user-to-company.service';
-import { CreateCompanyService } from './create-company.service';
-import { FindCompanyByCompanyIdService } from './find-company.service';
-import { RemoveCompanyService } from './remove-company.service';
-import { UpdateCompanyService } from './update-company.service';
-
-export const CompanyServices = {
-  AddUserToCompanyService,
-  CreateCompanyService,
-  FindCompanyByCompanyIdService,
-  RemoveCompanyService,
-  UpdateCompanyService,
-};
+export { AddUserToCompanyService } from './add-user-to-company.service';
+export { CreateCompanyService } from './create-company.service';
+export { FindCompanyByCompanyIdService } from './find-company.service';
+export { RemoveCompanyService } from './remove-company.service';
+export { UpdateCompanyService } from './update-company.service';

@@ -21,13 +21,13 @@ export class Stock extends BaseEntity {
   minQuantity: number;
 
   @Column({ name: 'product_id', type: 'int' })
-  productId: number;
+  productId: string;
   @ManyToOne(() => Product, (product) => product.id)
   @JoinColumn({ name: 'product_id' })
   public product: Product;
 
   @Column({ name: 'warehouse_id', type: 'int' })
-  warehouseId: number;
+  warehouseId: string;
   @ManyToOne(() => Warehouse, (warehouse) => warehouse.stock)
   @JoinColumn({ name: 'warehouse_id' })
   public warehouse: Warehouse;

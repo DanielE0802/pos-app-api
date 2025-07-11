@@ -12,6 +12,7 @@ import { MailModule } from './modules/mail/mail.module';
 import { SharedModule } from './infrastructure/shared/shared.module';
 import { LocationModule } from './modules/location/location.module';
 import { CompanyModule } from './modules/company/company.module';
+import { WarehouseModule } from './modules/warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { CompanyModule } from './modules/company/company.module';
     MailModule,
     LocationModule,
     CompanyModule,
+    WarehouseModule,
     // ContactsModule,
   ],
   // providers: [UserRepository],

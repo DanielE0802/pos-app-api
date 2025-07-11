@@ -4,7 +4,6 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { IRelationType } from 'src/common/types/relation.decorator';
 
 const _logger = new Logger('GetUserCompany - Decorator');
 
@@ -18,6 +17,7 @@ export const GetUserCompany = createParamDecorator(
     }
 
     _logger.debug(`User request found: ${JSON.stringify(user)}`);
-    return user.company as IRelationType;
+    // TODO: Revisar tipo de dato de company (probablemente selectedCompanyId)
+    return user.company as any;
   },
 );

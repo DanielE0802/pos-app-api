@@ -16,4 +16,4 @@ import { WarehouseRepository } from 'src/common/repositories/warehouse.repositor
   providers: [WarehouseService, WarehouseRepository],
   exports: [WarehouseService],
 })
-export class PdvModule {}
+export class WarehouseModule {}

@@ -72,20 +72,20 @@ export class Product extends BaseEntity {
   // })
   // subProducts: Product[];
 
-  @Column({ name: 'company_id', type: 'int' })
-  companyId: number;
+  @Column({ name: 'company_id' })
+  companyId: string;
   @ManyToOne(() => Company, (c) => c.id)
   @JoinColumn({ name: 'company_id' })
   public company: Company;
 
   @Column({ name: 'category_id', type: 'int' })
-  categoryId: number;
+  categoryId: string;
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
   public category: Category;
 
   @Column({ name: 'brand_id', type: 'int' })
-  brandId: number;
+  brandId: string;
   @ManyToOne(() => Brand, (brand) => brand.products)
   @JoinColumn({ name: 'brand_id' })
   public brand: Brand;
