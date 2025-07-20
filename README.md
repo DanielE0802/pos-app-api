@@ -582,8 +582,6 @@ GET /health         # Estado de la aplicación
 GET /api/v1/health  # Estado de la API
 ```
 
-## 🤝 Contribución
-
 ### Convenciones de Código
 
 - **ESLint**: Linting automático
@@ -609,7 +607,7 @@ npm run start:dev
 
 ## 🛡️ Licencia
 
-Este proyecto está protegido por una licencia propietaria. 
+Este proyecto está protegido por una licencia propietaria.
 No está permitido su uso, modificación, distribución ni venta sin autorización previa.
 
 Ver el archivo [LICENSE](LICENSE) para más detalles.
