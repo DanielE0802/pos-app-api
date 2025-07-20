@@ -1,10 +1,9 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
-import { EmailsTemplates } from './templates/email-html.template';
+import { MailTemplates } from './config/mailer.config';
 import {
   ActivationLinkEvent,
   ReqResetPasswordEvent,
-  WelcomeEvent,
 } from 'src/modules/mail/events';
 
 @Injectable()
@@ -12,29 +11,46 @@ export class MailService {
   private readonly _logger = new Logger(MailService.name);
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendWelcomeEmail(
-    email: string,
-    welcomeEmailParams: Omit<WelcomeEvent, 'email'>,
-  ): Promise<void> {
-    const template = EmailsTemplates.Welcome;
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Bienvenido a Ally360.',
-      html: template.replace('{{username}}', welcomeEmailParams.name),
-    });
-  }
-
   async sendVerifyEmail(
     email: string,
     activationLinkParams: Omit<ActivationLinkEvent, 'email'>,
   ) {
-    const _templateInfo = EmailsTemplates.ActivationAccount;
+    const templateInfo = MailTemplates.ACTIVATION_LINK;
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Activa tu cuenta.',
-      html: _templateInfo
-        .replace('{{name}}', activationLinkParams.name)
-        .replace('{{activationLink}}', activationLinkParams.activationLink),
+      subject: templateInfo.subject,
+      template: templateInfo.template,
+      context: {
+        name: activationLinkParams.name,
+        activationLink: activationLinkParams.activationLink,
+      },
+    });
+  }
+
+  async sendWelcomeEmail(email: string): Promise<void> {
+    const templateInfo = MailTemplates.REGISTER_SUCCESS;
+    await this.mailerService.sendMail({
+      to: email,
+      subject: templateInfo.subject,
+      template: templateInfo.template,
+      context: {
+        email: email,
+      },
+    });
+  }
+
+  async sendWelcomeEmailWithPartials(email: string): Promise<void> {
+    const templateInfo = {
+      ...MailTemplates.REGISTER_SUCCESS,
+      template: 'auth/register-success-with-partials',
+    };
+    await this.mailerService.sendMail({
+      to: email,
+      subject: templateInfo.subject,
+      template: templateInfo.template,
+      context: {
+        email: email,
+      },
     });
   }
 
@@ -42,13 +58,15 @@ export class MailService {
     email: string,
     reqResetEmailParams: Omit<ReqResetPasswordEvent, 'email'>,
   ) {
-    const _templateInfo = EmailsTemplates.ReqResetPassword;
+    const templateInfo = MailTemplates.REQ_RESET_PASSWORD;
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Reestablece tu contraseña.',
-      html: _templateInfo
-        .replace('{{name}}', reqResetEmailParams.name)
-        .replace('{{change_password_url}}', '#'),
+      subject: templateInfo.subject,
+      template: templateInfo.template,
+      context: {
+        name: reqResetEmailParams.name,
+        // resetLink: reqResetEmailParams.resetLink,
+      },
     });
   }
 }

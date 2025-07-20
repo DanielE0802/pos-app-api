@@ -32,7 +32,7 @@ export class User extends BaseEntity {
   password: string;
 
   // TODO: establecer en falso por defecto hasta que se haya implementado EmailService
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   verified: boolean;
 
   // TODO: Implementar UserTokens como entidad para almacenar tokens temporales

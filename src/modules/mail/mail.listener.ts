@@ -31,9 +31,7 @@ export class MailListener {
   async handleWelcome(event: WelcomeEvent) {
     this._logger.debug(`Enviando email de verificación a: ${event.email}`);
     try {
-      await this._mailService.sendWelcomeEmail(event.email, {
-        name: event.name,
-      });
+      await this._mailService.sendWelcomeEmail(event.email);
       this._logger.debug(`✅ Email enviado a: ${event.email}`);
     } catch (error) {
       this._logger.error(`❌ Error enviando email: ${error.message}`);

@@ -52,7 +52,7 @@ export class RegisterService {
 
     const url = `http://127.0.0.1:${this._configService.get(
       'port',
-    )}/auth/activate-account?userId=${user.id}&code=${user.verifyToken}`;
+    )}/api/v1/auth/user/${user.authId}/verify?code=${user.verifyToken}`;
 
     this._eventEmitter.emit(
       EmailActionsEvent.ActivationLink,

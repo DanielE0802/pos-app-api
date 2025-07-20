@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  Redirect,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -74,7 +75,7 @@ export class AuthController {
   }
 
   @Get('/user/:authId/verify')
-  // @Redirect('http://localhost:3000/auth/activate-account')
+  @Redirect('https://ally360.netlify.app/')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   putActivateAccount(
     @Param('authId') authId: string,
