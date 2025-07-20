@@ -607,11 +607,13 @@ npm run build
 npm run start:dev
 ```
 
----
+## 🛡️ Licencia
 
-## 📄 Licencia
+Este proyecto está protegido por una licencia propietaria. 
+No está permitido su uso, modificación, distribución ni venta sin autorización previa.
 
-Este proyecto está bajo la licencia **UNLICENSED** - ver el archivo [LICENSE](LICENSE) para más detalles.
+Ver el archivo [LICENSE](LICENSE) para más detalles.
+© 2025 Ally360. Todos los derechos reservados.
 
 ## 🆘 Soporte
 
