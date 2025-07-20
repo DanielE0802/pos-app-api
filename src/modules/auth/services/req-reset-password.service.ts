@@ -25,7 +25,11 @@ export class ReqResetPasswordService {
 
     this._eventEmitter.emit(
       EmailActionsEvent.ReqResetPassword,
-      new ReqResetPasswordEvent(user.email, user.profile.name),
+      new ReqResetPasswordEvent(
+        user.email,
+        user.profile.name,
+        user.resetPasswordToken,
+      ),
     );
 
     return {
