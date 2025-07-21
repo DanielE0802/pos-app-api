@@ -21,7 +21,7 @@ export const config = {
     from: process.env.EMAIL_FROM,
   },
   jwt: {
-    secret: process.env.SECRET,
-    expire_in: process.env.TOKEN_EXPIRE_IN,
+    secret: process.env.SECRET || 'default-secret-key',
+    expire_in: process.env.TOKEN_EXPIRE_IN || '24h',
   },
 };
