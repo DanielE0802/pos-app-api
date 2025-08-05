@@ -1,0 +1,61 @@
+name: 🏷️ Auto Release
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: 📦 Install dependencies
+      run: npm ci
+
+    - name: 🏷️ Create release
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        
+        # Determinar el tipo de release basado en commits
+        if git log --format=%B -n 1 | grep -q "BREAKING CHANGE\|feat!"; then
+          npm version major
+        elif git log --format=%B -n 1 | grep -q "^feat"; then
+          npm version minor
+        else
+          npm version patch
+        fi
+        
+        # Push tags
+        git push --follow-tags
+
+    - name: 📝 Generate changelog
+      id: changelog
+      uses: conventional-changelog/conventional-changelog-action@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        output-file: "CHANGELOG.md"
+
+    - name: 🎉 Create GitHub release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.changelog.outputs.version }}
+        release_name: Release v${{ steps.changelog.outputs.version }}
+        body: ${{ steps.changelog.outputs.clean_changelog }}
+        draft: false
+        prerelease: false

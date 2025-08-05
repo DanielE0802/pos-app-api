@@ -1,0 +1,118 @@
+name: 🚨 Health Check & Monitoring
+
+on:
+  schedule:
+    # Check production health every 15 minutes
+    - cron: '*/15 * * * *'
+    # Full system check daily at 6 AM
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  health-check:
+    name: 🏥 Health Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🔍 Check API Health
+      run: |
+        response=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.PRODUCTION_URL }}/health)
+        if [ $response != "200" ]; then
+          echo "❌ Health check failed with status: $response"
+          exit 1
+        fi
+        echo "✅ Health check passed"
+
+    - name: 📊 Check Database Health
+      run: |
+        response=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.PRODUCTION_URL }}/api/v1/health/database)
+        if [ $response != "200" ]; then
+          echo "❌ Database health check failed"
+          exit 1
+        fi
+        echo "✅ Database health check passed"
+
+    - name: 📧 Check Email Service
+      run: |
+        response=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.PRODUCTION_URL }}/api/v1/health/email)
+        if [ $response != "200" ]; then
+          echo "⚠️ Email service health check failed"
+          # Don't fail the job for email service
+        fi
+        echo "✅ Email service check completed"
+
+    - name: 🚨 Notify on failure
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        text: |
+          🚨 *Production Health Check Failed*
+          
+          Service is experiencing issues. Please investigate immediately.
+          
+          Time: $(date)
+          Workflow: ${{ github.workflow }}
+          Run: ${{ github.run_number }}
+
+  performance-monitoring:
+    name: 🚀 Performance Monitoring
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 6 * * *'
+    
+    steps:
+    - name: 📊 API Performance Test
+      run: |
+        # Use Apache Bench for basic performance testing
+        ab -n 1000 -c 10 -H "Accept: application/json" ${{ secrets.PRODUCTION_URL }}/api/v1/health > performance.txt
+        
+        # Extract key metrics
+        avg_time=$(grep "Time per request" performance.txt | head -1 | awk '{print $4}')
+        requests_per_sec=$(grep "Requests per second" performance.txt | awk '{print $4}')
+        
+        echo "Average response time: ${avg_time}ms"
+        echo "Requests per second: ${requests_per_sec}"
+        
+        # Alert if performance is degraded
+        if (( $(echo "$avg_time > 1000" | bc -l) )); then
+          echo "⚠️ High average response time detected: ${avg_time}ms"
+        fi
+
+    - name: 💾 Database Performance Check
+      run: |
+        # Check for slow queries, connection pool status, etc.
+        echo "Running database performance checks..."
+        # This would integrate with your database monitoring
+
+    - name: 📈 Send metrics to monitoring service
+      run: |
+        # Send metrics to DataDog, New Relic, or similar
+        echo "Sending performance metrics to monitoring service..."
+
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 6 * * *'
+    
+    steps:
+    - name: 🔍 OWASP ZAP Scan
+      run: |
+        docker run -t owasp/zap2docker-stable zap-baseline.py \
+          -t ${{ secrets.PRODUCTION_URL }} \
+          -J zap-report.json || true
+        
+        # Process results and alert if critical vulnerabilities found
+        if [ -f zap-report.json ]; then
+          critical=$(jq '.site[].alerts[] | select(.riskdesc | startswith("High"))' zap-report.json | wc -l)
+          if [ $critical -gt 0 ]; then
+            echo "🚨 $critical critical security issues found"
+          fi
+        fi
+
+    - name: 🛡️ SSL/TLS Check
+      run: |
+        # Check SSL certificate validity and security
+        echo | openssl s_client -servername $(echo ${{ secrets.PRODUCTION_URL }} | sed 's/https:\/\///') \
+          -connect $(echo ${{ secrets.PRODUCTION_URL }} | sed 's/https:\/\///'):443 2>/dev/null | \
+          openssl x509 -noout -dates

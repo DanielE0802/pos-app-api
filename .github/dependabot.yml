@@ -1,0 +1,63 @@
+version: 2
+updates:
+  # 📦 NPM Dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Bogota"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ally360-dev-team"
+    assignees:
+      - "ally360-dev-team"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    ignore:
+      # Ignorar actualizaciones major de dependencias críticas
+      - dependency-name: "@nestjs/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typeorm"
+        update-types: ["version-update:semver-major"]
+
+  # 🐳 Docker Dependencies
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+      timezone: "America/Bogota"
+    reviewers:
+      - "ally360-dev-team"
+    assignees:
+      - "ally360-dev-team"
+    commit-message:
+      prefix: "chore(docker)"
+    labels:
+      - "docker"
+      - "dependencies"
+      - "automated"
+
+  # 🔧 GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+      timezone: "America/Bogota"
+    reviewers:
+      - "ally360-dev-team"
+    commit-message:
+      prefix: "chore(actions)"
+    labels:
+      - "github-actions"
+      - "dependencies"
+      - "automated"
