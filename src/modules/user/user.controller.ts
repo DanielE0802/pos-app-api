@@ -39,7 +39,7 @@ export class UsersController {
 
   @Get(':authId')
   findOne(@Param('authId', ParseUUIDPipe) authId: string): Promise<User> {
-    return this._findUserService.execute({ authId });
+    return this._findUserService.execute({ authId }, { companies: true });
   }
 
   @Auth(ValidRoles.admin, ValidRoles.owner)
