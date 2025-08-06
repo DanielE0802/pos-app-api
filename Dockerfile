@@ -1,29 +1,18 @@
-# Etapa de construcción
-FROM node:18 AS build
+FROM node:18
+
 WORKDIR /usr/src/app
 
-# Copiar los archivos necesarios
+# Copiar dependencias y código fuente
 COPY package*.json ./
 RUN npm install
+
 COPY . .
 
-# Construir la aplicación
-RUN npm run build
+# Instala herramientas de desarrollo como ts-node-dev
+RUN npm install --save-dev ts-node-dev
 
-# Etapa de producción
-FROM node:18 AS prod
-WORKDIR /usr/src/app
-
-# Copiar las dependencias necesarias
-COPY package*.json ./
-RUN npm install --only=production
-
-# Copiar la carpeta dist desde la etapa de construcción
-COPY --from=build /usr/src/app/dist ./dist
-
-# Configurar variables de entorno
-ENV NODE_ENV=production
+# Expone el puerto configurado
 EXPOSE 3000
 
-# Comando para iniciar la aplicación
-CMD ["node", "dist/main"]
+# Inicia en modo desarrollo (verá cambios automáticamente)
+CMD ["npm", "run", "start:dev"]

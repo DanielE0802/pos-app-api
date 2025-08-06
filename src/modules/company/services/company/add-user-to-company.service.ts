@@ -21,7 +21,7 @@ export class AddUserToCompanyService {
   async execute(companyId: string, userId: string): Promise<{ msg: string }> {
     const currentCompany = await this._findCompanyService.execute(companyId);
 
-    const user = await this._findUserService.execute({ id: +userId });
+    const user = await this._findUserService.execute({ authId: userId });
     if (!user) throw new NotFoundException('User not found');
 
     if (currentCompany.userId) {

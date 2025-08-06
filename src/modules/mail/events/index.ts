@@ -1,3 +1,5 @@
-export { ActivationLinkEvent } from './activation-link.event';
-export { ReqResetPasswordEvent } from './req-reset-password.event';
-export { WelcomeEvent } from './welcome.event';
+export { ActivationLinkEvent } from './auth.events';
+export { ReqResetPasswordEvent } from './auth.events';
+export { WelcomeEvent } from './auth.events';
+export { PasswordResetSuccessEvent } from './auth.events';
+export { AccountDeactivated } from './auth.events';
