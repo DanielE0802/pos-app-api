@@ -1,30 +1,18 @@
-# Base image
-FROM node:18.14.0-alpine3.17 AS base
+FROM node:18
+
 WORKDIR /usr/src/app
+
+# Copiar dependencias y código fuente
 COPY package*.json ./
+RUN npm install
 
-# Install dependencies
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
-RUN npm install --save
-
-
-# Build stage for development
-FROM deps AS dev
 COPY . .
-CMD [ "npm", "run", "start:dev" ]
 
+# Instala herramientas de desarrollo como ts-node-dev
+RUN npm install --save-dev ts-node-dev
 
-# Build the app with cached dependencies for production
-FROM deps AS builder
-COPY . .
-RUN npm run build
-
-# Production stage
-FROM base AS prod
-COPY --from=builder /usr/src/app/dist ./dist
-COPY package*.json ./
-RUN npm install --only=production
-CMD [ "npm", "run", "start:prod" ]
-
+# Expone el puerto configurado
 EXPOSE 3000
+
+# Inicia en modo desarrollo (verá cambios automáticamente)
+CMD ["npm", "run", "start:dev"]

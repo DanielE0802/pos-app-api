@@ -16,24 +16,6 @@
   <img src="https://img.shields.io/badge/Docker-enabled-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" />
 </p>
 
-## 📋 Descripción
-
-**Ally360** es una solución ERP (Enterprise Resource Planning) especializada en PyMEs colombianas que integra múltiples funcionalidades empresariales en una plataforma unificada. Esta API REST proporciona servicios para gestión de inventarios, facturación, punto de venta (POS), administración de usuarios y compañías.
-
-### 🎯 Características Principales
-
-- ✅ **Gestión de Usuarios y Autenticación** - Sistema completo con JWT, verificación por email y recuperación de contraseñas
-- ✅ **Multi-tenant** - Soporte para múltiples empresas por usuario
-- ✅ **Gestión de Inventarios** - Control completo de productos, categorías, marcas y stock
-- ✅ **Facturación Inteligente** - Sistema de facturación de ventas y compras
-- ✅ **Punto de Venta (POS)** - Interface optimizada para ventas rápidas
-- ✅ **Gestión de Almacenes** - Control de múltiples ubicaciones de inventario
-- ✅ **Sistema de Contactos** - Gestión de clientes y proveedores
-- ✅ **Notificaciones por Email** - Sistema de notificaciones automatizadas
-- ✅ **API RESTful** - Documentación completa con Swagger/OpenAPI
-- ✅ **Arquitectura Escalable** - Diseño modular y mantenible
-
-
 ## 📋 Tabla de Contenidos
 
 - [🏗️ Arquitectura del Proyecto](#-arquitectura-del-proyecto)
@@ -41,6 +23,7 @@
 - [🐳 Docker](#-docker)
 - [📁 Estructura del Proyecto](#-estructura-del-proyecto)
 - [🔧 Módulos Principales](#-módulos-principales)
+- [📊 Base de Datos](#-base-de-datos)
 - [📧 Sistema de Correos](#-sistema-de-correos)
 - [🔐 Autenticación](#-autenticación)
 - [🌐 API Endpoints](#-api-endpoints)
@@ -287,6 +270,79 @@ Sistema avanzado de correos electrónicos.
 - Helpers personalizados
 - Envío asíncrono con eventos
 
+## 📊 Base de Datos
+
+### Entidades Principales
+
+#### 🏢 Company
+```typescript
+- id: UUID (PK)
+- name: string
+- nit: string (Unique)
+- address: string
+- phoneNumber: string
+- website: string
+- quantityEmployees: string
+- economicActivity: string
+- userId: number (FK)
+```
+
+#### 👤 User
+```typescript
+- id: number (PK, Identity)
+- authId: UUID (Unique)
+- email: string (Unique)
+- password: string (Hashed)
+- verified: boolean
+- verifyToken: string
+- resetToken: string
+```
+
+#### 📦 Product
+```typescript
+- id: UUID (PK)
+- name: string
+- description: string
+- barCode: string
+- images: string[]
+- typeProduct: ProductType (ENUM)
+- taxesOption: number
+- sku: string
+- companyId: UUID (FK)
+- categoryId: UUID (FK)
+- brandId: UUID (FK)
+```
+
+#### 🏪 Warehouse
+```typescript
+- id: UUID (PK)
+- name: string
+- description: string
+- address: string (Unique)
+- phoneNumber: string
+- main: boolean
+- companyId: UUID (FK)
+- locationId: UUID (FK)
+```
+
+#### 📊 Stock
+```typescript
+- id: UUID (PK)
+- quantity: number
+- minQuantity: number
+- productId: UUID (FK)
+- warehouseId: UUID (FK)
+```
+
+### Relaciones
+
+- **Company** → **User** (Many-to-One)
+- **Company** → **Warehouse** (One-to-Many)
+- **Company** → **Product** (One-to-Many)
+- **Warehouse** → **Stock** (One-to-Many)
+- **Product** → **Stock** (One-to-Many)
+- **Product** → **Category** (Many-to-One)
+- **Product** → **Brand** (Many-to-One)
 
 ### Migraciones
 
@@ -557,14 +613,14 @@ No está permitido su uso, modificación, distribución ni venta sin autorizaci�
 Ver el archivo [LICENSE](LICENSE) para más detalles.
 © 2025 Ally360. Todos los derechos reservados.
 
-<!-- ## 🆘 Soporte
+## 🆘 Soporte
 
 Para soporte o preguntas sobre el proyecto:
 
 - 📧 **Email**: support@ally360.co
 - 📱 **Documentación**: [docs.ally360.co](https://docs.ally360.co)
 
---- -->
+---
 
 <p align="center">
   Desarrollado con ❤️ por el equipo de <strong>Ally360</strong>

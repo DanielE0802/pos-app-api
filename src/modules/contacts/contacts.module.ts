@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ContactsService } from './contacts.service';
-import { ContactsController } from './contacts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contact } from './entities/contact.entity';
-import { Identity } from './entities/identy.entity';
-import { ContactImplRepository } from './repositories/contact.impl.repository';
-import { I_CONTACT_REPOSITORY } from './repositories/contact.repository';
+import { Contact, ContactIdentity } from 'src/common/entities';
+import {
+  ContactRepository,
+  ContactIdentityRepository,
+} from 'src/common/repositories';
+import { ContactsController } from './contacts.controller';
+import { ContactServices } from './services';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Contact, Identity])],
+  imports: [TypeOrmModule.forFeature([Contact, ContactIdentity])],
   controllers: [ContactsController],
-  providers: [
-    ContactsService,
-    { provide: I_CONTACT_REPOSITORY, useClass: ContactImplRepository },
-  ],
+  providers: [...ContactServices, ContactRepository, ContactIdentityRepository],
 })
 export class ContactsModule {}

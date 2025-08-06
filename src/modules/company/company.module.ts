@@ -1,21 +1,20 @@
 import { Module } from '@nestjs/common';
-import { CompanyService } from './company.service';
-import { CompanyController } from './company.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Company } from './entities/company.entity';
-import { CompanyProviders } from './providers/company.providers';
-import { PdvModule } from '../pdv/pdv.module';
 import { PassportModule } from '@nestjs/passport';
-import { DefaultStrategy } from 'src/common/constants/app/jwt.app';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DefaultStrategy } from '../../common/constants/app/jwt.app';
+import { UserModule } from '../user/user.module';
+import { CompanyControllers } from './controllers';
+import { Company, Brand, Category } from 'src/common/entities';
+import { CompanyProviders } from './services';
 
 @Module({
   imports: [
     PassportModule.register(DefaultStrategy),
-    TypeOrmModule.forFeature([Company]),
-    PdvModule,
+    TypeOrmModule.forFeature([Company, Brand, Category]),
+    UserModule,
   ],
-  controllers: [CompanyController],
-  providers: [CompanyService, ...CompanyProviders],
-  exports: [CompanyService],
+  controllers: [...Object.values(CompanyControllers)],
+  providers: [...CompanyProviders],
+  exports: [...CompanyProviders],
 })
 export class CompanyModule {}

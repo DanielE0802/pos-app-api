@@ -1,20 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  I_LOCATION_REPOSITORY,
-  LocationRepository,
-} from './repositories/location.repository';
-import { Department } from './entities/department.entity';
+import { Department } from 'src/common/entities';
+import { DepartmentRepository } from 'src/common/repositories/location.repository';
 
 @Injectable()
 export class LocationService {
   constructor(
-    @Inject(I_LOCATION_REPOSITORY)
-    private readonly locationRepo: LocationRepository,
+    @Inject(DepartmentRepository)
+    private readonly departmentRepo: DepartmentRepository,
   ) {}
 
-  findAll = async (rel: boolean): Promise<Department[]> =>
-    await this.locationRepo.find(rel);
+  async findAll(): Promise<Department[]> {
+    return await this.departmentRepo.find();
+  }
 
-  findOne = async (id: string, rel: boolean): Promise<Department> =>
-    await this.locationRepo.findOne(id, rel);
+  async findOne(id: number): Promise<Department> {
+    return await this.departmentRepo.findOne({ where: { id } });
+  }
 }
